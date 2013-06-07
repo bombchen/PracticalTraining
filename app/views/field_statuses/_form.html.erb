@@ -1,0 +1,33 @@
+<%= form_for @field_status, :html => { :class => 'form-horizontal' } do |f| %>
+    <% if @field_status.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @field_status.class.model_name.human,
+                    :count => @field_status.errors.count) %>
+          </h2>
+          <ul>
+            <% @field_status.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+  <div class="control-group">
+    <%= f.label '状态', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label '是否可用', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :available, :class => 'check_box' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit '确定', :class => 'btn btn-primary' %>
+    <%= link_to '取消',
+                field_statuses_path, :class => 'btn' %>
+  </div>
+<% end %>

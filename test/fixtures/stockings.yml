@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start_time: 2013-05-13 21:47:05
+  end_time: 2013-05-13 21:47:05
+  title: MyString
+  comments: MyText
+  owner_id: 1
+  finished: false
+
+two:
+  start_time: 2013-05-13 21:47:05
+  end_time: 2013-05-13 21:47:05
+  title: MyString
+  comments: MyText
+  owner_id: 1
+  finished: false

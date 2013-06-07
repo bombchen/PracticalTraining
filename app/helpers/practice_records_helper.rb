@@ -1,0 +1,2 @@
+module PracticeRecordsHelper
+end

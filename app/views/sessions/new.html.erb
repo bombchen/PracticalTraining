@@ -1,0 +1,80 @@
+<div class="page-header">
+  <h1 class="text-center">欢迎登录实训管理系统</h1></div>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+
+    <div class="form-container well">
+      <%= form_tag login_url, :class => 'form-horizontal' do %>
+          <fieldset>
+            <legend>请登录</legend>
+            <div class="control-group">
+              <%= label_tag :account, '用户名:', :class => 'control-label' %>
+
+              <div class="controls">
+                <%= text_field_tag :account, params[:account] %>
+              </div>
+            </div>
+            <div class="control-group">
+              <%= label_tag :password, '密码:', :class => 'control-label' %>
+
+              <div class="controls">
+                <%= password_field_tag :password, params[:password] %>
+              </div>
+            </div>
+            <div class="controls">
+              <%= submit_tag '登录', :class => 'btn btn-primary' %>
+            </div>
+          </fieldset>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="form-container well">
+    <h3>测试账号</h3>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>用户名</th>
+        <th>全名</th>
+        <th>权限</th>
+        <th>密码</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>sysadmin</td>
+        <td>系统管理员</td>
+        <td>系统管理员</td>
+        <td>password</td>
+      </tr>
+      <tr>
+        <td>master</td>
+        <td>校长</td>
+        <td>学校管理员</td>
+        <td>password</td>
+      </tr>
+      <tr>
+        <td>admin</td>
+        <td>实训管理员</td>
+        <td>实训管理员</td>
+        <td>password</td>
+      </tr>
+      <tr>
+        <td>t1</td>
+        <td>教师1</td>
+        <td>教师</td>
+        <td>password</td>
+      </tr>
+      <tr>
+        <td>t2</td>
+        <td>教师2</td>
+        <td>教师</td>
+        <td>password</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

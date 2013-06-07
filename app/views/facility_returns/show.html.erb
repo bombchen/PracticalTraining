@@ -1,0 +1,57 @@
+<%- model_class = FacilityReturn -%>
+<div class="page-header">
+  <h1>课程使用材料</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @course.date %></dd>
+  <dt><strong>星期</strong></dt>
+  <dd><%= @course.weekday %></dd>
+  <dt><strong>课时:</strong></dt>
+  <dd><%= @course.idx %></dd>
+  <dt><strong>课程名称:</strong></dt>
+  <dd><%= @course.title %></dd>
+  <dt><strong>教师:</strong></dt>
+  <dd><%= ApplicationHelper.get_teacher_name_by_id(@course.teacher_id) %></dd>
+  <dt><strong>教室:</strong></dt>
+  <dd><%= @course.field.name %></dd>
+  <dt><strong>申请材料:</strong></dt>
+
+  <dd>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th NoWrap>名称</th>
+        <th NoWrap>单位</th>
+        <th NoWrap>申请数量</th>
+        <th NoWrap>领用数量</th>
+        <th NoWrap>归还数量</th>
+        <th NoWrap>状态</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @course.facility_applications.each do |builder| %>
+          <tr>
+            <td><%= builder.facility.name %></td>
+            <td><%= builder.facility.unit %></td>
+            <td><%= builder.applied %></td>
+            <td><%= builder.facility_return.borrowed_amount %></td>
+            <td><%= builder.facility_return.returned_amount %></td>
+            <td><%= builder.facility_return.get_status %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+
+
+<div class="form-actions">
+  <%= link_to '返回',
+              facility_returns_path, :class => 'btn' %>
+  <%= link_to '操作',
+              edit_facility_return_path(@course), :class => 'btn btn-primary' %>
+</div>
+
+

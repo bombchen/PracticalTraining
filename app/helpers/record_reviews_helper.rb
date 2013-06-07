@@ -1,0 +1,2 @@
+module RecordReviewsHelper
+end

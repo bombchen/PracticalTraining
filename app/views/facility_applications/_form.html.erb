@@ -1,0 +1,32 @@
+<%= form_for @facility_application, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @facility_application.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @facility_application.class.model_name.human,
+                    :count => @facility_application.errors.count) %>
+          </h2>
+          <ul>
+            <% @facility_application.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="control-group">
+      <%= f.label '名称', :class => 'control-label' %>
+      <div class="controls">
+        <%= select(:facility_application, :facility_id, Facility.all.collect { |p| [p.name+' ('+p.unit+')', p.id] }) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '数量', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :applied, :class => 'number_field' %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.submit '确认', :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => '取消'),
+                  facility_applications_path, :class => 'btn' %>
+    </div>
+<% end %>

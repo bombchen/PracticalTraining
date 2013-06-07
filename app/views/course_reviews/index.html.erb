@@ -1,0 +1,65 @@
+<%- model_class = CourseReview -%>
+<script type="text/javascript">
+    $(function () {
+        $('#bdp').datepicker();
+        $('#edp').datepicker();
+    });
+</script>
+
+<div class="page-header">
+    <h1><a href="/course_reviews" style="text-decoration: none">实训课程审批</a></h1>
+</div>
+<div class="controls-row">
+  <%= form_tag '/course_reviews', :method => 'get' %>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>开始时间</th>
+      <th>结束时间</th>
+      <th>条件</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><%= text_field_tag :bdt,  @begin_date.to_date, :class => 'text_field', :id => 'bdp' %></td>
+      <td><%= text_field_tag :edt,  @end_date.to_date, :class => 'text_field', :id => 'edp' %></td>
+      <td><%= select_tag :cdt, options_for_select(%w(全部 未审核 审核通过 审核失败), @condition) %></td>
+      <td><%= submit_tag '过滤', :class => 'btn btn-primary' %></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>星期</th>
+      <th>课时</th>
+      <th>课程名称</th>
+      <th>教师姓名</th>
+      <th>教室</th>
+      <th>状态</th>
+      <th>审核意见</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @course_reviews.each do |review| %>
+      <tr>
+        <td><%= review.course.date %></td>
+        <td><%= CommonController.get_weekday(review.course.date.wday) %></td>
+        <td><%= review.course.idx %></td>
+        <td><%= review.course.title %></td>
+        <td><%= ApplicationHelper.get_teacher_name_by_id(review.course.teacher_id) %></td>
+        <td><%= review.course.field.name %></td>
+        <td><%= review.get_status %></td>
+        <td><%= review.comments %></td>
+        <td NoWrap><%= link_to t('.show', :default => t('查看')),
+                               course_review_path(review), :class => 'btn btn-mini' %>
+          <%= link_to t('.edit', :default => t('审批')),
+                      edit_course_review_path(review), :class => 'btn btn-mini btn-primary' %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

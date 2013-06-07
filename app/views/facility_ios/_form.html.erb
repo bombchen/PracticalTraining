@@ -1,0 +1,63 @@
+<script type="text/javascript">
+    $(function () {
+        $('#dp').datepicker();
+    });
+</script>
+
+<%= form_for @facility_io, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @facility_io.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @facility_io.class.model_name.human,
+                    :count => @facility_io.errors.count) %>
+          </h2>
+          <ul>
+            <% @facility_io.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="control-group">
+      <%= f.label '日期', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :date, :class => 'text_field', :id => 'dp', :value => Date.today %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '资产名称', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select :facility_id, Facility.all, :id, :name %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '数量', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :amount, :class => 'number_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '责任人', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select :owner_id, User.all, :id, :name, :prompt => '请选择责任人' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '原因', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select :reason_id, FacilityReason.all, :id, :reason %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '备注', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :comments, :class => 'text_area', :rows => 10 %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '确定', :class => 'btn btn-primary' %>
+      <%= link_to '取消',
+                  facility_ios_path, :class => 'btn' %>
+    </div>
+<% end %>

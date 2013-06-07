@@ -1,0 +1,73 @@
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @course.date %></dd>
+  <dt><strong>星期</strong></dt>
+  <dd><%= @course.weekday %></dd>
+  <dt><strong>课时:</strong></dt>
+  <dd><%= @course.idx %></dd>
+  <dt><strong>课程名称:</strong></dt>
+  <dd><%= @course.title %></dd>
+  <dt><strong>教师:</strong></dt>
+  <dd><%= ApplicationHelper.get_teacher_name_by_id(@course.teacher_id) %></dd>
+  <dt><strong>教室:</strong></dt>
+  <dd><%= @course.field.name %></dd>
+</dl>
+
+<%= form_for @course, :html => {:class => 'form-horizontal'} do |c| %>
+    <% if @course.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @course.class.model_name.human,
+                    :count => @course.errors.count) %>
+          </h2>
+          <ul>
+            <% @course.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="control-group">
+      <%= c.label '申请材料', :class => 'control-label' %>
+      <div class="controls">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th NoWrap>名称</th>
+            <th NoWrap>单位</th>
+            <th NoWrap>申请数量</th>
+            <th NoWrap>领用数量</th>
+            <th NoWrap>归还数量</th>
+            <th NoWrap>状态</th>
+            <th NoWrap>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <%= c.fields_for :facility_applications do |fa| %>
+              <tr>
+                <td><%= fa.object.facility.name %></td>
+                <td><%= fa.object.facility.unit %></td>
+                <td><%= fa.object.applied %></td>
+                <td><%= fa.object.facility_return.borrowed_amount %></td>
+                <td><%= fa.object.facility_return.returned_amount %></td>
+                <td><%= fa.object.facility_return.get_status %></td>
+                <%= form_for fa.object.facility_return, :html => {:class => 'form-horizontal'} do |fr| %>
+                    <td><%= link_to '领用', borrow_process_facility_return_path(fr.object), :class => 'btn btn-mini', :remote => true %>
+                      <%= link_to '归还', return_process_facility_return_path(fr.object), :class => 'btn btn-mini', :remote => true %>
+                    </td>
+
+                <% end %>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to '返回',
+                  facility_returns_path, :class => 'btn' %>
+    </div>
+<% end %>
+
+<div id="modalStub"/>

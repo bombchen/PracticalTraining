@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    $(function () {
+        $('#dp').datepicker();
+    });
+</script>
+
+<div class="page-header">
+  <h1><a href="/facility_report" style="text-decoration: none">实训资产报表</a></h1>
+</div>
+<div class="controls-row">
+  <%= form_tag '/facility_report', :method => 'get' %>
+  <%= label_tag '报表开始时间:' %>
+  <%= text_field_tag :dt,  @begin_date.to_date, :class => 'text_field', :id => 'dp' %>
+  <%= submit_tag '生成报表', :class => 'btn btn-primary' %>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th NoWrap>资产名称</th>
+    <th NoWrap>入库数量</th>
+    <th NoWrap>出库数量</th>
+    <th NoWrap>现有库存</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @reports.keys.each do |facility| %>
+      <% report = @reports[facility] %>
+      <tr>
+        <td NoWrap><%= report.facility.name %></td>
+        <td NoWrap><%= report.in_stock.to_s %></td>
+        <td NoWrap><%= report.out_stock.to_s %></td>
+        <td NoWrap><%= report.total.to_s %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

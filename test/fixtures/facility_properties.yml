@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  facility_id: 1
+  property_name: MyString
+  property_value: MyString
+
+two:
+  facility_id: 1
+  property_name: MyString
+  property_value: MyString

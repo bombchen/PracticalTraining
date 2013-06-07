@@ -1,0 +1,57 @@
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @course_review.course.date %></dd>
+  <dt><strong>星期</strong></dt>
+  <dd><%= @course_review.course.weekday %></dd>
+  <dt><strong>课时:</strong></dt>
+  <dd><%= @course_review.course.idx %></dd>
+  <dt><strong>课程名称:</strong></dt>
+  <dd><%= @course_review.course.title %></dd>
+  <dt><strong>教师:</strong></dt>
+  <dd><%= ApplicationHelper.get_teacher_name_by_id(@course_review.course.teacher_id) %></dd>
+  <dt><strong>教室:</strong></dt>
+  <dd><%= @course_review.course.field.name %></dd>
+  <dt><strong>申请材料:</strong></dt>
+  <% if (!@course_review.course.facility_applications.any?) %>
+      <dd>未申请材料</dd>
+  <% end %>
+  <% @course_review.course.facility_applications.each do |builder| %>
+      <dd><%= builder.facility.name + ' ' + builder.applied.to_s + ' ' + builder.facility.unit %></dd>
+  <% end %>
+</dl>
+<%= form_for @course_review, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @course_review.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @course_review.class.model_name.human,
+                    :count => @course_review.errors.count) %>
+          </h2>
+          <ul>
+            <% @course_review.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="control-group">
+      <%= f.label '状态', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.select :status, {
+                '未审核' => 0,
+                '审核通过' => 1,
+                '审核失败' => -1
+        } %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '审批意见', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :comments, :class => 'text_area', :rows => 10 %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.submit '确认', :class => 'btn btn-primary' %>
+      <%= link_to '取消',
+                  course_reviews_path, :class => 'btn' %>
+    </div>
+<% end %>

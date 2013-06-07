@@ -1,0 +1,39 @@
+<%- model_class = RecordReview -%>
+<div class="page-header">
+  <h1>实训记录</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th NoWrap>日期</th>
+    <th NoWrap>星期</th>
+    <th NoWrap>课时</th>
+    <th NoWrap>课程名称</th>
+    <th NoWrap>教室</th>
+    <th NoWrap>实训记录</th>
+    <th NoWrap>状态</th>
+    <th NoWrap>审核意见</th>
+    <th NoWrap><%= t '.actions', :default => '操作' %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @record_reviews.each do |review| %>
+      <tr>
+        <td NoWrap><%= review.practice_record.course.date %></td>
+        <td NoWrap><%= review.practice_record.course.weekday %></td>
+        <td NoWrap><%= review.practice_record.course.idx %></td>
+        <td NoWrap><%= review.practice_record.course.title %></td>
+        <td NoWrap><%= review.practice_record.course.room %></td>
+        <td><%= truncate(strip_tags(review.practice_record.record), :length => 100) %></td>
+        <td NoWrap><%= review.get_status %></td>
+        <td><%= truncate(strip_tags(review.comments), :length => 100) %></td>
+        <td NoWrap>
+          <%= link_to '查看',
+                      record_review_path(review), :class => 'btn btn-mini' %>
+          <%= link_to '审批',
+                      edit_record_review_path(review), :class => 'btn btn-mini btn-primary' %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

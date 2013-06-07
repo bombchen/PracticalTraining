@@ -1,0 +1,50 @@
+<%- model_class = FacilityApplication -%>
+<div class="page-header">
+  <h1>材料申请列表</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>星期</th>
+      <th>课时</th>
+      <th>教师</th>
+      <th>课程</th>
+      <th>材料</th>
+      <th>单位</th>
+      <th>借出</th>
+      <th>归还</th>
+      <th>备注</th>
+      <th><%=t '.actions', :default => '操作' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @facility_applications.each do |facility_application| %>
+      <tr>
+        <td><%= facility_application.course.date %></td>
+        <td><%= facility_application.course.weekday %></td>
+        <td><%= facility_application.course.idx %></td>
+        <td><%= facility_application.course.teacher_name %></td>
+        <td><%= facility_application.course.title %></td>
+        <td><%= facility_application.facility.name %></td>
+        <td><%= facility_application.facility.unit %></td>
+        <td><%= facility_application.applied %></td>
+        <td><%= facility_application.returned %></td>
+        <td><%= facility_application.facility_return.comments %></td>
+        <td>
+          <%= link_to t('.edit', :default => '编辑'),
+                      edit_facility_application_path(facility_application), :class => 'btn btn-mini btn-primary' %>
+          <%= link_to t('.destroy', :default => '删除'),
+                      facility_application_path(facility_application),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => '确定删除？') },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => '申请材料'),
+            new_facility_application_path,
+            :class => 'btn btn-primary' %>

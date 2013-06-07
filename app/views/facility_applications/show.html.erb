@@ -1,0 +1,34 @@
+<%- model_class = FacilityApplication -%>
+<div class="page-header">
+  <h1>材料申请详情</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @facility_application.course.date %></dd>
+  <dt><strong>星期:</strong></dt>
+  <dd><%= @facility_application.course.weekday %></dd>
+  <dt><strong>课时:</strong></dt>
+  <dd><%= @facility_application.course.idx %></dd>
+  <dt><strong>课程:</strong></dt>
+  <dd><%= @facility_application.course.title %></dd>
+  <dt><strong>教师:</strong></dt>
+  <dd><%= @facility_application.course.teacher_name %></dd>
+  <dt><strong>材料:</strong></dt>
+  <dd><%= @facility_application.facility.name %></dd>
+  <dt><strong>单位:</strong></dt>
+  <dd><%= @facility_application.facility.unit %></dd>
+  <dt><strong>数量:</strong></dt>
+  <dd><%= @facility_application.applied %></dd>
+  <dt><strong>已归还:</strong></dt>
+  <dd><%= @facility_application.facility_return.returned %></dd>
+  <dt><strong>备注:</strong></dt>
+  <dd><%= @facility_application.facility_return.comments %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => '返回'),
+              facility_applications_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => '编辑'),
+              edit_facility_application_path(@facility_application), :class => 'btn btn-primary' %>
+</div>

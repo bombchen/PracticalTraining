@@ -1,0 +1,2 @@
+module FacilityApplicationsHelper
+end

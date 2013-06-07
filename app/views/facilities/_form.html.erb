@@ -1,0 +1,97 @@
+<%= nested_form_for @facility, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @facility.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @facility.class.model_name.human,
+                    :count => @facility.errors.count) %>
+          </h2>
+          <ul>
+            <% @facility.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="control-group">
+      <%= f.label '名称', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '单位', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :unit, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '预警线', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :alert_amount, :class => 'number_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '描述', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :description, :class => 'text_area', :rows => 8 %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '备注', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :comments, :class => 'text_area', :rows => 6 %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '类型', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.select :facility_type, {
+                '大型设备' => 0,
+                '普通设备' => 1,
+                '消耗材料' => 2
+        } %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '分类', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select :category_id, FacilityCategory.all, :id, :name %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '部门', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.collection_select :department_id, Department.all, :id, :name %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '资产编号', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :asset_id, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '单价', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :unit_price, :value => (number_with_precision(f.object.unit_price, :precision => 2) || 0) %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '资产属性', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.fields_for :facility_properties do |fp| %>
+            <%= fp.text_field :property_name, :class => 'text_field' %>
+            <%= fp.text_field :property_value, :class => 'text_field' %>
+            <%= fp.link_to_remove '删除' %>
+            <br/>
+        <% end %>
+        <%= f.link_to_add '添加属性', :facility_properties %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '确认', :class => 'btn btn-primary' %>
+      <%= link_to '取消',
+                  facilities_path, :class => 'btn' %>
+    </div>
+<% end %>

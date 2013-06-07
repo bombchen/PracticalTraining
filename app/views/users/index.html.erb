@@ -1,0 +1,38 @@
+<%- model_class = User -%>
+<div class="page-header">
+  <h1>用户列表</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>用户名</th>
+    <th>全名</th>
+    <th>创建时间</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+      <tr>
+        <td><%= user.account %></td>
+        <td><%= user.name %></td>
+        <td><%= user.created_at %></td>
+        <td>
+          <%= link_to '查看',
+                      user_path(user), :class => 'btn btn-mini' %>
+          <%= link_to '修改',
+                      edit_user_path(user), :class => 'btn btn-mini btn-primary' %>
+          <%= link_to '删除',
+                      user_path(user),
+                      :method => :delete,
+                      :data => {:confirm => '确认删除用户？'},
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to '新建用户',
+            new_user_path,
+            :class => 'btn btn-primary' %>

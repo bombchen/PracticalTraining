@@ -1,0 +1,2 @@
+module FacilityAlertHelper
+end

@@ -1,0 +1,37 @@
+<%- model_class = PracticeRecord -%>
+<div class="page-header">
+  <h1>实训记录管理</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th NoWrap>日期</th>
+      <th NoWrap>星期</th>
+      <th NoWrap>课时</th>
+      <th NoWrap>课程名称</th>
+      <th NoWrap>教室</th>
+      <th NoWrap>实训记录</th>
+      <th NoWrap>状态</th>
+      <th NoWrap><%=t '.actions', :default => '操作' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @practice_records.each do |practice_record| %>
+      <tr>
+        <td NoWrap><%= practice_record.course.date %></td>
+        <td NoWrap><%= practice_record.course.weekday %></td>
+        <td NoWrap><%= practice_record.course.idx %></td>
+        <td NoWrap><%= practice_record.course.title %></td>
+        <td NoWrap><%= practice_record.course.field.name %></td>
+        <td><%= truncate(strip_tags(practice_record.record), :length => 100) %></td>
+        <td NoWrap><%= practice_record.record_review.get_status %></td>
+        <td NoWrap>
+        <%= link_to t('.show', :default => t('查看')),
+                               practice_record_path(practice_record), :class => 'btn btn-mini' %>
+          <%= link_to t('.edit', :default => '编辑'),
+                      edit_practice_record_path(practice_record), :class => 'btn btn-mini btn-primary' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

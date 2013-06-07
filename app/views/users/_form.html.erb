@@ -1,0 +1,46 @@
+<%= form_for @user, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @user.class.model_name.human,
+                    :count => @user.errors.count) %>
+          </h2>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label '用户名', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :account, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '全名', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '密码', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.password_field :password, :class => 'password_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '确认密码', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.password_field :password_confirmation, :class => 'password_field' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '确认', :class => 'btn btn-primary' %>
+      <%= link_to '取消',
+                  users_path, :class => 'btn' %>
+    </div>
+<% end %>

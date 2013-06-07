@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2013-04-13
+  idx: 1
+  title: MyString
+  teacher_id: 1
+  teacher_name: MyString
+  room: MyString
+  status: 1
+  review_comments: MyText
+
+two:
+  date: 2013-04-13
+  idx: 1
+  title: MyString
+  teacher_id: 1
+  teacher_name: MyString
+  room: MyString
+  status: 1
+  review_comments: MyText

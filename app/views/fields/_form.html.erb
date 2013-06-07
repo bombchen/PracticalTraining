@@ -1,0 +1,38 @@
+<%= form_for @field, :html => { :class => 'form-horizontal' } do |f| %>
+    <% if @field.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @field.class.model_name.human,
+                    :count => @field.errors.count) %>
+          </h2>
+          <ul>
+            <% @field.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+  <div class="control-group">
+    <%= f.label '场地名称', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label '描述', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, :class => 'text_area', :rows => 10 %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label '状态', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :status_id, FieldStatus.all, :id, :name %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit '确定', :class => 'btn btn-primary' %>
+    <%= link_to '取消',
+                fields_path, :class => 'btn' %>
+  </div>
+<% end %>

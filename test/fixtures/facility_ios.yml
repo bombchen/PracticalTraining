@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  facility_id: 1
+  amount: 1
+  owner_id: 1
+  reason_id: 1
+  date: 2013-05-05
+
+two:
+  facility_id: 1
+  amount: 1
+  owner_id: 1
+  reason_id: 1
+  date: 2013-05-05

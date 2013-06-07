@@ -1,0 +1,58 @@
+<script type="text/javascript">
+    $(function () {
+        $('#dp').datepicker();
+    });
+</script>
+
+<div class="page-header">
+  <h1><a href="/reports/teacher" style="text-decoration: none">实训资产教师统计</a></h1>
+</div>
+<div class="controls-row">
+  <%= form_tag '/reports/teacher', :method => 'get' %>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>统计开始时间</th>
+      <th>教师</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><%= text_field_tag :dt, @begin_date.to_date, :class => 'text_field', :id => 'dp' %></td>
+      <td><%= select_tag :tch, options_from_collection_for_select(User.get_teacher_simple_selectors, :id, :name, @filter_teacher) %></td>
+      <td><%= submit_tag '生成报表', :class => 'btn btn-primary' %></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th NoWrap>教师</th>
+    <th NoWrap>资产名称</th>
+    <th NoWrap>增加数量</th>
+    <th NoWrap>减少数量</th>
+    <th NoWrap>数量变动</th>
+    <th NoWrap>成本变动</th>
+    <th NoWrap>现有库存</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @user_reports.keys.each do |user| %>
+      <% user_report = @user_reports[user] %>
+      <% user_report.portfolio.keys.each do |facility| %>
+          <% report = user_report.portfolio[facility] %>
+          <tr>
+            <td NoWrap><%= user.name %></td>
+            <td NoWrap><%= report.facility.name %></td>
+            <td NoWrap><%= report.in_amount.to_s %></td>
+            <td NoWrap><%= report.out_amount.to_s %></td>
+            <td NoWrap><%= (report.in_amount - report.out_amount).to_s %></td>
+            <td NoWrap><%= (report.in_amount - report.out_amount) * facility.unit_price %></td>
+            <td NoWrap><%= report.remaining.to_s %></td>
+          </tr>
+      <% end %>
+  <% end %>
+  </tbody>
+</table>

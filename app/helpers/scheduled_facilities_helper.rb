@@ -1,0 +1,2 @@
+module ScheduledFacilitiesHelper
+end

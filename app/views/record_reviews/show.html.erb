@@ -1,0 +1,33 @@
+<%- model_class = RecordReview -%>
+<div class="page-header">
+  <h1>实训记录</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>日期</dt>
+  <dd><%= @record_review.practice_record.course.date %></dd>
+  <dt>星期</dt>
+  <dd><%= @record_review.practice_record.course.weekday %></dd>
+  <dt>课程名称</dt>
+  <dd><%= @record_review.practice_record.course.title %></dd>
+  <dt>实训记录</dt>
+  <dd><%= @record_review.practice_record.record %></dd>
+  <dt>审查意见</dt>
+  <dd><%= @record_review.comments %></dd>
+  <dt>状态</dt>
+  <dd><%= @record_review.get_status %></dd>
+  <dt><strong>申请材料:</strong></dt>
+  <%= if (!@record_review.practice_record.course.facility_applications.any?)
+        '未申请材料'
+      end %>
+  <% @record_review.practice_record.course.facility_applications.each do |builder| %>
+      <dd><%= builder.facility.name + ' ' + builder.applied.to_s + ' ' + builder.facility.unit %></dd>
+  <% end %>
+</dl>
+
+<div class="form-actions">
+  <%= link_to '返回',
+              record_reviews_path, :class => 'btn' %>
+  <%= link_to '审批',
+              edit_record_review_path(@record_review), :class => 'btn btn-primary' %>
+</div>

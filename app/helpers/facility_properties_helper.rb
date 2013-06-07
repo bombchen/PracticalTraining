@@ -1,0 +1,2 @@
+module FacilityPropertiesHelper
+end

@@ -1,0 +1,39 @@
+<div id="modalStub" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="borrowModalLabel" aria-hidden="true">
+  <%= form_for @facility_return, :html => {:class => 'form-horizontal'} do |fr| %>
+      <% if @facility_return.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= t('errors.template.header',
+                      :model => @facility_return.class.model_name.human,
+                      :count => @facility_return.errors.count) %>
+            </h2>
+            <ul>
+              <% @facility_return.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+        <h3 id="borrowModalLabel">材料领用</h3>
+      </div>
+      <div class="modal-body">
+        <dl class="dl-horizontal">
+          <dt><strong>材料:</strong></dt>
+          <dd><%= @facility_return.facility_application.facility.name %></dd>
+          <dt><strong>单位:</strong></dt>
+          <dd><%= @facility_return.facility_application.facility.unit %></dd>
+          <dt><strong>申请数量:</strong></dt>
+          <dd><%= @facility_return.facility_application.applied %></dd>
+          <dt><strong>剩余数量:</strong></dt>
+          <dd><%= @facility_return.facility_application.facility.facility_total.total %></dd>
+          <dt><strong>领用数量:</strong></dt>
+          <dd><%= fr.number_field :borrowed_amount, :class => 'number_field', :value => @facility_return.facility_application.applied %></dd>
+        </dl>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+        <button class="btn btn-primary">确定</button>
+      </div>
+  <% end %>
+</div>

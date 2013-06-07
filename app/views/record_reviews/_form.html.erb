@@ -1,0 +1,90 @@
+<%= form_for @course, :html => {:class => 'form-horizontal'} do |c| %>
+    <div class="control-group">
+      <%= c.label '日期', :class => 'control-label' %>
+      <div class="controls">
+        <%= c.text_field :date, :class => 'text_field', :readonly => true %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= c.label '星期', :class => 'control-label' %>
+      <div class="controls">
+        <%= c.text_field :weekday, :class => 'text_field', :readonly => true %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= c.label '课时', :class => 'control-label' %>
+      <div class="controls">
+        <%= c.text_field :idx, :class => 'text_field', :readonly => true %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= c.label '课程名称', :class => 'control-label' %>
+      <div class="controls">
+        <%= c.text_field :title, :class => 'text_field', :readonly => true %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= c.label '教室', :class => 'control-label' %>
+      <div class="controls">
+        <%= c.text_field :room, :class => 'text_field', :readonly => true %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= c.label '申请材料', :class => 'control-label' %>
+      <div class="controls">
+        <%= c.fields_for :facility_applications do |fa| %>
+            <%= fa.text_field :facility_name_with_unit, :class => 'text_field', :readonly => true %>
+            <%= fa.text_field :applied, :class => 'number_field', :readonly => true %>
+            <br/>
+        <% end %>
+      </div>
+    </div>
+<% end %>
+
+<%= form_for @practice_record, :html => {:class => 'form-horizontal'} do |r| %>
+    <div class="control-group">
+      <%= r.label '实训记录', :class => 'control-label' %>
+      <div class="controls">
+        <%= r.text_area :record, :class => 'text_area', :rows => 10, :readonly => true %>
+      </div>
+    </div>
+<% end %>
+
+<%= form_for @record_review, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @record_review.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model=> @record_review.class.model_name.human,
+                    :count=> @record_review.errors.count) %>
+          </h2>
+          <ul>
+            <% @record_review.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="control-group">
+      <%= f.label '状态', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.select :status, {
+                '未编写' => 0,
+                '待审查' => 1,
+                '审核通过' => 2,
+                '审核失败' => -1
+        } %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '审核意见', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :comments, :class => 'text_area', :rows => 10 %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '确认', :class => 'btn btn-primary' %>
+      <%= link_to '取消',
+                  record_reviews_path, :class => 'btn' %>
+    </div>
+<% end %>

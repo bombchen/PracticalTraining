@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  course_id: 1
+  facility_id: 1
+  applied: 1
+  returned: 1
+  status: 1
+  review_comments: MyText
+
+two:
+  course_id: 1
+  facility_id: 1
+  applied: 1
+  returned: 1
+  status: 1
+  review_comments: MyText

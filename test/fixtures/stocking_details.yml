@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  stocking_id: 1
+  facility_id: 1
+  old_amount: 1
+  new_amount: 1
+
+two:
+  stocking_id: 1
+  facility_id: 1
+  old_amount: 1
+  new_amount: 1

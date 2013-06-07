@@ -1,0 +1,46 @@
+<%- model_class = Course -%>
+<div class="page-header">
+  <h1>实训课程信息</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @course.date %></dd>
+  <dt><strong>星期</strong></dt>
+  <dd><%= @course.weekday %></dd>
+  <dt><strong>课时:</strong></dt>
+  <dd><%= @course.idx %></dd>
+  <dt><strong>班级:</strong></dt>
+  <dd><%= @course.cls %></dd>
+  <dt><strong>课程名称:</strong></dt>
+  <dd><%= @course.title %></dd>
+  <dt><strong>教师:</strong></dt>
+  <dd><%= ApplicationHelper.get_teacher_name_by_id(@course.teacher_id) %></dd>
+  <dt><strong>场地:</strong></dt>
+  <dd><%= @course.field.name %></dd>
+  <dt><strong>审核状态:</strong></dt>
+  <dd><%= @course.course_review.get_status %></dd>
+  <dt><strong>审核意见:</strong></dt>
+  <dd><%= @course.course_review.comments %></dd>
+  <dt><strong>申请材料:</strong></dt>
+  <% if (!@course.facility_applications.any?) %>
+      <dd>未申请材料</dd>
+  <% end %>
+  <% @course.facility_applications.each do |builder| %>
+      <dd><%= builder.facility.name + ' ' + builder.applied.to_s + ' ' + builder.facility.unit %></dd>
+  <% end %>
+  <dt><strong>实训记录</strong></dt>
+  <dd><%= link_to @course.practice_record.record_review.get_status, practice_record_path(@course.practice_record) %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t('返回')),
+              courses_path, :class => 'btn' %>
+  <%= link_to t('.edit', :default => t('编辑')),
+              edit_course_path(@course), :class => 'btn btn-primary' %>
+  <%= link_to t('.destroy', :default => t('删除')),
+              course_path(@course),
+              :method => 'delete',
+              :data => {:confirm => t('.confirm', :default => '确定删除本课程？')},
+              :class => 'btn btn-danger' %>
+</div>

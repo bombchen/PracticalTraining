@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    $(function () {
+        $('#dp').datepicker();
+    });
+</script>
+
+<div class="page-header">
+  <h1><a href="/reports/consume" style="text-decoration: none">实训资产消耗统计</a></h1>
+</div>
+<div class="controls-row">
+  <%= form_tag '/reports/consume', :method => 'get' %>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>统计开始时间</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><%= text_field_tag  :dt, @begin_date.to_date, :class => 'text_field', :id => 'dp' %></td>
+      <td><%= submit_tag '生成报表', :class => 'btn btn-primary' %></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th NoWrap>资产名称</th>
+    <th NoWrap>消耗数量</th>
+    <th NoWrap>消耗成本</th>
+    <th NoWrap>现有库存</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @reports.keys.each do |facility| %>
+      <% report = @reports[facility] %>
+      <tr>
+        <td NoWrap><%= report.facility.name %></td>
+        <td NoWrap><%= report.out_amount.to_s %></td>
+        <td NoWrap><%= report.out_amount * facility.unit_price %></td>
+        <td NoWrap><%= report.remaining.to_s %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

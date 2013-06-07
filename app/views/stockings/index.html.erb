@@ -1,0 +1,38 @@
+<%- model_class = Stocking -%>
+<div class="page-header">
+  <h1>资产盘点</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>标题</th>
+    <th>开始时间</th>
+    <th>结束时间</th>
+    <th>负责人</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @stockings.each do |stocking| %>
+      <tr>
+        <td><%= stocking.title %></td>
+        <td><%= stocking.start_time.to_s(:db) %></td>
+        <td><%= stocking.end_time.nil? ? '' : stocking.end_time.to_s(:db) %></td>
+        <td><%= ApplicationHelper.get_teacher_name_by_id(stocking.owner_id) %></td>
+        <td><%= stocking.status_name %></td>
+        <td>
+          <%= link_to '查看',
+                      stocking_path(stocking), :class => 'btn btn-mini' %>
+          <%= link_to '盘点',
+                      edit_stocking_path(stocking), :class => 'btn btn-mini btn-primary' %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to '开始资产盘点',
+            new_stocking_path,
+            :class => 'btn btn-primary',
+            :confirm => '开始资产盘点将会锁定系统，所有出入库功能将关闭，直到盘点结束。请确认是否现在开始资产盘点。' %>
