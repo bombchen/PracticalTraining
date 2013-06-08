@@ -11,18 +11,18 @@ class FacilityReturn < ActiveRecord::Base
         0 => '未领用',
         1 => '已领用',
         2 => '已归还'
-    }[status]
+    }[filter_status]
   end
 
   def borrow_facility!
-    if status != 0
+    if filter_status != 0
       return false
     end
     fa = facility_application.facility
     fat = FacilityTotal.find_by_facility_id(fa.id)
     FacilityReturn.transaction do
       fat.total -= borrowed_amount
-      self.status = 1
+      self.filter_status = 1
       fat.save!
       self.save!
       if fa.is_one_time?
@@ -39,7 +39,7 @@ class FacilityReturn < ActiveRecord::Base
   end
 
   def return_facility!
-    if status != 1
+    if filter_status != 1
       return false
     end
     fa = facility_application.facility
@@ -49,7 +49,7 @@ class FacilityReturn < ActiveRecord::Base
     end
     FacilityReturn.transaction do
       fat.total += returned_amount
-      self.status = 2
+      self.filter_status = 2
       fat.save!
       self.save!
       if (returned_amount < borrowed_amount)

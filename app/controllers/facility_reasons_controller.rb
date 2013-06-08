@@ -5,7 +5,7 @@ class FacilityReasonsController < ApplicationController
   # GET /facility_reasons
   # GET /facility_reasons.json
   def index
-    @facility_reasons = FacilityReason.all
+    @facility_reasons = FacilityReason.all.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

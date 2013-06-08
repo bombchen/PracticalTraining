@@ -11,7 +11,7 @@ class CourseReview < ActiveRecord::Base
         0 => '未审核',
         1 => '审核通过',
         -1 => '审核失败'
-    }[status] rescue '未知状态'
+    }[filter_status] rescue '未知状态'
   end
 
   def self.get_status_code(condition)
@@ -20,6 +20,22 @@ class CourseReview < ActiveRecord::Base
         '审核通过' => 1,
         '审核失败' => -1
     }[condition]
+  end
+
+  def self.get_status_simple_selectors
+    selectors = Array.new
+    {
+        -2 => '全部',
+        0 => '未审核',
+        1 => '审核通过',
+        -1 => '审核失败'
+    }.each do |key, value|
+      sel = SimpleSelector.new
+      sel.id = key
+      sel.name = value
+      selectors.push sel
+    end
+    return selectors
   end
 
   def self.filter(begin_date, end_date, condition)

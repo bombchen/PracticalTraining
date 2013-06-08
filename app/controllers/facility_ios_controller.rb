@@ -5,7 +5,7 @@ class FacilityIosController < ApplicationController
   # GET /facility_ios
   # GET /facility_ios.json
   def index
-    @facility_ios = FacilityIo.all(:order => 'date desc, id desc')
+    @facility_ios = FacilityIo.all(:order => 'date desc, id desc').paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -6,7 +6,7 @@ class FacilityReportController < ApplicationController
     dt = params[:dt]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
     @facilities = Facility.all
-    @records = FacilityIo.where('date >= ?', @begin_date)
+    @records = FacilityIo.where('date >= ?', @begin_date).paginate(:page => params[:page])
 
     @reports = Hash.new
     @facilities.each do |f|

@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     if (uid.nil?)
       return '未登录'
     end
-    acct = User.find(uid)
+    acct = User.find_by_id(uid)
     if (acct.nil?)
       return '未登录'
     end

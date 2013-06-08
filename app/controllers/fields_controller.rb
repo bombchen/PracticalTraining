@@ -5,7 +5,7 @@ class FieldsController < ApplicationController
   # GET /fields
   # GET /fields.json
   def index
-    @fields = Field.all
+    @fields = Field.all.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

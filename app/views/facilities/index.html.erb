@@ -82,6 +82,7 @@
   <% end %>
   </tbody>
 </table>
+<%= will_paginate @facilities %>
 
 <%= link_to t('.new', :default => t('添加')),
             new_facility_path,
