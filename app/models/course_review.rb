@@ -12,7 +12,7 @@ class CourseReview < ActiveRecord::Base
         0 => '未审核',
         1 => '审核通过',
         -1 => '审核失败'
-    }[filter_status] rescue '未知状态'
+    }[status] rescue '未知状态'
   end
 
   def self.get_status_code(condition)

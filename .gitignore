@@ -12,5 +12,3 @@ log/
 Icon?
 ehthumbs.db
 Thumbs.db
-
-tmp/pids/server.pid
