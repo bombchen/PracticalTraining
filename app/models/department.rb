@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Department < ActiveRecord::Base
   attr_accessible :description, :name
   attr_readonly :facilities

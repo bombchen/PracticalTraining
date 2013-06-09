@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityCategory < ActiveRecord::Base
   attr_accessible :comments, :name
   attr_readonly :facilities

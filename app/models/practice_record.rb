@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PracticeRecord < ActiveRecord::Base
   attr_accessible :course_id, :record, :record_review
   attr_readonly :course

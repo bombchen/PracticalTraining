@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityIo < ActiveRecord::Base
   attr_accessible :amount, :date, :facility_id, :owner_id, :reason_id, :comments
   attr_readonly :facility, :facility_reason, :user

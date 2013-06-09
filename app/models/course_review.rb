@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CourseReview < ActiveRecord::Base
   attr_accessible :comments, :course_id, :status
   attr_readonly :course

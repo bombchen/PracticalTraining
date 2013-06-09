@@ -1,3 +1,4 @@
+# encoding: utf-8
 class RecordReview < ActiveRecord::Base
   attr_accessible :comments, :record_id, :status
   attr_readonly :practice_record

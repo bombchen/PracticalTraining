@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UserRoleMappingsController < ApplicationController
 
   append_before_filter :ensure_sys_admin

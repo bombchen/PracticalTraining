@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ScheduledFacility < ActiveRecord::Base
   attr_accessible :facility_id, :schedule_id
   attr_readonly :facility

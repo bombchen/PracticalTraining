@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PracticeRecordsController < ApplicationController
 
   append_before_filter :ensure_teacher

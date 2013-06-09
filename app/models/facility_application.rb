@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityApplication < ActiveRecord::Base
   attr_accessible :applied, :course_id, :facility_id, :facility_return, :facility_return_attributes
   attr_readonly :facility, :course

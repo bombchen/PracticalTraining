@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Stocking < ActiveRecord::Base
   attr_accessible :comments, :end_time, :finished, :owner_id, :start_time, :title, :stocking_details_attributes
 

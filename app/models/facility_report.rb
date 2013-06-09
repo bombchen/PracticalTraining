@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityReport
   attr_accessor :facility, :in_stock, :out_stock, :total
 

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ReportUnitIO
   attr_accessor :facility, :in_amount, :out_amount, :remaining
 

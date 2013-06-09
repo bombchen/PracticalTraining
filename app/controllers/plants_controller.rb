@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PlantsController < ApplicationController
 
   append_before_filter :ensure_store_admin

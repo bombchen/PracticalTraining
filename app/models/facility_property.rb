@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityProperty < ActiveRecord::Base
   attr_accessible :facility_id, :property_name, :property_value
 

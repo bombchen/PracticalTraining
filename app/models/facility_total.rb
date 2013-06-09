@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityTotal < ActiveRecord::Base
   attr_accessible :facility_id, :total
   attr_readonly :facility

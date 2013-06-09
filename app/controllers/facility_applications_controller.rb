@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityApplicationsController < ApplicationController
 
   # GET /facility_applications

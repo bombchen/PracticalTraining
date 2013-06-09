@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ScheduledCourse < ActiveRecord::Base
   attr_accessible :begin_date, :cls, :end_date, :idx, :field_id, :teacher_id, :title, :wday, :scheduled_facilities, :scheduled_facilities_attributes
   attr_readonly :field

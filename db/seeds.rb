@@ -1,3 +1,4 @@
+# encoding: utf-8
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -24,7 +25,6 @@ FacilityTotal.delete_all
 FacilityIo.delete_all
 FacilityReason.delete_all
 Facility.delete_all
-TempUser.delete_all
 StockingDetail.delete_all
 Stocking.delete_all
 UserRoleMapping.delete_all
@@ -32,24 +32,6 @@ Role.delete_all
 User.delete_all
 
 
-
-TempUser.create(
-    :teacher_id => 100001,
-    :teacher_name => '陈易',
-    :department => '烹饪'
-)
-
-TempUser.create(
-    :teacher_id => 100002,
-    :teacher_name => '张仁勇',
-    :department => '机械'
-)
-
-TempUser.create(
-    :teacher_id => 100003,
-    :teacher_name => '一帆',
-    :department => '矿石开采'
-)
 
 FacilityReason.create(
     :reason => '新购买',

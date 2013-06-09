@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FieldStatus < ActiveRecord::Base
   attr_accessible :available, :name, :systematic
   validates :name, :presence => true

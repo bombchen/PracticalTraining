@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityAlertController < ApplicationController
 
   append_before_filter :ensure_school_or_store_admin

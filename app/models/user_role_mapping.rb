@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UserRoleMapping < ActiveRecord::Base
   attr_accessible :role_id, :user_id
   attr_readonly :user, :role

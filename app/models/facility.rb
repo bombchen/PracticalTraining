@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Facility < ActiveRecord::Base
   attr_accessible :asset_id, :facility_type, :comments, :description, :name, :unit, :alert_amount, :category_id, :department_id, :unit_price, :facility_properties_attributes, :facility_total
   attr_readonly :facility_category, :department

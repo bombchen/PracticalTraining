@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityReason < ActiveRecord::Base
   attr_accessible :if_add, :reason, :systematic
 

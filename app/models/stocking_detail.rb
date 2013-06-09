@@ -1,3 +1,4 @@
+# encoding: utf-8
 class StockingDetail < ActiveRecord::Base
   attr_accessible :facility_id, :new_amount, :old_amount, :stocking_id
   attr_readonly :facility, :stocking

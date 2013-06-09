@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Course < ActiveRecord::Base
   include ActiveModel::Validations
 

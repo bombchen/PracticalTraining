@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UserReportUnit
   attr_accessor :user, :portfolio
 

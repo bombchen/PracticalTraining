@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FacilityReturn < ActiveRecord::Base
   attr_accessible :application_id, :comments, :status, :borrowed_amount, :borrowed_time, :returned_amount, :returned_time
   attr_readonly :facility_application
