@@ -238,14 +238,14 @@ $().ready(function () {
         if (!val) {
             self.addClass('input_def').val(self.attr('def'));
         }
-    }).live('focusin',function () {
+    }).on('focusin',function () {
             var self = $(this),
                 val = self.val(),
                 def = self.attr('def');
             if (val == def) {
                 self.removeClass('input_def').val('');
             }
-        }).live('focusout', function () {
+        }).on('focusout', function () {
             var self = $(this),
                 val = self.val(),
                 def = self.attr('def');
@@ -253,15 +253,15 @@ $().ready(function () {
                 self.addClass('input_def').val(def);
             }
         });
-    $('#left > a').live('focusin',function () {
+    $('#left > div > a').on('focusin',function () {
         $(this).blur();
-    }).live('click',function () {
+    }).on('click',function () {
             $(this).toggleClass('view').next('ul').toggle();
             return false;
         }).eq(0).click();
-    $('#toggle').live('focusin',function () {
+    $('#toggle').on('focusin',function () {
         $(this).blur();
-    }).live('click', function () {
+    }).on('click', function () {
             $(this).toggleClass('view');
             $('#left').toggle();
             return false;

@@ -12,7 +12,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
   <![endif]-->
 
-  <%= stylesheet_link_tag 'application', 'datepicker', 'paginate', :media => 'all' %>
+  <%= stylesheet_link_tag 'application', 'datepicker', 'paginate', 'base', :media => 'all' %>
 
   <!-- For third-generation iPad with high-resolution Retina display: -->
   <!-- Size should be 144 x 144 pixels -->
@@ -33,117 +33,101 @@
   <!-- For all other devices -->
   <!-- Size should be 32 x 32 pixels -->
   <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
-  <%= javascript_include_tag 'application', 'bootstrap-datepicker' %>
+  <%= javascript_include_tag 'application', 'bootstrap-datepicker', 'base' %>
 </head>
 <body>
-
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="brand" href="/courses">实训课程管理</a>
-
-      <div align="right">
-        <ul class="nav">
-          <li><a><%= User.get_login_user_name_by_id(session[:user_id]) %></a></li>
-          <li><a>|</a></li>
-          <li><%= link_to '退出', logout_url, :method => :delete, :confirm => '确定退出？' %></li>
-        </ul>
-      </div>
-      <!--/.nav-collapse -->
-    </div>
+<div id="header">
+  <div class="grain">
+    <a href="/index" id="logo">LOGO</a>
+    <span class="user"><%= User.get_login_user_name_by_id(session[:user_id]) %></span>
+    <%= link_to '退出', logout_url, :method => :delete, :confirm => '确定退出？', :class => 'logout' %>
   </div>
 </div>
 
-<div class="container">
-  <div class="row">
-    <div class="span3">
-      <div class="well sidebar-nav">
-        <h3>控制面板</h3>
-        <ul class="nav nav-list">
-          <div style="display: <%= User.verify_is_teacher_by_id(session[:user_id]) ? 'block' : 'none' %>">
-            <li class="nav-header">教师面板</li>
-            <li><%= link_to '实训课程管理', '/courses' %></li>
-            <li><%= link_to '实训记录管理', '/practice_records' %></li>
-          </div>
-        </ul>
-        <ul class="nav nav-list">
-          <li class="nav-header">管理员面板</li>
-          <div class="sidebar-menu">
+<div class="main">
+  <div id="angle"></div>
+  <table id="container" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td id="left" valign="top">
+        <div id="head">控制面板</div>
+        <div style="display: <%= User.verify_is_teacher_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">我的实训课程</a>
+          <ul>
+            <li><a href="/courses">实训课程管理</a></li>
+            <li><a href="/practice_records">实训记录管理</a></li>
+          </ul>
+        </div>
+        <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">实训课程管理</a>
+          <ul>
+            <li><a href="/course_reviews">实训课程审批</a></li>
+            <li><a href="/facility_returns">出入库管理</a></li>
+            <li><a href="/scheduled_courses">实训排课系统</a></li>
+          </ul>
+        </div>
+        <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">实训场地管理</a>
+          <ul>
+            <li><a href="/fields">实训场地管理</a></li>
+            <li><a href="/plants">实训车间管理</a></li>
+          </ul>
+        </div>
+        <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">实训资产管理</a>
+          <ul>
+            <li><a href="/facilities">实训资产列表</a></li>
             <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <a href="#ClassMenu" class="nav-header menu-first" data-toggle="collapse">实训课程管理</a>
-              <ul id="ClassMenu" class="nav nav-list menu-second collapse in">
-                <li><a href="/course_reviews">实训课程审批</a></li>
-                <li><a href="/facility_returns">出入库管理</a></li>
-                <li><a href="/scheduled_courses">实训排课系统</a></li>
-              </ul>
+              <li><a href="/facility_ios">实训库存管理</a></li>
             </div>
-            <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <a href="#FacilityMenu" class="nav-header menu-first" data-toggle="collapse">实训场地管理</a>
-              <ul id="FacilityMenu" class="nav nav-list menu-second collapse in">
-                <li><a href="/fields">实训场地管理</a></li>
-                <li><a href="/plants">实训车间管理</a></li>
-              </ul>
-            </div>
-            <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <a href="#FacilityMenu" class="nav-header menu-first" data-toggle="collapse">实训资产管理</a>
-              <ul id="FacilityMenu" class="nav nav-list menu-second collapse in">
-                <li><a href="/facilities">实训资产列表</a></li>
-                <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-                  <li><a href="/facility_ios">实训库存管理</a></li>
-                </div>
-                <li><a href="/facility_alert">实训库存预警</a></li>
-                <li><a href="/stockings">实训资产盘点</a></li>
-              </ul>
-            </div>
-            <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <a href="#FacilityMenu" class="nav-header menu-first" data-toggle="collapse">综合管理</a>
-              <ul id="FacilityMenu" class="nav nav-list menu-second collapse in">
-                <li><a href="/departments">实训部门管理</a></li>
-                <li><a href="/facility_categories">实训资产类目管理</a></li>
-                <li><a href="/facility_reasons">出入库事由管理</a></li>
-                <li><a href="/field_statuses">实训场地状态管理</a></li>
-              </ul>
-            </div>
-            <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <a href="#ReportMenu" class="nav-header menu-first" data-toggle="collapse">实训报表管理</a>
-              <ul id="ReportMenu" class="nav nav-list menu-second collapse in">
-                <li><a href="/reports/overall">综合报表</a></li>
-                <li><a href="/reports/instore">增加统计</a></li>
-                <li><a href="/reports/consume">消耗统计</a></li>
-                <li><a href="/reports/lost">损失统计</a></li>
-                <li><a href="/reports/category">材料分类统计</a></li>
-                <li><a href="/reports/department">部门消耗统计</a></li>
-                <li><a href="/reports/teacher">教师消耗统计</a></li>
-                <li><a href="/facility_trace">实训库存跟踪</a></li>
-              </ul>
-            </div>
-            <div style="display: <%= User.verify_is_sys_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <a href="#ReportMenu" class="nav-header menu-first" data-toggle="collapse">权限控制</a>
-              <ul id="ReportMenu" class="nav nav-list menu-second collapse in">
-                <li><a href="/users">用户管理</a></li>
-                <li><a href="/user_role_mappings">用户授权</a></li>
-              </ul>
-            </div>
-          </div>
-        </ul>
-      </div>
-      <!--/.well -->
-    </div>
-    <!--/span-->
-    <div class="span9">
-      <%= bootstrap_flash %>
-      <%= yield %>
-    </div>
-
-  </div>
-  <footer>
-    <p>&copy; 实训管理 2013</p>
-  </footer>
+            <li><a href="/facility_alert">实训库存预警</a></li>
+            <li><a href="/stockings">实训资产盘点</a></li>
+          </ul>
+        </div>
+        <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">综合管理</a>
+          <ul>
+            <li><a href="/departments">实训部门管理</a></li>
+            <li><a href="/facility_categories">实训资产类目管理</a></li>
+            <li><a href="/facility_reasons">出入库事由管理</a></li>
+            <li><a href="/field_statuses">实训场地状态管理</a></li>
+          </ul>
+        </div>
+        <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">实训报表管理</a>
+          <ul>
+            <li><a href="/reports/overall">综合报表</a></li>
+            <li><a href="/reports/instore">增加统计</a></li>
+            <li><a href="/reports/consume">消耗统计</a></li>
+            <li><a href="/reports/lost">损失统计</a></li>
+            <li><a href="/reports/category">材料分类统计</a></li>
+            <li><a href="/reports/department">部门消耗统计</a></li>
+            <li><a href="/reports/teacher">教师消耗统计</a></li>
+            <li><a href="/facility_trace">实训库存跟踪</a></li>
+          </ul>
+        </div>
+        <div style="display: <%= User.verify_is_sys_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+          <a href="#">权限控制</a>
+          <ul>
+            <li><a href="/users">用户管理</a></li>
+            <li><a href="/user_role_mappings">用户授权</a></li>
+          </ul>
+        </div>
+      </td>
+      <td id="center" valign="middle">
+        <a href="#" id="toggle"></a>
+      </td>
+      <td id="right" valign="top">
+        <div id="content">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<footer>
+  <p>&copy; 实训管理 2013</p>
+</footer>
 
 </div>
 </body>

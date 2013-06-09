@@ -8,7 +8,7 @@ html, body {
 body {
     color: #333;
     font: normal 13px/22px "微软雅黑", "宋体", Arial;
-    background: #5d5f5e url("../images/bg.jpg");
+    background: #5d5f5e url('bg.png');
 }
 
 img {
@@ -42,7 +42,7 @@ form#login {
 #login-title {
     width: 350px;
     height: 49px;
-    background: url("../images/pic.gif") 0 0;
+    background: url('pic.gif') 0 0;
     margin-bottom: 30px;
 }
 
@@ -54,7 +54,7 @@ form#login input {
     font: bold 18px/50px "微软雅黑", Arial;
     color: #fff;
     border: 0;
-    background: transparent url('../images/pic.gif') 0 -49px;
+    background: transparent url('pic.gif') 0 -49px;
 }
 
 form#login input#password {
@@ -69,7 +69,7 @@ form#login .input_def {
     display: inline-block;
     width: 350px;
     height: 50px;
-    background: url("../images/pic.gif") 0 -149px;
+    background: url('pic.gif') 0 -149px;
     line-height: 999px;
     overflow: hidden;
     opacity: 0.75;
@@ -86,7 +86,7 @@ form#login .input_def {
     height: 80px;
     text-align: right;
     color: #fff;
-    background: url("../images/pic.gif") 0 -199px repeat-x;
+    background: url('pic.gif') 0 -199px repeat-x;
     border-bottom: 1px solid #35a4f7;
 }
 
@@ -99,14 +99,14 @@ form#login .input_def {
     height: 80px;
     line-height: 999px;
     overflow: hidden;
-    background: url(../images/logo.png) 0 0 repeat-x;
+    background: url('logo.png') 0 0 repeat-x;
     _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src="images/logo.png");
     _background: none;
 }
 
 .grain {
     height: 80px;
-    background: url("../images/grain.jpg") 0 0 no-repeat;
+    background: url('grain.jpg') 0 0 no-repeat;
 }
 
 .user, .logout {
@@ -115,7 +115,7 @@ form#login .input_def {
     line-height: 30px;
     padding-left: 25px;
     color: #fff;
-    background: url("../images/pic.gif") -330px -279px no-repeat;
+    background: url('pic.gif') -330px -279px no-repeat;
 }
 
 .logout {
@@ -140,7 +140,7 @@ form#login .input_def {
     top: 10px;
     width: 21px;
     height: 21px;
-    background: url("../images/pic.gif") -198px -372px;
+    background: url('pic.gif') -198px -372px;
 }
 
 #container {
@@ -173,7 +173,7 @@ form#login .input_def {
     line-height: 999px;
     overflow: hidden;
     border-bottom: 1px solid #00407e;
-    background: url("../images/pic.gif") 0 -279px;
+    background: url('pic.gif') 0 -279px;
 }
 
 #left ul {
@@ -190,7 +190,7 @@ form#login .input_def {
     color: #fff;
     font-weight: bold;
     border-bottom: 1px solid #00407e;
-    background: url("../images/pic.gif") 0 -327px;
+    background: url('pic.gif') 0 -327px;
 }
 
 #left a:hover, #left a.view, #left a.view:hover {
@@ -218,7 +218,7 @@ form#login .input_def {
     width: 10px;
     height: 80px;
     overflow: hidden;
-    background: url("../images/pic.gif") -198px -279px no-repeat;
+    background: url('pic.gif') -198px -279px no-repeat;
 }
 
 #toggle.view {
@@ -235,7 +235,7 @@ form#login .input_def {
     font-size: 20px;
     padding-left: 40px;
     cursor: default;
-    background: url("../images/pic.gif") -315px -339px no-repeat;
+    background: url('pic.gif') -315px -339px no-repeat;
 }
 
 #content {
