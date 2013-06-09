@@ -1,7 +1,7 @@
 (function ($) {
 
     $.extend($.fn, {
-        livequery:function (type, fn, fn2) {
+        livequery: function (type, fn, fn2) {
             var self = this, q;
 
             // Handle different call patterns
@@ -29,7 +29,7 @@
             return this;
         },
 
-        expire:function (type, fn, fn2) {
+        expire: function (type, fn, fn2) {
             var self = this;
 
             // Handle different call patterns
@@ -69,7 +69,7 @@
     };
 
     $.livequery.prototype = {
-        stop:function () {
+        stop: function () {
             var query = this;
 
             if (this.type)
@@ -88,7 +88,7 @@
             this.stopped = true;
         },
 
-        run:function () {
+        run: function () {
             // Short-circuit if stopped
             if (this.stopped) return;
             var query = this;
@@ -128,13 +128,13 @@
     };
 
     $.extend($.livequery, {
-        guid:0,
-        queries:[],
-        queue:[],
-        running:false,
-        timeout:null,
+        guid: 0,
+        queries: [],
+        queue: [],
+        running: false,
+        timeout: null,
 
-        checkQueue:function () {
+        checkQueue: function () {
             if ($.livequery.running && $.livequery.queue.length) {
                 var length = $.livequery.queue.length;
                 // Run each Live Query currently in the queue
@@ -143,19 +143,19 @@
             }
         },
 
-        pause:function () {
+        pause: function () {
             // Don't run anymore Live Queries until restarted
             $.livequery.running = false;
         },
 
-        play:function () {
+        play: function () {
             // Restart Live Queries
             $.livequery.running = true;
             // Request a run of the Live Queries
             $.livequery.run();
         },
 
-        registerPlugin:function () {
+        registerPlugin: function () {
             $.each(arguments, function (i, n) {
                 // Short-circuit if the method doesn't exist
                 if (!$.fn[n]) return;
@@ -177,7 +177,7 @@
             });
         },
 
-        run:function (id) {
+        run: function (id) {
             if (id != undefined) {
                 // Put the particular Live Query in the queue if it doesn't already exist
                 if ($.inArray(id, $.livequery.queue) < 0)
@@ -196,7 +196,7 @@
             $.livequery.timeout = setTimeout($.livequery.checkQueue, 20);
         },
 
-        stop:function (id) {
+        stop: function (id) {
             if (id != undefined)
             // Stop are particular Live Query
                 $.livequery.queries[ id ].stop();
@@ -218,15 +218,15 @@
 
 })(jQuery);
 
-$().ready(function(){
-    var body=document.documentElement,
-        container=$('#container'),
-        bodyHeight,containerHeight,
-        resize=function(){
-            bodyHeight=Math.max(body.scrollHeight,body.clientHeight);
-            containerHeight=container.height();
-            var minHeight=bodyHeight-101;
-            if(containerHeight<minHeight){
+$().ready(function () {
+    var body = document.documentElement,
+        container = $('#container'),
+        bodyHeight, containerHeight,
+        resize = function () {
+            bodyHeight = Math.max(body.scrollHeight, body.clientHeight);
+            containerHeight = container.height();
+            var minHeight = bodyHeight - 101;
+            if (containerHeight < minHeight) {
                 container.height(minHeight);
             }
         };
@@ -253,17 +253,17 @@ $().ready(function(){
                 self.addClass('input_def').val(def);
             }
         });
-    $('#left > a').live('focusin',function(){
+    $('#left > a').live('focusin',function () {
         $(this).blur();
-    }).live('click',function(){
-        $(this).toggleClass('view').next('ul').toggle();
-        return false;
-    }).eq(0).click();
-    $('#toggle').live('focusin',function(){
+    }).live('click',function () {
+            $(this).toggleClass('view').next('ul').toggle();
+            return false;
+        }).eq(0).click();
+    $('#toggle').live('focusin',function () {
         $(this).blur();
-    }).live('click',function(){
-        $(this).toggleClass('view');
-        $('#left').toggle();
-        return false;
-    });
+    }).live('click', function () {
+            $(this).toggleClass('view');
+            $('#left').toggle();
+            return false;
+        });
 });
