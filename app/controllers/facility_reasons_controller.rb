@@ -39,6 +39,9 @@ class FacilityReasonsController < ApplicationController
   # GET /facility_reasons/1/edit
   def edit
     @facility_reason = FacilityReason.find(params[:id])
+    if @facility_reason.systematic
+      redirect_to facility_reason_path(@facility_reason), alert: '无法编辑系统属性'
+    end
   end
 
   # POST /facility_reasons
@@ -62,8 +65,12 @@ class FacilityReasonsController < ApplicationController
   # PUT /facility_reasons/1.json
   def update
     @facility_reason = FacilityReason.find(params[:id])
-    if params[:if_add].any? && @facility_reason.if_add != params[:if_add]
-
+    if !params[:if_add].nil? && @facility_reason.if_add != params[:if_add]
+      render action: 'edit', alert: '无法更改出/入库'
+      return
+    end
+    if @facility_reason.systematic
+      render action: 'edit', alert: '无法编辑系统属性'
     end
 
     respond_to do |format|
@@ -81,6 +88,10 @@ class FacilityReasonsController < ApplicationController
   # DELETE /facility_reasons/1.json
   def destroy
     @facility_reason = FacilityReason.find(params[:id])
+    if @facility_reason.systematic
+      redirect_to facility_reason_path(@facility_reason), alert: '无法删除系统属性'
+      return
+    end
     @facility_reason.destroy
 
     respond_to do |format|
