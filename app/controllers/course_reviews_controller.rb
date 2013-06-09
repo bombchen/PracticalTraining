@@ -11,9 +11,9 @@ class CourseReviewsController < ApplicationController
     cdt = params[:cdt]
     @begin_date = (bdt.nil? ? Date.today : bdt)
     @end_date = (edt.nil? ? @begin_date + 7 : edt)
-    @condition = (cdt.nil? ? '全部' : cdt)
+    @status = (cdt.nil? ? '全部' : cdt)
 
-    @course_reviews = CourseReview.filter(@begin_date.to_date.to_s, @end_date.to_date.to_s, @condition)
+    @course_reviews = CourseReview.filter(@begin_date.to_date.to_s, @end_date.to_date.to_s, @status).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

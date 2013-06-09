@@ -6,7 +6,7 @@ class PracticeRecordsController < ApplicationController
   # GET /practice_records
   # GET /practice_records.json
   def index
-    @practice_records = PracticeRecord.all.take_while { |r| r.course.teacher_id == session[:user_id] }
+    @practice_records = (PracticeRecord.all.take_while { |r| r.course.teacher_id == session[:user_id] }).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -67,7 +67,7 @@ class PracticeRecordsController < ApplicationController
   def update
     @practice_record = PracticeRecord.find(params[:id])
     if !params[:practice_record]['record'].nil?
-      @practice_record.record_review.status = 1
+      @practice_record.record_review.filter_status = 1
     end
     respond_to do |format|
       if @practice_record.update_attributes(params[:practice_record])

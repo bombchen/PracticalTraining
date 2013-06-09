@@ -10,7 +10,7 @@ class FacilitiesController < ApplicationController
     @filter_type = params[:typ].nil? ? -1 : params[:typ].to_i
 
 
-    @facilities = Facility.filter(@filter_department, @filter_category, @filter_type)
+    @facilities = Facility.filter(@filter_department, @filter_category, @filter_type).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

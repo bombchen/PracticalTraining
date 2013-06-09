@@ -1,6 +1,30 @@
 <%- model_class = FacilityReturn -%>
+<script type="text/javascript">
+    $(function () {
+        $('#dp').datepicker();
+    });
+</script>
 <div class="page-header">
   <h1>材料出入库管理</h1>
+</div>
+<div class="controls-row">
+  <%= form_tag facility_returns_path, :method => 'get' %>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>日期</th>
+      <th>状态</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><%= text_field_tag  :dt, @date.to_date, :class => 'text_field', :id => 'dp' %></td>
+      <td><%= select_tag :sta, options_from_collection_for_select(CourseReview.get_status_simple_selectors, :id, :name, @status) %></td>
+      <td><%= submit_tag '过滤', :class => 'btn btn-primary' %></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <div class="control-group">
 
@@ -36,3 +60,4 @@
   <% end %>
   </tbody>
 </table>
+<%= will_paginate @courses %>

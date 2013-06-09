@@ -6,7 +6,7 @@ class ScheduledCoursesController < ApplicationController
   # GET /scheduled_courses
   # GET /scheduled_courses.json
   def index
-    @scheduled_courses = ScheduledCourse.all
+    @scheduled_courses = ScheduledCourse.all.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

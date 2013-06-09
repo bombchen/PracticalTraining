@@ -6,9 +6,21 @@ class FacilityReturnsController < ApplicationController
   # GET /facility_returns
   # GET /facility_returns.json
   def index
-    @begin_date = Date.today
-    @end_date = Date.today
-    @courses = Course.all #(:conditions => ['date >= ? AND date <= ?',  @begin_date, @end_date])
+    @date = (params[:dt].nil? ? Date.today : params[:dt])
+    @status = (params[:sta].nil? ? -2 : params[:sta].to_i)
+    if (@status == -2)
+      @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
+                                          'INNER JOIN course_reviews r ON c.id = r.course_id ' +
+                                          'WHERE c.date = ?',
+                                      @date]).paginate(:page => params[:page])
+    else
+      @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
+                                          'INNER JOIN course_reviews r ON c.id = r.course_id ' +
+                                          'WHERE c.date = ? ' +
+                                          'AND r.status = ?',
+                                      @date, @status]).paginate(:page => params[:page])
+    end
+
     @facility_returns = FacilityReturn.all
 
     respond_to do |format|
@@ -122,7 +134,7 @@ class FacilityReturnsController < ApplicationController
       redirect_to edit_facility_return_path(@facility_return), alert: '请勿重复领用'
       return
     end
-    @facility_return.status = 1
+    @facility_return.filter_status = 1
     @facility_return.borrowed_time = Time.now
     respond_to do |format|
       format.js
@@ -137,7 +149,7 @@ class FacilityReturnsController < ApplicationController
     end
     @facility_return = FacilityReturn.find(params[:id])
 
-    @facility_return.status = 2
+    @facility_return.filter_status = 2
     @facility_return.returned_time = Time.now
     respond_to do |format|
       format.js

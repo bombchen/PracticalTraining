@@ -6,7 +6,7 @@ class FacilityCategoriesController < ApplicationController
   # GET /facility_categories
   # GET /facility_categories.json
   def index
-    @facility_categories = FacilityCategory.all
+    @facility_categories = FacilityCategory.all.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

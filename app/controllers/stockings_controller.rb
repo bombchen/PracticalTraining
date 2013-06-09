@@ -6,7 +6,7 @@ class StockingsController < ApplicationController
   # GET /stockings
   # GET /stockings.json
   def index
-    @stockings = Stocking.all(:order => 'id desc')
+    @stockings = Stocking.all(:order => 'id desc').paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

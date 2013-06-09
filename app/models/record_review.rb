@@ -13,6 +13,6 @@ class RecordReview < ActiveRecord::Base
         2 => '审核通过',
         -1 => '审核失败',
         0 => '未编写'
-    }[status] rescue '未知状态'
+    }[filter_status] rescue '未知状态'
   end
 end
