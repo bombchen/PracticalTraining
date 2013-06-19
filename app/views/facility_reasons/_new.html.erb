@@ -1,0 +1,27 @@
+<%- model_class = FacilityReason -%>
+<div class="page-header">
+  <h1>新建出入库事由</h1>
+</div>
+<%= form_for @facility_reason, :remote => true, :html => { :class => 'form-horizontal' } do |f| %>
+    <div class="control-group">
+      <%= f.label '事由', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :reason, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '出/入库', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.select :if_add, {
+                '入库' => true,
+                '出库' => false
+        } %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '确定', :class => 'btn btn-primary' %>
+      <%= link_to '取消',
+                  facility_reasons_path, :class => 'btn', :remote => true %>
+    </div>
+<% end %>

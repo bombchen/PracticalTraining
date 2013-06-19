@@ -1,0 +1,37 @@
+<%- model_class = CourseReview -%>
+<div class="page-header">
+  <h1>实训课程详情</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @course_review.course.date %></dd>
+  <dt><strong>星期</strong></dt>
+  <dd><%= @course_review.course.weekday %></dd>
+  <dt><strong>课时:</strong></dt>
+  <dd><%= @course_review.course.idx %></dd>
+  <dt><strong>课程名称:</strong></dt>
+  <dd><%= @course_review.course.title %></dd>
+  <dt><strong>教师:</strong></dt>
+  <dd><%= ApplicationHelper.get_teacher_name_by_id(@course_review.course.teacher_id) %></dd>
+  <dt><strong>教室:</strong></dt>
+  <dd><%= @course_review.course.field.name %></dd>
+  <dt><strong>审核状态:</strong></dt>
+  <dd><%= @course_review.get_status %></dd>
+  <dt><strong>审核意见:</strong></dt>
+  <dd><%= @course_review.comments %></dd>
+  <dt><strong>申请材料:</strong></dt>
+  <%= if (!@course_review.course.facility_applications.any?)
+        '未申请材料'
+      end %>
+  <% @course_review.course.facility_applications.each do |builder| %>
+      <dd><%= builder.facility.name + ' ' + builder.applied.to_s + ' ' + builder.facility.unit %></dd>
+  <% end %>
+</dl>
+
+<div class="form-actions">
+  <%= link_to '返回',
+              course_reviews_path, :class => 'btn', :remote => true %>
+  <%= link_to '审批',
+              edit_course_review_path(@course_review), :class => 'btn btn-primary', :remote => true %>
+</div>

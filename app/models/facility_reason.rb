@@ -7,12 +7,18 @@ class FacilityReason < ActiveRecord::Base
 
   before_destroy :destroy_check
 
+  private
   def destroy_check
     if FacilityIo.find_all_by_reason_id(id).any?
-      errors.add(:base, '出入库事由已被使用，无法删除')
+      @error_message = '出入库事由已被使用，无法删除'
       return false
     end
     return true
+  end
+
+  public
+  def error_message
+    @error_message ||= ''
   end
 
   def in_or_out

@@ -10,7 +10,7 @@ class FieldStatusesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @field_statuses }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class FieldStatusesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @field_status }
+      format.js
     end
   end
 
@@ -32,7 +32,7 @@ class FieldStatusesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @field_status }
+      format.js
     end
   end
 
@@ -40,7 +40,12 @@ class FieldStatusesController < ApplicationController
   def edit
     @field_status = FieldStatus.find(params[:id])
     if @field_status.systematic
-      redirect_to field_status_path(@field_status), alert: '无法编辑系统属性'
+      render :js => %(show_warning('非法操作', '无法编辑系统属性'))
+      return
+    end
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 
@@ -52,10 +57,10 @@ class FieldStatusesController < ApplicationController
     respond_to do |format|
       if @field_status.save
         format.html { redirect_to @field_status, notice: '创建场地状态成功' }
-        format.json { render json: @field_status, status: :created, location: @field_status }
+        format.js { redirect_to @field_status, :remote => true }
       else
-        format.html { render action: "new" }
-        format.json { render json: @field_status.errors, status: :unprocessable_entity }
+        format.html { render action: 'new' }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -65,16 +70,17 @@ class FieldStatusesController < ApplicationController
   def update
     @field_status = FieldStatus.find(params[:id])
     if @field_status.systematic
-      render action: 'edit', alert: '无法编辑系统属性'
+      render :js => %(show_warning('非法操作', '无法编辑系统属性'))
+      return
     end
 
     respond_to do |format|
       if @field_status.update_attributes(params[:field_status])
         format.html { redirect_to @field_status, notice: '更新场地状态成功' }
-        format.json { head :no_content }
+        format.js { redirect_to @field_status, :remote => true }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @field_status.errors, status: :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -84,14 +90,14 @@ class FieldStatusesController < ApplicationController
   def destroy
     @field_status = FieldStatus.find(params[:id])
     if @field_status.systematic
-      redirect_to field_status_path(@field_status), alert: '无法删除系统属性'
+      render :js => %(show_warning('非法操作', '无法删除系统属性'))
       return
     end
     @field_status.destroy
 
     respond_to do |format|
       format.html { redirect_to field_statuses_url }
-      format.json { head :no_content }
+      format.js { redirect_to field_statuses_url, :remote => true }
     end
   end
 end

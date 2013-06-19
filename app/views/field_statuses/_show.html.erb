@@ -1,0 +1,25 @@
+<%- model_class = FieldStatus -%>
+<div class="page-header">
+  <h1>场地状态</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>状态:</strong></dt>
+  <dd><%= @field_status.name %></dd>
+  <dt><strong>是否可用:</strong></dt>
+  <dd><%= @field_status.availability_name %></dd>
+  <dt><strong>属性:</strong></dt>
+  <dd><%= @field_status.systematic_name %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to '返回',
+              field_statuses_path, :class => 'btn', :remote => true  %>
+  <%= link_to '编辑',
+              edit_field_status_path(@field_status), :class => 'btn btn-primary', :remote => true %>
+  <%= link_to '删除',
+              field_status_path(@field_status),
+              :method => 'delete',
+              :data => { :confirm => '确认删除？' },
+              :class => 'btn btn-danger', :remote => true %>
+</div>

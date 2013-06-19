@@ -1,0 +1,38 @@
+<%- model_class = FacilityCategory -%>
+<div class="page-header">
+  <h1>实训资产类目</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th NoWrap>名称</th>
+    <th NoWrap>备注</th>
+    <th NoWrap>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @facility_categories.each do |facility_category| %>
+      <tr>
+        <td NoWrap><%= facility_category.name %></td>
+        <td><%= truncate(facility_category.comments, :length => 50) %></td>
+        <td>
+          <%= link_to '查看',
+                      facility_category_path(facility_category), :class => 'btn btn-mini', :remote => true %>
+          <%= link_to '编辑',
+                      edit_facility_category_path(facility_category), :class => 'btn btn-mini btn-primary', :remote => true %>
+          <%= link_to '删除',
+                      facility_category_path(facility_category),
+                      :method => :delete,
+                      :data => {:confirm => '确认删除？'},
+                      :class => 'btn btn-mini btn-danger',
+                      :remote => true %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= ajax_will_paginate @facility_categories %>
+
+<%= link_to '添加类目',
+            new_facility_category_path,
+            :class => 'btn btn-primary', :remote => true %>

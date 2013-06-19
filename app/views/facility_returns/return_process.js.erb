@@ -1,2 +1,12 @@
-$('#modalStub').before("<%= escape_javascript(render 'return_process') %>");
+$('#modalStub').before("<%= j render 'return_process' %>");
+$('#modal_confirm').click(function (event) {
+    event.preventDefault();
+    $.ajax({
+        type: $('#modal_form').attr('method'),
+        url: $('#modal_form').attr('action'),
+        data: $('#modal_form').serialize(),
+        dataType: "script"
+    });
+    $("#modalStub").modal('hide');
+});
 $("#modalStub").modal();

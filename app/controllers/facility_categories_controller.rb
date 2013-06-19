@@ -10,7 +10,7 @@ class FacilityCategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @facility_categories }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class FacilityCategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @facility_category }
+      format.js
     end
   end
 
@@ -32,13 +32,17 @@ class FacilityCategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @facility_category }
+      format.js
     end
   end
 
   # GET /facility_categories/1/edit
   def edit
     @facility_category = FacilityCategory.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /facility_categories
@@ -49,10 +53,10 @@ class FacilityCategoriesController < ApplicationController
     respond_to do |format|
       if @facility_category.save
         format.html { redirect_to @facility_category, notice: '新资产类目已创建' }
-        format.json { render json: @facility_category, status: :created, location: @facility_category }
+        format.js { redirect @facility_category, :remote => true }
       else
-        format.html { render action: "new" }
-        format.json { render json: @facility_category.errors, status: :unprocessable_entity }
+        format.html { render action: 'new' }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -65,10 +69,10 @@ class FacilityCategoriesController < ApplicationController
     respond_to do |format|
       if @facility_category.update_attributes(params[:facility_category])
         format.html { redirect_to @facility_category, notice: '资产类目已更新' }
-        format.json { head :no_content }
+        format.js { redirect_to @facility_category, :remote => true }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @facility_category.errors, status: :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -77,11 +81,14 @@ class FacilityCategoriesController < ApplicationController
   # DELETE /facility_categories/1.json
   def destroy
     @facility_category = FacilityCategory.find(params[:id])
-    @facility_category.destroy
-
     respond_to do |format|
-      format.html { redirect_to facility_categories_url }
-      format.json { head :no_content }
+      if  @facility_category.destroy
+        format.html { redirect_to facility_categories_path }
+        format.js { redirect_to facility_categories_path, :remote => true }
+      else
+        format.html { redirect_to @facility_category, alert: '删除 '+@facility_category.name+' 失败' }
+        format.js { render :js => %(show_warning('删除 #{@facility_category.name} 失败', '#{@facility_category.error_message}')) }
+      end
     end
   end
 end

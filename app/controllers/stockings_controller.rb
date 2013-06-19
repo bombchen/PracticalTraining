@@ -10,7 +10,7 @@ class StockingsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @stockings }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class StockingsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @stocking }
+      format.js
     end
   end
 
@@ -29,14 +29,13 @@ class StockingsController < ApplicationController
   # GET /stockings/new.json
   def new
     @stocking = Stocking.new
-
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to stockings_url, alert: '存在未完成的盘点，无法开始新的盘点' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         format.html
-        format.json { render json: @stocking }
+        format.js
       end
     end
   end
@@ -45,7 +44,12 @@ class StockingsController < ApplicationController
   def edit
     @stocking = Stocking.find(params[:id])
     if @stocking.finished?
-      redirect_to @stocking, alert: '资产盘点已结束，无法修改'
+      render :js => %(show_warning('非法操作', '资产盘点已结束，无法修改'))
+      return
+    end
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 
@@ -53,18 +57,19 @@ class StockingsController < ApplicationController
   # POST /stockings.json
   def create
     @stocking = Stocking.new(params[:stocking])
+    @stocking.owner_id = session[:user_id]
 
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to stockings_url, alert: '存在未完成的盘点，无法开始新的盘点' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         if @stocking.save
           format.html { redirect_to edit_stocking_path(@stocking), notice: '资产盘点已启动' }
-          format.json { render json: @stocking, status: :created, location: @stocking }
+          format.js { redirect_to edit_stocking_path(@stocking), :remote => true }
         else
           format.html { render action: 'new' }
-          format.json { render json: @stocking.errors, status: :unprocessable_entity }
+          format.js { render action: 'new' }
         end
       end
     end
@@ -78,10 +83,10 @@ class StockingsController < ApplicationController
     respond_to do |format|
       if @stocking.update_attributes(params[:stocking])
         format.html { redirect_to edit_stocking_path(@stocking), notice: '保存成功' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_notice('保存成功')) }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @stocking.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -94,7 +99,7 @@ class StockingsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to stockings_url }
-      format.json { head :no_content }
+      format.js { redirect_to stockings_url, :remote => true }
     end
   end
 
@@ -107,10 +112,10 @@ class StockingsController < ApplicationController
     respond_to do |format|
       if @stocking.end_stocking!
         format.html { redirect_to @stocking, notice: '资产盘点结束，系统功能重新开放' }
-        format.json { head :no_content }
+        format.js { redirect_to @stocking, :remote => true }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @stocking.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end

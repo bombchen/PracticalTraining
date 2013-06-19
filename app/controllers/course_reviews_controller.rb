@@ -17,7 +17,7 @@ class CourseReviewsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @course_reviews }
+      format.js
     end
   end
 
@@ -28,7 +28,7 @@ class CourseReviewsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @course_review }
+      format.js
     end
   end
 
@@ -39,7 +39,7 @@ class CourseReviewsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @course_review }
+      format.js
     end
   end
 
@@ -47,6 +47,11 @@ class CourseReviewsController < ApplicationController
   def edit
     @course_review = CourseReview.find(params[:id])
     @course = @course_review.course
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /course_reviews
@@ -57,10 +62,10 @@ class CourseReviewsController < ApplicationController
     respond_to do |format|
       if @course_review.save
         format.html { redirect_to @course_review, notice: 'Course review was successfully created.' }
-        format.json { render json: @course_review, status: :created, location: @course_review }
+        format.js
       else
         format.html { render action: 'new' }
-        format.json { render json: @course_review.errors, status: :unprocessable_entity }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -73,10 +78,10 @@ class CourseReviewsController < ApplicationController
     respond_to do |format|
       if @course_review.update_attributes(params[:course_review])
         format.html { redirect_to @course_review, notice: '课程审核已更新' }
-        format.json { head :no_content }
+        format.js {render action: 'show'}
       else
         format.html { render action: 'edit' }
-        format.json { render json: @course_review.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -89,7 +94,7 @@ class CourseReviewsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to course_reviews_url }
-      format.json { head :no_content }
+      format.js
     end
   end
 end

@@ -1,0 +1,63 @@
+<%- model_class = Facility -%>
+<div class="page-header">
+  <h1>实训资产详情</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>名称:</strong></dt>
+  <dd><%= @facility.name %></dd>
+  <dt><strong>单位:</strong></dt>
+  <dd><%= @facility.unit %></dd>
+  <dt><strong>数量:</strong></dt>
+  <dd><%= @facility.facility_total.total %></dd>
+  <dt><strong>预警线:</strong></dt>
+  <dd><%= @facility.alert_amount %></dd>
+  <dt><strong>类型:</strong></dt>
+  <dd><%= @facility.facility_type_name %></dd>
+  <dt><strong>分类:</strong></dt>
+  <dd><%= @facility.facility_category.name %></dd>
+  <dt><strong>部门:</strong></dt>
+  <dd><%= @facility.department.name %></dd>
+  <dt><strong>描述:</strong></dt>
+  <dd><%= @facility.description %></dd>
+  <dt><strong>备注:</strong></dt>
+  <dd><%= @facility.comments %></dd>
+  <dt><strong>资产编号:</strong></dt>
+  <dd><%= @facility.asset_id %></dd>
+  <dt><strong>一次性:</strong></dt>
+  <dd><%= @facility.if_one_time_name %></dd>
+  <dt><strong>单价:</strong></dt>
+  <dd><%= number_to_currency(@facility.unit_price, :unit => '￥') %></dd>
+  <dt><strong>附加属性:</strong></dt>
+  <dd>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>属性名</th>
+        <th>属性值</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @facility.facility_properties.each do |builder| %>
+          <tr>
+            <td><%= builder.property_name %></td>
+            <td><%= builder.property_value %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </dd>
+
+</dl>
+
+<div class="form-actions">
+  <%= link_to '返回',
+              facilities_path, :class => 'btn', :remote => true %>
+  <%= link_to '修改',
+              edit_facility_path(@facility), :class => 'btn btn-primary', :remote => true %>
+  <%= link_to '删除',
+              facility_path(@facility),
+              :method => 'delete',
+              :confirm => '确认删除 '+@facility.name+'?',
+              :class => 'btn btn-danger', :remote => true %>
+</div>

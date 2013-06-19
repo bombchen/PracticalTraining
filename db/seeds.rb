@@ -30,6 +30,8 @@ Stocking.delete_all
 UserRoleMapping.delete_all
 Role.delete_all
 User.delete_all
+Department.delete_all
+FacilityCategory.delete_all
 
 
 

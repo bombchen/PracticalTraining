@@ -10,8 +10,9 @@ class Field < ActiveRecord::Base
   belongs_to :field_status, :foreign_key => 'status_id'
 
 
-  def self.get_available_fields(date, idx)
-    wday = Date.parse(date).wday
+  def self.get_available_fields(date, idx, cid)
+    wday = Date.parse(date.to_s).wday
+    cid = cid.nil? ? 0 : cid.to_i
     return Field.find_by_sql ['SELECT * FROM fields WHERE id IN ( ' +
                                   'SELECT f.id FROM fields f ' +
                                   'INNER JOIN field_statuses s ON f.status_id = s.id ' +
@@ -20,12 +21,12 @@ class Field < ActiveRecord::Base
                                   'SELECT f.id FROM fields f ' +
                                   'INNER JOIN courses c ON f.id = c.field_id ' +
                                   'INNER JOIN course_reviews r ON c.id = r.course_id ' +
-                                  'WHERE c.date = ? AND c.idx = ? AND r.status <> -1 )' +
+                                  'WHERE c.date = ? AND c.idx = ? AND r.status <> -1 AND c.id <> ? ) ' +
                                   'AND id NOT IN ( ' +
                                   'SELECT f.id FROM fields f ' +
                                   'INNER JOIN scheduled_courses sc ON f.id = sc.field_id ' +
                                   'WHERE sc.wday = ? AND sc.idx = ? AND sc.begin_date <= ? AND sc.end_date >= ? )',
-                              date, idx, wday, idx, date, date]
+                              date, idx, cid, wday, idx, date, date]
   end
 
   def self.get_available_fields_by_schedule(wday, idx, begin_date, end_date)

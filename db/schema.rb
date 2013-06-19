@@ -202,6 +202,14 @@ ActiveRecord::Schema.define(:version => 20130602034514) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "temp_users", :force => true do |t|
+    t.integer  "teacher_id"
+    t.string   "teacher_name"
+    t.string   "department"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "user_role_mappings", :force => true do |t|
     t.integer  "user_id"
     t.integer  "role_id"

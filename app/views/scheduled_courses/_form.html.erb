@@ -32,7 +32,7 @@
     }
 </script>
 
-<%= nested_form_for @scheduled_course, :html => {:class => 'form-horizontal'} do |f| %>
+<%= nested_form_for @scheduled_course, :html => {:class => 'form-horizontal', :remote => true} do |f| %>
     <% if @scheduled_course.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
@@ -49,7 +49,7 @@
     <div class="control-group">
       <%= f.label '教师', :class => 'control-label' %>
       <div class="controls">
-        <%= f.collection_select :teacher_id, User.all, :id, :name, :prompt => '请选择教师' %>
+        <%= f.collection_select :teacher_id, User.all_teacher, :id, :name, :prompt => '请选择教师' %>
       </div>
     </div>
     <div class="control-group">
@@ -117,6 +117,6 @@
     <div class="form-actions">
       <%= f.submit '提交', :class => 'btn btn-primary' %>
       <%= link_to '取消',
-                  scheduled_courses_path, :class => 'btn' %>
+                  scheduled_courses_path, :class => 'btn', :remote => true %>
     </div>
 <% end %>

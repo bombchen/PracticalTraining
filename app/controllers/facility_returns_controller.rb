@@ -25,7 +25,7 @@ class FacilityReturnsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @facility_returns }
+      format.js
     end
   end
 
@@ -36,7 +36,7 @@ class FacilityReturnsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @course }
+      format.js
     end
   end
 
@@ -48,10 +48,10 @@ class FacilityReturnsController < ApplicationController
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         format.html # new.html.erb
-        format.json { render json: @facility_return }
+        format.js
       end
     end
   end
@@ -60,9 +60,14 @@ class FacilityReturnsController < ApplicationController
   def edit
     @course = Course.find(params[:id])
     @facility_applications = @course.facility_applications
-    if Stocking.any_not_finished?
-      redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员'
-      return
+    respond_to do |format|
+      if Stocking.any_not_finished?
+        format.html { redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
+      else
+        format.html
+        format.js
+      end
     end
   end
 
@@ -74,14 +79,14 @@ class FacilityReturnsController < ApplicationController
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         if @facility_return.save
           format.html { redirect_to @facility_return, notice: '新建成功' }
-          format.json { render json: @facility_return, status: :created, location: @facility_return }
+          format.js { redirect_to @facility_return, :remote => true }
         else
           format.html { render action: 'new' }
-          format.json { render json: @facility_return.errors, status: :unprocessable_entity }
+          format.js { render action: 'new' }
         end
       end
     end
@@ -92,18 +97,17 @@ class FacilityReturnsController < ApplicationController
   def update
     @facility_return = FacilityReturn.find(params[:id])
 
+    if Stocking.any_not_finished?
+      render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员'))
+      return
+    end
     respond_to do |format|
-      if Stocking.any_not_finished?
-        format.html { redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+      if @facility_return.update_with_sync_up(params[:facility_return])
+        format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course) }
+        format.js { redirect_to edit_facility_return_path(@facility_return.facility_application.course), :remote => true }
       else
-        if @facility_return.update_with_sync_up(params[:facility_return])
-          format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course) }
-          format.json { head :no_content }
-        else
-          format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course), alert: '更新失败' }
-          format.json { render json: @facility_return.errors, status: :unprocessable_entity }
-        end
+        format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course), alert: @facility_return.error_message }
+        format.js { render :js => %(show_warning('更新失败', '#{@facility_return.error_message}')) }
       end
     end
   end
@@ -111,49 +115,64 @@ class FacilityReturnsController < ApplicationController
 # DELETE /facility_returns/1
 # DELETE /facility_returns/1.json
   def destroy
-    if Stocking.any_not_finished?
-      redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员'
-      return
-    end
     @facility_return = FacilityReturn.find(params[:id])
-    @facility_return.destroy
 
     respond_to do |format|
-      format.html { redirect_to facility_returns_url }
-      format.json { head :no_content }
+      if Stocking.any_not_finished?
+        format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
+      elsif @facility_return.destroy
+        format.html { redirect_to facility_returns_url }
+        format.js { redirect_to facility_returns_url, :remote => true }
+      else
+        format.html { redirect_to facility_returns_url, alert: @facility_return.error_message }
+        format.js { render :js => %(show_warning('删除失败', '#{@facility_return.error_message}')) }
+      end
     end
   end
 
   def borrow_process
-    if Stocking.any_not_finished?
-      redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员'
-      return
-    end
     @facility_return = FacilityReturn.find(params[:id])
-    if @facility_return.status != 0
-      redirect_to edit_facility_return_path(@facility_return), alert: '请勿重复领用'
+    if Stocking.any_not_finished?
+      render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员'))
       return
     end
-    @facility_return.filter_status = 1
+    if @facility_return.status != 0
+      render :js => %(show_warning('领用失败', '请勿重复领用'))
+      return
+    end
+    @facility_return.status = 1
     @facility_return.borrowed_time = Time.now
     respond_to do |format|
-      format.js
       format.html
+      format.js
     end
   end
 
   def return_process
+    @facility_return = FacilityReturn.find(params[:id])
     if Stocking.any_not_finished?
-      redirect_to facility_returns_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员'
+      render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员'))
       return
     end
-    @facility_return = FacilityReturn.find(params[:id])
+    if @facility_return.status == 0
+      render :js => %(show_warning('归还失败', '请先领用再归还'))
+      return
+    end
+    if @facility_return.status == 2
+      render :js => %(show_warning('归还失败', '请勿重复归还'))
+      return
+    end
+    if @facility_return.status != 1
+      render :js => %(show_warning('归还失败', '未知状态无法归还'))
+      return
+    end
 
-    @facility_return.filter_status = 2
+    @facility_return.status = 2
     @facility_return.returned_time = Time.now
     respond_to do |format|
+      format.html
       format.js
-      format.html # return_process.html.erb
     end
   end
 

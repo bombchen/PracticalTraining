@@ -1,0 +1,26 @@
+<%- model_class = FacilityIo -%>
+<div class="page-header">
+  <h1>实训材料出入库记录</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>日期:</strong></dt>
+  <dd><%= @facility_io.date %></dd>
+  <dt><strong>资产名称:</strong></dt>
+  <dd><%= @facility_io.facility.name %></dd>
+  <dt><strong>数量:</strong></dt>
+  <dd><%= @facility_io.amount %></dd>
+  <dt><strong>责任人:</strong></dt>
+  <dd><%= ApplicationHelper.get_teacher_name_by_id(@facility_io.owner_id) %></dd>
+  <dt><strong>原因:</strong></dt>
+  <dd><%= @facility_io.facility_reason.reason %></dd>
+  <dt><strong>出/入库:</strong></dt>
+  <dd><%= @facility_io.facility_reason.in_or_out %></dd>
+  <dt><strong>备注:</strong></dt>
+  <dd><%= @facility_io.comments %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to '返回',
+              facility_ios_path, :class => 'btn', :remote => true %>
+</div>

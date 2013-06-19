@@ -20,7 +20,7 @@
   <% end %>
 </dl>
 
-<%= form_for @practice_record, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @practice_record, :html => {:class => 'form-horizontal', :remote => true} do |f| %>
     <% if @practice_record.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
@@ -44,6 +44,6 @@
     <div class="form-actions">
       <%= f.submit '确定', :class => 'btn btn-primary' %>
       <%= link_to t('.cancel', :default => '取消'),
-                  practice_records_path, :class => 'btn' %>
+                  practice_records_path, :class => 'btn', :remote => true %>
     </div>
 <% end %>

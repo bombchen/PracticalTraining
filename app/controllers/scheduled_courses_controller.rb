@@ -10,7 +10,7 @@ class ScheduledCoursesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @scheduled_courses }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class ScheduledCoursesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @scheduled_course }
+      format.js
     end
   end
 
@@ -32,7 +32,7 @@ class ScheduledCoursesController < ApplicationController
     @fields = Array.new
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @scheduled_course }
+      format.js
     end
   end
 
@@ -43,6 +43,10 @@ class ScheduledCoursesController < ApplicationController
                                                      @scheduled_course.idx,
                                                      @scheduled_course.begin_date,
                                                      @scheduled_course.end_date)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /scheduled_courses
@@ -53,14 +57,14 @@ class ScheduledCoursesController < ApplicationController
     respond_to do |format|
       if @scheduled_course.save
         format.html { redirect_to @scheduled_course, notice: '新建计划课程成功' }
-        format.json { render json: @scheduled_course, status: :created, location: @scheduled_course }
+        format.js { redirect_to @scheduled_course, :remote => true }
       else
         @fields = Field.get_available_fields_by_schedule(@scheduled_course.wday,
                                                          @scheduled_course.idx,
                                                          @scheduled_course.begin_date,
                                                          @scheduled_course.end_date)
         format.html { render action: 'new' }
-        format.json { render json: @scheduled_course.errors, status: :unprocessable_entity }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -73,14 +77,14 @@ class ScheduledCoursesController < ApplicationController
     respond_to do |format|
       if @scheduled_course.update_attributes(params[:scheduled_course])
         format.html { redirect_to @scheduled_course, notice: '计划课程更新成功' }
-        format.json { head :no_content }
+        format.js { redirect_to @scheduled_course, :remote => true }
       else
         @fields = Field.get_available_fields_by_schedule(@scheduled_course.wday,
                                                          @scheduled_course.idx,
                                                          @scheduled_course.begin_date,
                                                          @scheduled_course.end_date)
         format.html { render action: 'edit' }
-        format.json { render json: @scheduled_course.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -93,7 +97,7 @@ class ScheduledCoursesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to scheduled_courses_url }
-      format.json { head :no_content }
+      format.js { redirect_to scheduled_courses_url, :remote => true }
     end
   end
 

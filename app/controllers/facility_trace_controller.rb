@@ -8,7 +8,7 @@ class FacilityTraceController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @facilities }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class FacilityTraceController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @traces }
+      format.js
     end
   end
 end

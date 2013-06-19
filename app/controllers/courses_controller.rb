@@ -53,7 +53,7 @@ class CoursesController < ApplicationController
     @filter_date = @course.date
     @filter_idx = @course.idx
 
-    @fields = Field.get_available_fields(@filter_date.to_s, @filter_idx)
+    @fields = Field.get_available_fields(@filter_date.to_s, @filter_idx, @course.id)
 
     if !params[:sch].nil?
       @schedule = ScheduledCourse.find(params[:sch])
@@ -80,7 +80,7 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
     @filter_date = @course.date
     @filter_idx = @course.idx
-    @fields = Field.get_available_fields(@filter_date, @filter_idx)
+    @fields = Field.get_available_fields(@filter_date, @filter_idx, @course.id)
   end
 
   # POST /courses
@@ -94,7 +94,7 @@ class CoursesController < ApplicationController
         format.html { redirect_to @course, notice: '课程申请已成功提交' }
         format.json { render json: @course, status: :created, location: @course }
       else
-        @fields = Field.get_available_fields(@course.date, @course.idx)
+        @fields = Field.get_available_fields(@course.date, @course.idx, @course.id)
         format.html { render action: 'edit' }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
@@ -111,7 +111,7 @@ class CoursesController < ApplicationController
         format.html { redirect_to @course, notice: '课程申请已更新' }
         format.json { head :no_content }
       else
-        @fields = Field.get_available_fields(@course.date, @course.idx)
+        @fields = Field.get_available_fields(@course.date, @course.idx, @course.id)
         format.html { render action: 'edit' }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
@@ -156,7 +156,7 @@ class CoursesController < ApplicationController
     if !params[:idx].nil?
       @filter_idx = params[:idx]
     end
-    @fields = Field.get_available_fields(@filter_date, @filter_idx)
+    @fields = Field.get_available_fields(@filter_date, @filter_idx, @course.id)
     render json: @fields.map { |f| [f.id, f.name] }
   end
 end

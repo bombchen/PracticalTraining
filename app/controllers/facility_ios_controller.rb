@@ -10,7 +10,7 @@ class FacilityIosController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @facility_ios }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class FacilityIosController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @facility_io }
+      format.js
     end
   end
 
@@ -32,11 +32,11 @@ class FacilityIosController < ApplicationController
 
     respond_to do |format|
       if Stocking.any_not_finished?
-        format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+        format.html { redirect_to facility_ios_path, alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         format.html # new.html.erb
-        format.json { render json: @facility_io }
+        format.js
       end
     end
   end
@@ -44,9 +44,14 @@ class FacilityIosController < ApplicationController
   # GET /facility_ios/1/edit
   def edit
     @facility_io = FacilityIo.find(params[:id])
-    if Stocking.any_not_finished?
-      redirect_to facility_ios_url, alert: '正在进行资产盘点，无法执行该操作，请联系管理员'
-      return
+    respond_to do |format|
+      if Stocking.any_not_finished?
+        format.html { redirect_to facility_ios_path, alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
+      else
+        format.html
+        format.js
+      end
     end
   end
 
@@ -58,14 +63,14 @@ class FacilityIosController < ApplicationController
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         if @facility_io.save_with_update_total
           format.html { redirect_to @facility_io, notice: '出入库记录已建立' }
-          format.json { render json: @facility_io, status: :created, location: @facility_io }
+          format.js { redirect_to @facility_io, :remote => true }
         else
           format.html { render action: 'new' }
-          format.json { render json: @facility_io.errors, status: :unprocessable_entity }
+          format.js { render action: 'new' }
         end
       end
     end
@@ -79,14 +84,14 @@ class FacilityIosController < ApplicationController
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         if @facility_io.update_with_update_total(params[:facility_io])
           format.html { redirect_to @facility_io, notice: '出入库记录已更新' }
-          format.json { head :no_content }
+          format.js { redirect_to @facility_io, :remote => true }
         else
           format.html { render action: 'edit' }
-          format.json { render json: @facility_io.errors, status: :unprocessable_entity }
+          format.js { render action: 'edit' }
         end
       end
     end
@@ -101,10 +106,10 @@ class FacilityIosController < ApplicationController
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
-        format.json { head :no_content }
+        format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
         format.html { redirect_to facility_ios_url }
-        format.json { head :no_content }
+        format.js { redirect_to facility_ios_url, :remote => true }
       end
     end
   end

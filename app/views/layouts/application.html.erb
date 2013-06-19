@@ -12,7 +12,7 @@
 <body>
 <div id="header">
   <div class="grain">
-    <a href="/index" id="logo">LOGO</a>
+    <a href="/" id="logo">LOGO</a>
     <span class="user"><%= User.get_login_user_name_by_id(session[:user_id]) %></span>
     <%= link_to '退出', logout_url, :method => :delete, :confirm => '确定退出？', :class => 'logout' %>
   </div>
@@ -27,56 +27,56 @@
         <div style="display: <%= User.verify_is_teacher_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">我的实训课程</a>
           <ul>
-            <li><a href="/courses">实训课程管理</a></li>
-            <li><a href="/practice_records">实训记录管理</a></li>
+            <li><%= link_to '实训课程管理', courses_path %></li>
+            <li><%= link_to '实训记录管理', practice_records_path, :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">实训课程管理</a>
           <ul>
-            <li><a href="/course_reviews">实训课程审批</a></li>
-            <li><a href="/facility_returns">出入库管理</a></li>
-            <li><a href="/scheduled_courses">实训排课系统</a></li>
+            <li><%= link_to '实训课程审批', course_reviews_path, :remote => true %></li>
+            <li><%= link_to '出入库管理', facility_returns_path, :remote => true %></li>
+            <li><%= link_to '实训排课系统', scheduled_courses_path, :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">实训场地管理</a>
           <ul>
-            <li><a href="/fields">实训场地管理</a></li>
-            <li><a href="/plants">实训车间管理</a></li>
+            <li><%= link_to '实训场地管理', fields_path, :remote => true %></li>
+            <li><%= link_to '实训车间管理', plants_path, :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">实训资产管理</a>
           <ul>
-            <li><a href="/facilities">实训资产列表</a></li>
+            <li><%= link_to '实训资产列表', facilities_path, :remote => true %></li>
             <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
-              <li><a href="/facility_ios">实训库存管理</a></li>
+              <li><%= link_to '实训库存管理', facility_ios_path, :remote => true %></li>
             </div>
-            <li><a href="/facility_alert">实训库存预警</a></li>
-            <li><a href="/stockings">实训资产盘点</a></li>
+            <li><%= link_to '实训库存预警', '/facility_alert', :remote => true %></li>
+            <li><%= link_to '实训资产盘点', '/stockings', :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">综合管理</a>
           <ul>
-            <li><a href="/departments">实训部门管理</a></li>
-            <li><a href="/facility_categories">实训资产类目管理</a></li>
-            <li><a href="/facility_reasons">出入库事由管理</a></li>
-            <li><a href="/field_statuses">实训场地状态管理</a></li>
+            <li><%= link_to '实训部门管理', departments_path, :remote => true %></li>
+            <li><%= link_to '实训资产类目管理', facility_categories_path, :remote => true %></li>
+            <li><%= link_to '出入库事由管理', facility_reasons_path, :remote => true %></li>
+            <li><%= link_to '实训场地状态管理', field_statuses_path, :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">实训报表管理</a>
           <ul>
-            <li><a href="/reports/overall">综合报表</a></li>
-            <li><a href="/reports/instore">增加统计</a></li>
-            <li><a href="/reports/consume">消耗统计</a></li>
-            <li><a href="/reports/lost">损失统计</a></li>
-            <li><a href="/reports/category">材料分类统计</a></li>
-            <li><a href="/reports/department">部门消耗统计</a></li>
-            <li><a href="/reports/teacher">教师消耗统计</a></li>
-            <li><a href="/facility_trace">实训库存跟踪</a></li>
+            <li><%= link_to '综合报表', '/reports/overall', :remote => true %></li>
+            <li><%= link_to '增加统计', 'reports/instore', :remote => true %></li>
+            <li><%= link_to '消耗统计', '/reports/consume', :remote => true %></li>
+            <li><%= link_to '损失统计', '/reports/lost', :remote => true %></li>
+            <li><%= link_to '材料分类统计', '/reports/category', :remote => true %></li>
+            <li><%= link_to '部门消耗统计', '/reports/department', :remote => true %></li>
+            <li><%= link_to '教师消耗统计', '/reports/teacher', :remote => true %></li>
+            <li><%= link_to '实训库存跟踪', '/facility_trace', :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_sys_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
@@ -93,7 +93,9 @@
       <td id="right" valign="top">
         <div id="content">
           <%= bootstrap_flash %>
-          <%= yield %>
+          <div id="yield_content">
+            <%= yield %>
+          </div>
         </div>
       </td>
     </tr>

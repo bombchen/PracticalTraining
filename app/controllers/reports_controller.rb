@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 
@@ -58,7 +58,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 
@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 
@@ -132,7 +132,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 
@@ -177,7 +177,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 
@@ -234,7 +234,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 
@@ -267,7 +267,7 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @reports }
+      format.js
     end
   end
 end

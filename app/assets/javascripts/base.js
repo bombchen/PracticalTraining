@@ -267,3 +267,13 @@ $().ready(function () {
             return false;
         });
 });
+
+show_warning = function (summary, message) {
+    $('#alert_bar').remove();
+    $('#yield_content').prepend('<div class="alert" id="alert_bar"><a class="close" data-dismiss="alert">×</a><span>' + summary + '</span><br/><span>' + message + '</span></div>');
+}
+
+show_notice = function (message) {
+    $('#alert_bar').remove();
+    $('#yield_content').prepend('<div class="alert" id="alert_bar"><a class="close" data-dismiss="notice">×</a><span>' + message + '</span></div>');
+}

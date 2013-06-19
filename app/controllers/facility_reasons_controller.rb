@@ -10,7 +10,7 @@ class FacilityReasonsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @facility_reasons }
+      format.js
     end
   end
 
@@ -21,7 +21,7 @@ class FacilityReasonsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @facility_reason }
+      format.js
     end
   end
 
@@ -32,15 +32,21 @@ class FacilityReasonsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @facility_reason }
+      format.js
     end
   end
 
   # GET /facility_reasons/1/edit
   def edit
     @facility_reason = FacilityReason.find(params[:id])
-    if @facility_reason.systematic
-      redirect_to facility_reason_path(@facility_reason), alert: '无法编辑系统属性'
+    respond_to do |format|
+      if @facility_reason.systematic
+        format.html { redirect_to facility_reason_path(@facility_reason), alert: '无法编辑系统属性' }
+        format.js { render :js => %(show_warning('非法操作', '无法编辑系统属性')) }
+      else
+        format.html
+        format.js
+      end
     end
   end
 
@@ -53,10 +59,10 @@ class FacilityReasonsController < ApplicationController
     respond_to do |format|
       if @facility_reason.save
         format.html { redirect_to @facility_reason, notice: '出入库原因已建立' }
-        format.json { render json: @facility_reason, status: :created, location: @facility_reason }
+        format.js { redirect_to @facility_reason, :remote => true }
       else
         format.html { render action: 'new' }
-        format.json { render json: @facility_reason.errors, status: :unprocessable_entity }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -65,21 +71,20 @@ class FacilityReasonsController < ApplicationController
   # PUT /facility_reasons/1.json
   def update
     @facility_reason = FacilityReason.find(params[:id])
-    if !params[:if_add].nil? && @facility_reason.if_add != params[:if_add]
-      render action: 'edit', alert: '无法更改出/入库'
-      return
-    end
-    if @facility_reason.systematic
-      render action: 'edit', alert: '无法编辑系统属性'
-    end
 
     respond_to do |format|
-      if @facility_reason.update_attributes(params[:facility_reason])
+      if !params[:if_add].nil? && @facility_reason.if_add != params[:if_add]
+        format.html { render action: 'edit', alert: '无法更改出/入库' }
+        format.js { render :js => %(show_warning('非法操作', '无法更改出/入库')) }
+      elsif @facility_reason.systematic
+        format.html { render action: 'edit', alert: '无法编辑系统属性' }
+        format.js { render :js => %(show_warning('非法操作', '无法编辑系统属性')) }
+      elsif @facility_reason.update_attributes(params[:facility_reason])
         format.html { redirect_to @facility_reason, notice: '出入库原因已更新' }
-        format.json { head :no_content }
+        format.js { redirect_to @facility_reason, :remote => true }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @facility_reason.errors, status: :unprocessable_entity }
+        format.html { render action: 'edit' }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -88,15 +93,18 @@ class FacilityReasonsController < ApplicationController
   # DELETE /facility_reasons/1.json
   def destroy
     @facility_reason = FacilityReason.find(params[:id])
-    if @facility_reason.systematic
-      redirect_to facility_reason_path(@facility_reason), alert: '无法删除系统属性'
-      return
-    end
-    @facility_reason.destroy
 
     respond_to do |format|
-      format.html { redirect_to facility_reasons_url }
-      format.json { head :no_content }
+      if @facility_reason.systematic
+        format.html { redirect_to @facility_reason, alert: '无法删除系统属性' }
+        format.js { render :js => %(show_warning('非法操作', '无法删除系统属性')) }
+      elsif @facility_reason.destroy
+        format.html { redirect_to facility_reasons_url }
+        format.js { redirect_to facility_reasons_url, :remote => true }
+      else
+        format.html { redirect_to @facility_reason, alert: '删除 '+@facility_reason.name+' 失败' }
+        format.js { render :js => %(show_warning('删除 #{@facility_reason.name} 失败', '#{@facility_reason.error_message}')) }
+      end
     end
   end
 end

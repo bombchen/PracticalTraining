@@ -7,6 +7,11 @@ class FacilityReturn < ActiveRecord::Base
 
   belongs_to :facility_application, :foreign_key => 'application_id'
 
+  public
+  def error_message
+    @error_message ||= ''
+  end
+
   def get_status
     return {
         0 => '未领用',
@@ -17,6 +22,7 @@ class FacilityReturn < ActiveRecord::Base
 
   def borrow_facility!
     if status != 0
+      @error_message = '该状态无法领用'
       return false
     end
     fa = facility_application.facility
@@ -41,11 +47,13 @@ class FacilityReturn < ActiveRecord::Base
 
   def return_facility!
     if status != 1
+      @error_message = '该状态无法归还'
       return false
     end
     fa = facility_application.facility
     fat = FacilityTotal.find_by_facility_id(fa.id)
     if (fa.is_one_time?)
+      @error_message = '一次性材料无需归还'
       return false
     end
     FacilityReturn.transaction do
@@ -53,6 +61,10 @@ class FacilityReturn < ActiveRecord::Base
       self.status = 2
       fat.save!
       self.save!
+      if (returned_amount > borrowed_amount)
+        @error_message = '归还数量不能多于领用数量'
+        raise FacilityReturn::Rollback
+      end
       if (returned_amount < borrowed_amount)
         fio = FacilityIo.new
         fio.amount = (borrowed_amount - returned_amount)
@@ -79,6 +91,10 @@ class FacilityReturn < ActiveRecord::Base
   end
 
   def self.any_has_not_returned?
-    return FacilityReturn.find_by_sql('SELECT fr.* FROM facility_returns fr INNER JOIN facility_applications fa on fr.application_id = fa.id INNER JOIN facilities f ON fa.facility_id = f.id WHERE fr.status <> 2 AND f.category <> 2').any?
+    return (FacilityReturn.find_by_sql ['SELECT fr.* FROM facility_returns fr ' +
+                                            'INNER JOIN facility_applications fa on fr.application_id = fa.id ' +
+                                            'INNER JOIN facilities f ON fa.facility_id = f.id '+
+                                            'WHERE fr.status <> 2 '+
+                                            'AND f.facility_type <> 2']).any?
   end
 end

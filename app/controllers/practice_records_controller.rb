@@ -10,7 +10,7 @@ class PracticeRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @practice_records }
+      format.js
     end
   end
 
@@ -22,7 +22,7 @@ class PracticeRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @practice_record }
+      format.js
     end
   end
 
@@ -33,7 +33,7 @@ class PracticeRecordsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @practice_record }
+      format.js
     end
   end
 
@@ -41,6 +41,10 @@ class PracticeRecordsController < ApplicationController
   def edit
     @practice_record = PracticeRecord.find(params[:id])
     @course = @practice_record.course
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /practice_records
@@ -51,13 +55,13 @@ class PracticeRecordsController < ApplicationController
     respond_to do |format|
       if @practice_record.save
         format.html { redirect_to @practice_record, notice: '实训记录已建立' }
-        format.json { render json: @practice_record, status: :created, location: @practice_record }
+        format.js { redirect_to @practice_record, :remote => true }
       else
         format.html {
           flash[:error] = @practice_record.errors.full_messages.to_sentence
           render action: 'new'
         }
-        format.json { render json: @practice_record.errors, status: :unprocessable_entity }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -67,18 +71,18 @@ class PracticeRecordsController < ApplicationController
   def update
     @practice_record = PracticeRecord.find(params[:id])
     if !params[:practice_record]['record'].nil?
-      @practice_record.record_review.filter_status = 1
+      @practice_record.record_review.status = 1
     end
     respond_to do |format|
       if @practice_record.update_attributes(params[:practice_record])
         format.html { redirect_to @practice_record, notice: '实训记录已更新' }
-        format.json { head :no_content }
+        format.js { redirect_to @practice_record, :remote => true }
       else
         format.html {
           flash[:error] = @practice_record.errors.full_messages.to_sentence
           render action: 'edit'
         }
-        format.json { render json: @practice_record.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -91,7 +95,7 @@ class PracticeRecordsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to practice_records_url }
-      format.json { head :no_content }
+      format.js { redirect_to practice_records_url, :remote => true }
     end
   end
 end

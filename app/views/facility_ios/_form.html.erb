@@ -4,7 +4,7 @@
     });
 </script>
 
-<%= form_for @facility_io, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @facility_io, :html => {:class => 'form-horizontal', :remote => true} do |f| %>
     <% if @facility_io.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
@@ -58,6 +58,6 @@
     <div class="form-actions">
       <%= f.submit '确定', :class => 'btn btn-primary' %>
       <%= link_to '取消',
-                  facility_ios_path, :class => 'btn' %>
+                  facility_ios_path, :class => 'btn', :remote => true %>
     </div>
 <% end %>

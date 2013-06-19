@@ -1,0 +1,38 @@
+<%- model_class = FacilityIo -%>
+<div class="page-header">
+  <h1>实训材料出入库管理</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>日期</th>
+    <th>资产名称</th>
+    <th>数量</th>
+    <th>责任人</th>
+    <th>原因</th>
+    <th>出/入库</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @facility_ios.each do |facility_io| %>
+      <tr>
+        <td><%= facility_io.date %></td>
+        <td><%= facility_io.facility.name %></td>
+        <td><%= facility_io.amount %></td>
+        <td><%= ApplicationHelper.get_teacher_name_by_id(facility_io.owner_id) %></td>
+        <td><%= facility_io.facility_reason.reason %></td>
+        <td><%= facility_io.facility_reason.in_or_out %></td>
+        <td>
+          <%= link_to '查看',
+                      facility_io_path(facility_io), :class => 'btn btn-mini', :remote => true %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= ajax_will_paginate @facility_ios %>
+
+<%= link_to '新建出入库记录',
+            new_facility_io_path,
+            :class => 'btn btn-primary', :remote => true %>

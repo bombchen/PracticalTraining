@@ -22,28 +22,33 @@ class Facility < ActiveRecord::Base
 
   before_destroy :destroy_check
 
+
   private
   def destroy_check
     if FacilityApplication.find_all_by_facility_id(id).any? || ScheduledFacility.find_all_by_facility_id(id).any?
-      errors.add(:base, '材料已被申请，无法删除')
+      @error_message = '材料已被申请，无法删除'
       return false
     end
     if facility_total.total != 0
-      errors.add(:base, '还有剩余材料，无法删除')
+      @error_message = '还有剩余材料，无法删除'
       return false
     end
     if FacilityIo.find_all_by_facility_id(id).any?
-      errors.add(:base, '已有出入库记录，无法删除')
+      @error_message = '已有出入库记录，无法删除'
       return false
     end
     if StockingDetail.find_all_by_facility_id(id).any?
-      errors.add(:base, '已有资产盘点记录，无法删除')
+      @error_message = '已有资产盘点记录，无法删除'
       return false
     end
     return true
   end
 
   public
+  def error_message
+    @error_message ||= ''
+  end
+
   def name_with_unit
     return name + ' (' + unit + ')'
   end
@@ -92,7 +97,7 @@ class Facility < ActiveRecord::Base
     end
   end
 
-  def self.filter(dep, cat, typ)
+  def self.filter(dep, cat, typ, name)
     query = 'SELECT f.* FROM facilities f ' +
         'WHERE f.id IS NOT NULL'
     if dep != -1
@@ -103,6 +108,9 @@ class Facility < ActiveRecord::Base
     end
     if typ != -1
       query = query + ' AND f.facility_type = ' + typ.to_s
+    end
+    if !name.nil?
+      query = query + ' AND f.name LIKE "%' + name +'%"'
     end
     return find_by_sql(query)
   end

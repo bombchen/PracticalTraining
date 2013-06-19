@@ -9,11 +9,11 @@
   <dd><%= @course.title %></dd>
   <dt><strong>教师:</strong></dt>
   <dd><%= ApplicationHelper.get_teacher_name_by_id(@course.teacher_id) %></dd>
-  <dt><strong>教室:</strong></dt>
+  <dt><strong>场地:</strong></dt>
   <dd><%= @course.field.name %></dd>
 </dl>
 
-<%= form_for @course, :html => {:class => 'form-horizontal'} do |c| %>
+<%= form_for @course, :remote => true, :html => {:class => 'form-horizontal'} do |c| %>
     <% if @course.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
@@ -51,7 +51,7 @@
                 <td><%= fa.object.facility_return.borrowed_amount %></td>
                 <td><%= fa.object.facility_return.returned_amount %></td>
                 <td><%= fa.object.facility_return.get_status %></td>
-                <%= form_for fa.object.facility_return, :html => {:class => 'form-horizontal'} do |fr| %>
+                <%= form_for fa.object.facility_return, :remote => true, :html => {:class => 'form-horizontal'} do |fr| %>
                     <td><%= link_to '领用', borrow_process_facility_return_path(fr.object), :class => 'btn btn-mini', :remote => true %>
                       <%= link_to '归还', return_process_facility_return_path(fr.object), :class => 'btn btn-mini', :remote => true %>
                     </td>
@@ -66,7 +66,7 @@
 
     <div class="form-actions">
       <%= link_to '返回',
-                  facility_returns_path, :class => 'btn' %>
+                  facility_returns_path, :class => 'btn', :remote => true %>
     </div>
 <% end %>
 

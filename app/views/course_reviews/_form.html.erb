@@ -19,7 +19,7 @@
       <dd><%= builder.facility.name + ' ' + builder.applied.to_s + ' ' + builder.facility.unit %></dd>
   <% end %>
 </dl>
-<%= form_for @course_review, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @course_review, :remote => true, :html => {:class => 'form-horizontal'} do |f| %>
     <% if @course_review.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
@@ -52,6 +52,6 @@
     <div class="form-actions">
       <%= f.submit '确认', :class => 'btn btn-primary' %>
       <%= link_to '取消',
-                  course_reviews_path, :class => 'btn' %>
+                  course_reviews_path, :class => 'btn', :remote => true %>
     </div>
 <% end %>
