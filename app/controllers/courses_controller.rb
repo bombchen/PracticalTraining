@@ -26,7 +26,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @courses }
+      format.js
     end
   end
 
@@ -37,7 +37,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @course }
+      format.js
     end
   end
 
@@ -71,7 +71,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @course }
+      format.js
     end
   end
 
@@ -81,6 +81,10 @@ class CoursesController < ApplicationController
     @filter_date = @course.date
     @filter_idx = @course.idx
     @fields = Field.get_available_fields(@filter_date, @filter_idx, @course.id)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /courses
@@ -92,11 +96,11 @@ class CoursesController < ApplicationController
     respond_to do |format|
       if @course.save
         format.html { redirect_to @course, notice: '课程申请已成功提交' }
-        format.json { render json: @course, status: :created, location: @course }
+        format.js { redirect_to @course, :remote => true }
       else
         @fields = Field.get_available_fields(@course.date, @course.idx, @course.id)
         format.html { render action: 'edit' }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -109,11 +113,11 @@ class CoursesController < ApplicationController
     respond_to do |format|
       if @course.update_attributes(params[:course])
         format.html { redirect_to @course, notice: '课程申请已更新' }
-        format.json { head :no_content }
+        format.js { redirect_to @course, :remote => true }
       else
         @fields = Field.get_available_fields(@course.date, @course.idx, @course.id)
         format.html { render action: 'edit' }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -126,7 +130,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to courses_url }
-      format.json { head :no_content }
+      format.js {redirect_to courses_url, :remote => true}
     end
   end
 
@@ -144,8 +148,8 @@ class CoursesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @course }
+      format.html
+      format.js
     end
   end
 

@@ -23,7 +23,7 @@
     }
 </script>
 
-<%= nested_form_for @course, :html => {:class => 'form-horizontal'} do |f| %>
+<%= nested_form_for @course, :html => {:class => 'form-horizontal', :remote => true} do |f| %>
     <% if @course.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
@@ -83,7 +83,7 @@
     <div class="form-actions">
       <%= f.submit '提交申请', :class => 'btn btn-primary' %>
       <%= link_to '取消',
-                  courses_path, :class => 'btn' %>
+                  courses_path, :class => 'btn', :remote => true %>
     </div>
 <% end %>
 

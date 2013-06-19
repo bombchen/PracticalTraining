@@ -27,7 +27,7 @@
         <div style="display: <%= User.verify_is_teacher_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">我的实训课程</a>
           <ul>
-            <li><%= link_to '实训课程管理', courses_path %></li>
+            <li><%= link_to '实训课程管理', courses_path, :remote => true %></li>
             <li><%= link_to '实训记录管理', practice_records_path, :remote => true %></li>
           </ul>
         </div>
