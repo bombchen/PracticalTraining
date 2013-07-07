@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>实训课程管理</title>
   <%= csrf_meta_tag %>
-  <%= stylesheet_link_tag 'application', 'datepicker', 'paginate', 'base', :media => 'all' %>
-  <%= javascript_include_tag 'application', 'bootstrap-datepicker', 'base' %>
+  <%= stylesheet_link_tag 'application', :media => 'all' %>
+  <%= javascript_include_tag 'application' %>
 </head>
 <body>
 <div id="header">
   <div class="grain">
-    <a href="/" id="logo">LOGO</a>
+    <a href="/" data-remote="true" id="logo">LOGO</a>
     <span class="user"><%= User.get_login_user_name_by_id(session[:user_id]) %></span>
     <%= link_to '退出', logout_url, :method => :delete, :confirm => '确定退出？', :class => 'logout' %>
   </div>
