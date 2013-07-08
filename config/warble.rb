@@ -8,13 +8,14 @@ Warbler::Config.new do |config|
   # - gemjar: package the gem repository in a jar file in WEB-INF/lib
   # - executable: embed a web server and make the war executable
   # - compiled: compile .rb files to .class files
-  config.features = %w(gemjar, executable, compiled)
+  config.features = %w(compiled)
 
   # Application directories to be included in the webapp.
   # config.dirs = %w(app config db lib log script vendor tmp)
+  config.dirs << 'bin'
 
   # Additional files/directories to include, above those in config.dirs
-  # config.includes = FileList["db"]
+  config.includes = FileList['Rakefile']
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]
@@ -42,7 +43,7 @@ Warbler::Config.new do |config|
 
   # An array of Bundler groups to avoid including in the war file.
   # Defaults to ["development", "test", "assets"].
-  # config.bundle_without = []
+  config.bundle_without = []
 
   # Other gems to be included. If you don't use Bundler or a gemspec
   # file, you need to tell Warbler which gems your application needs

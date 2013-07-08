@@ -1,8 +1,10 @@
 tmp/
 .idea/
+.bundle/
 log/
 public/assets/
 data/
+bin/
 *.war
 
 # OS generated files #
