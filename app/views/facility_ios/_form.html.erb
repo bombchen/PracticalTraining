@@ -37,12 +37,6 @@
       </div>
     </div>
     <div class="control-group">
-      <%= f.label '责任人', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.collection_select :owner_id, User.all, :id, :name, :prompt => '请选择责任人' %>
-      </div>
-    </div>
-    <div class="control-group">
       <%= f.label '原因', :class => 'control-label' %>
       <div class="controls">
         <%= f.collection_select :reason_id, FacilityReason.all, :id, :reason %>

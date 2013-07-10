@@ -53,7 +53,7 @@ class FacilityCategoriesController < ApplicationController
     respond_to do |format|
       if @facility_category.save
         format.html { redirect_to @facility_category, notice: '新资产类目已创建' }
-        format.js { redirect @facility_category, :remote => true }
+        format.js { redirect_to @facility_category, :remote => true }
       else
         format.html { render action: 'new' }
         format.js { render action: 'new' }

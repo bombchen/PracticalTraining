@@ -3,6 +3,8 @@ class FacilityCategory < ActiveRecord::Base
   attr_accessible :comments, :name
   attr_readonly :facilities
 
+  validates :name, :uniqueness => true
+
   has_many :facilities, :class_name => 'Facility', :foreign_key => 'category_id'
 
   before_destroy :destroy_check

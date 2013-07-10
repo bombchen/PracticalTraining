@@ -3,6 +3,8 @@ class Department < ActiveRecord::Base
   attr_accessible :description, :name
   attr_readonly :facilities
 
+  validates :name, :uniqueness => true
+
   has_many :facilities, :foreign_key => 'department_id'
 
   before_destroy :destroy_check

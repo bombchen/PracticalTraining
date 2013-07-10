@@ -59,7 +59,7 @@ class FacilityIosController < ApplicationController
   # POST /facility_ios.json
   def create
     @facility_io = FacilityIo.new(params[:facility_io])
-
+    @facility_io.owner_id = session[:user_id]
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }

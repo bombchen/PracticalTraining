@@ -13,7 +13,7 @@
           <Data ss:Type="String">开始时间:</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String"><%= @stocking.start_time %></Data>
+          <Data ss:Type="String"><%= @stocking.start_time.strftime('%Y-%m-%d %H:%M:%S') %></Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">责任人:</Data>
@@ -50,9 +50,6 @@
             </Cell>
             <Cell>
               <Data ss:Type="String"><%= d.new_amount %></Data>
-            </Cell>
-            <Cell>
-              <Data ss:Type="Number">0</Data>
             </Cell>
           </Row>
       <% end %>
