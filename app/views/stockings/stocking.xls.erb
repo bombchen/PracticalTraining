@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+  <Worksheet ss:Name="采购申请">
+    <Table>
+      <Row>
+        <Cell>
+          <Data ss:Type="String"><%= @stocking.title %></Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">开始时间:</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String"><%= @stocking.start_time %></Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">责任人:</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String"><%= ApplicationHelper.get_teacher_name_by_id(@stocking.owner_id) %></Data>
+        </Cell>
+      </Row>
+      <Row/>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">资产名称</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">资产编号</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">应有库存</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">实际库存</Data>
+        </Cell>
+      </Row>
+      <% @stocking.stocking_details.each do |d| %>
+          <Row>
+            <Cell>
+              <Data ss:Type="String"><%= d.facility.name %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="String"><%= d.facility.asset_id %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="String"><%= d.old_amount %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="String"><%= d.new_amount %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="Number">0</Data>
+            </Cell>
+          </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

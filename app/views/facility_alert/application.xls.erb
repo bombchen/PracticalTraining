@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+  <Worksheet ss:Name="采购申请">
+    <Table>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">部门</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">资产编号</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">资产名称</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">单位</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">采购数量</Data>
+        </Cell>
+      </Row>
+      <% @candidates.each do |facility| %>
+          <Row>
+            <Cell>
+              <Data ss:Type="String"><%= facility.department.name %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="String"><%= facility.asset_id %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="String"><%= facility.name %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="String"><%= facility.unit %></Data>
+            </Cell>
+            <Cell>
+              <Data ss:Type="Number">0</Data>
+            </Cell>
+          </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

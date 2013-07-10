@@ -14,6 +14,8 @@ PracticalTraining::Application.routes.draw do
 
   get 'reports/overall'
 
+  get 'facility_alert/application'
+
   controller :admin do
     get 'index' => :index
   end
@@ -51,6 +53,7 @@ PracticalTraining::Application.routes.draw do
   resources :stockings do
     member do
       put 'end_stocking'
+      get 'stocking'
     end
   end
 

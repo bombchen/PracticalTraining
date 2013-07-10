@@ -53,6 +53,13 @@ class StockingsController < ApplicationController
     end
   end
 
+  def stocking
+    @stocking = Stocking.find(params[:id])
+    respond_to do |format|
+      format.xls
+    end
+  end
+
   # POST /stockings
   # POST /stockings.json
   def create
