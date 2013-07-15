@@ -6,6 +6,7 @@ public/assets/
 data/
 bin/
 *.war
+tomcat7.zip
 
 # OS generated files #
 ######################
