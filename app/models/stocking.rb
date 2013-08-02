@@ -5,11 +5,17 @@ class Stocking < ActiveRecord::Base
   has_many :stocking_details, :class_name => 'StockingDetail', :foreign_key => 'stocking_id', :dependent => :delete_all, :autosave => true
   accepts_nested_attributes_for :stocking_details
 
+  validates :title, :presence => true
 
   before_create :prepare_stocking
 
   def prepare_stocking
-    if Stocking.any_not_finished? || FacilityReturn.any_has_not_returned?
+    if Stocking.any_not_finished?
+      errors.add(:base, '当前资产盘点还未结束')
+      return false
+    end
+    if FacilityReturn.any_has_not_returned?
+      errors.add(:base, '当前还有未归还资产')
       return false
     end
     self.start_time = Time.current
@@ -64,7 +70,7 @@ class Stocking < ActiveRecord::Base
       self.finished = true
       self.end_time = Time.now
       self.save!
-    end
+    end rescue return false
     return true
   end
 end

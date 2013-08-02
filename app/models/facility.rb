@@ -6,6 +6,8 @@ class Facility < ActiveRecord::Base
   validates :asset_id, :facility_type, :name, :unit, :alert_amount, :presence => true
   validates :name, :asset_id, :uniqueness => true
   validates :facility_type, :inclusion => 0..2
+  validates :alert_amount, :presence => true, :numericality => {:greater_than_or_equal_to => 0}
+  validates :unit_price, :format => { :with => /^\d+(\.\d{0,2})?$/ }, :numericality => {:greater_than_or_equal_to => 0}
 
   has_many :facility_applications, :class_name => 'FacilityApplication', :foreign_key => 'facility_id', :autosave => true
   has_many :facility_properties, :class_name => 'FacilityProperty', :foreign_key => 'facility_id', :dependent => :destroy, :autosave => true

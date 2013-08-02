@@ -11,7 +11,7 @@ class FacilityReturnsController < ApplicationController
     if (@status == -2)
       @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
                                           'INNER JOIN course_reviews r ON c.id = r.course_id ' +
-                                          'WHERE c.date = ?',
+                                          'WHERE c.date = ? ',
                                       @date]).paginate(:page => params[:page])
     else
       @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
@@ -106,8 +106,13 @@ class FacilityReturnsController < ApplicationController
         format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course) }
         format.js { redirect_to edit_facility_return_path(@facility_return.facility_application.course), :remote => true }
       else
+        err_summary ||= ''
+        err_summary += @facility_return.error_message
+        @facility_return.errors.full_messages.each do |msg|
+          err_summary += msg
+        end
         format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course), alert: @facility_return.error_message }
-        format.js { render :js => %(show_warning('更新失败', '#{@facility_return.error_message}')) }
+        format.js { render :js => %(show_warning('更新失败', '#{err_summary}')) }
       end
     end
   end

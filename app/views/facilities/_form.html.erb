@@ -80,17 +80,18 @@
       <%= f.label '资产属性', :class => 'control-label' %>
       <div class="controls">
         <%= f.fields_for :facility_properties do |fp| %>
-            <%= fp.text_field :property_name, :class => 'text_field' %>
-            <%= fp.text_field :property_value, :class => 'text_field' %>
-            <%= fp.link_to_remove '删除' %>
-            <br/>
+            <div class="facility-item">
+              <div style="display: inline"><%= fp.text_field :property_name, :class => 'text_field' %></div>
+              <div style="display: inline"><%= fp.text_field :property_value, :class => 'text_field' %></div>
+              <div style="display: inline"><%= fp.link_to_remove '删除' %></div>
+            </div>
         <% end %>
         <%= f.link_to_add '添加属性', :facility_properties %>
       </div>
     </div>
 
     <div class="form-actions">
-      <%= f.submit '确认', :class => 'btn btn-primary' %>
+      <%= f.submit '确认', :class => 'btn btn-primary', :disable_with => '请稍等...' %>
       <%= link_to '取消',
                   facilities_path, :class => 'btn', :remote => true %>
     </div>

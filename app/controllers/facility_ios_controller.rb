@@ -65,7 +65,7 @@ class FacilityIosController < ApplicationController
         format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
         format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
-        if @facility_io.save_with_update_total
+        if @facility_io.save_with_update_total!
           format.html { redirect_to @facility_io, notice: '出入库记录已建立' }
           format.js { redirect_to @facility_io, :remote => true }
         else
@@ -86,7 +86,7 @@ class FacilityIosController < ApplicationController
         format.html { redirect_to '/facility_ios', alert: '正在进行资产盘点，无法执行该操作，请联系管理员' }
         format.js { render :js => %(show_warning('非法操作', '正在进行资产盘点，无法执行该操作，请联系管理员')) }
       else
-        if @facility_io.update_with_update_total(params[:facility_io])
+        if @facility_io.update_with_update_total!(params[:facility_io])
           format.html { redirect_to @facility_io, notice: '出入库记录已更新' }
           format.js { redirect_to @facility_io, :remote => true }
         else
@@ -101,7 +101,7 @@ class FacilityIosController < ApplicationController
   # DELETE /facility_ios/1.json
   def destroy
     @facility_io = FacilityIo.find(params[:id])
-    @facility_io.destroy_with_update_total
+    @facility_io.destroy_with_update_total!
 
     respond_to do |format|
       if Stocking.any_not_finished?

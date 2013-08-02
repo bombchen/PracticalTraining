@@ -4,6 +4,7 @@ class FacilityReturn < ActiveRecord::Base
   attr_readonly :facility_application
 
   validates :status, :inclusion => 0..2
+  validates :borrowed_amount, :numericality => {:greater_than => 0}
 
   belongs_to :facility_application, :foreign_key => 'application_id'
 
@@ -27,9 +28,18 @@ class FacilityReturn < ActiveRecord::Base
     end
     fa = facility_application.facility
     fat = FacilityTotal.find_by_facility_id(fa.id)
+    if (borrowed_amount < 0)
+      errors.add(:borrowed_amount, '不能为负数')
+      return false
+    end
+    if borrowed_amount > fa.facility_total.total
+      errors.add(:borrowed_amount, '超过最大可领用数')
+      return false
+    end
     FacilityReturn.transaction do
       fat.total -= borrowed_amount
       self.status = 1
+      self.borrowed_time = DateTime.now
       fat.save!
       self.save!
       if fa.is_one_time?
@@ -41,7 +51,7 @@ class FacilityReturn < ActiveRecord::Base
         fio.reason_id = FacilityReason.get_id_by_name('课程消耗')
         fio.save!
       end
-    end
+    end rescue return false
     return true
   end
 
@@ -59,10 +69,15 @@ class FacilityReturn < ActiveRecord::Base
     FacilityReturn.transaction do
       fat.total += returned_amount
       self.status = 2
+      self.returned_time = DateTime.now
       fat.save!
       self.save!
+      if (returned_amount < 0)
+        errors.add(:returned_amount, '不能为负数')
+        raise FacilityReturn::Rollback
+      end
       if (returned_amount > borrowed_amount)
-        @error_message = '归还数量不能多于领用数量'
+        errors.add(:returned_amount, '不能多于领用数量')
         raise FacilityReturn::Rollback
       end
       if (returned_amount < borrowed_amount)
@@ -74,20 +89,22 @@ class FacilityReturn < ActiveRecord::Base
         fio.reason_id = FacilityReason.get_id_by_name('课程损耗')
         fio.save!
       end
-    end
+    end rescue return false
     return true
   end
 
   def update_with_sync_up(attributes, options = {})
+    res = false
     if !attributes[:borrowed_amount].nil?
       self.borrowed_amount = attributes[:borrowed_amount]
-      borrow_facility!
+      res = borrow_facility!
     else
       if !attributes[:returned_amount].nil?
         self.returned_amount = attributes[:returned_amount]
-        return_facility!
+        res = return_facility!
       end
     end
+    return res
   end
 
   def self.any_has_not_returned?

@@ -49,7 +49,7 @@ class FieldsController < ApplicationController
   # POST /fields.json
   def create
     @field = Field.new(params[:field])
-
+    @field.name = @field.name.strip
     respond_to do |format|
       if @field.save
         format.html { redirect_to @field, notice: '场地添加成功' }
@@ -65,7 +65,7 @@ class FieldsController < ApplicationController
   # PUT /fields/1.json
   def update
     @field = Field.find(params[:id])
-
+    @field.name = @field.name.strip
     respond_to do |format|
       if @field.update_attributes(params[:field])
         format.html { redirect_to @field, notice: '场地更新成功' }

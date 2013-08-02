@@ -55,7 +55,7 @@ class FacilityReasonsController < ApplicationController
   def create
     @facility_reason = FacilityReason.new(params[:facility_reason])
     @facility_reason.systematic = false
-
+    @facility_reason.reason = @facility_reason.reason.strip
     respond_to do |format|
       if @facility_reason.save
         format.html { redirect_to @facility_reason, notice: '出入库原因已建立' }
@@ -71,7 +71,7 @@ class FacilityReasonsController < ApplicationController
   # PUT /facility_reasons/1.json
   def update
     @facility_reason = FacilityReason.find(params[:id])
-
+    @facility_reason.reason = @facility_reason.reason.strip
     respond_to do |format|
       if !params[:if_add].nil? && @facility_reason.if_add != params[:if_add]
         format.html { render action: 'edit', alert: '无法更改出/入库' }

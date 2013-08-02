@@ -54,6 +54,7 @@ class FieldStatusesController < ApplicationController
   def create
     @field_status = FieldStatus.new(params[:field_status])
     @field_status.systematic = false
+    @field_status.name = @field_status.name.strip
     respond_to do |format|
       if @field_status.save
         format.html { redirect_to @field_status, notice: '创建场地状态成功' }
@@ -73,7 +74,7 @@ class FieldStatusesController < ApplicationController
       render :js => %(show_warning('非法操作', '无法编辑系统属性'))
       return
     end
-
+    @field_status.name = @field_status.name.strip
     respond_to do |format|
       if @field_status.update_attributes(params[:field_status])
         format.html { redirect_to @field_status, notice: '更新场地状态成功' }
@@ -89,15 +90,18 @@ class FieldStatusesController < ApplicationController
   # DELETE /field_statuses/1.json
   def destroy
     @field_status = FieldStatus.find(params[:id])
-    if @field_status.systematic
-      render :js => %(show_warning('非法操作', '无法删除系统属性'))
-      return
-    end
-    @field_status.destroy
 
     respond_to do |format|
-      format.html { redirect_to field_statuses_url }
-      format.js { redirect_to field_statuses_url, :remote => true }
+      if @field_status.systematic
+        format.html { redirect_to @field_status, alert: '无法删除系统属性' }
+        format.js { render :js => %(show_warning('非法操作', '无法删除系统属性')) }
+      elsif @field_status.destroy
+        format.html { redirect_to field_statuses_url }
+        format.js { redirect_to field_statuses_url, :remote => true }
+      else
+        format.html { redirect_to @field_status, alert: '删除 '+@field_status.name+' 失败' }
+        format.js { render :js => %(show_warning('删除 #{@field_status.name} 失败', '#{@field_status.error_message}')) }
+      end
     end
   end
 end

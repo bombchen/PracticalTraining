@@ -65,7 +65,7 @@ class StockingsController < ApplicationController
   def create
     @stocking = Stocking.new(params[:stocking])
     @stocking.owner_id = session[:user_id]
-
+    @stocking.title = @stocking.title.strip
     respond_to do |format|
       if Stocking.any_not_finished?
         format.html { redirect_to stockings_url, alert: '存在未完成的盘点，无法开始新的盘点' }
@@ -86,7 +86,7 @@ class StockingsController < ApplicationController
   # PUT /stockings/1.json
   def update
     @stocking = Stocking.find(params[:id])
-
+    @stocking.title = @stocking.title.strip
     respond_to do |format|
       if @stocking.update_attributes(params[:stocking])
         format.html { redirect_to edit_stocking_path(@stocking), notice: '保存成功' }

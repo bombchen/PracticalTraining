@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   validates :account, :uniqueness => true, :presence => true
   validates :name, :presence => true
   #validates :account, :format => {:with => /\A(^[a-z](([\._\-][a-z0-9])|[a-z0-9])*[a-z0-9]$)\Z/i}
+  validates :password, :presence => true
   validates :password, :confirmation => true
   attr_accessor :password_confirmation
   attr_reader :password
@@ -17,6 +18,21 @@ class User < ActiveRecord::Base
 
 
   validate :password_must_be_present
+
+
+  def self.filter(acct, usn, rl)
+    query = 'SELECT u.* FROM users u ' +
+        'INNER JOIN user_role_mappings m ' +
+        'ON u.id = m.user_id ' +
+        'INNER JOIN roles r ' +
+        'ON m.role_id = r.id ' +
+        'WHERE u.account LIKE "%' + acct + '%" ' +
+        'AND u.name LIKE "%' + usn + '%" '
+    if rl != 'all'
+      query += 'AND r.name = "' + rl + '"'
+    end
+    return find_by_sql(query)
+  end
 
   def self.get_teacher_simple_selectors
     selectors = Array.new

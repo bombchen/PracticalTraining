@@ -241,3 +241,10 @@ form#login .input_def {
 #content {
     padding: 20px;
 }
+
+.facility-item {
+    margin-bottom: 3px;
+}
+.facility-item > div {
+    display: inline;
+}

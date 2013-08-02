@@ -8,13 +8,13 @@
     });
 
     function update_fields() {
-        var url = '/courses/get_available_fields?date=' + $('#dp').val() + '&idx=' + $('#ip').val()
+        var url = '/courses/get_available_fields?date=' + $('#dp').val() + '&idx=' + $('#ip').val() + '&cid=' + $('#cid').val()
         $.ajax({
             url: url,
             success: function (data) {
                 var select = document.getElementById('course_field_id');
                 select.options.length = 0;
-                for(var i=0; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     var d = data[i];
                     select.options.add(new Option(d[1], d[0]))
                 }
@@ -27,8 +27,8 @@
     <% if @course.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
-                    :model=> @course.class.model_name.human,
-                    :count=> @course.errors.count) %>
+                    :model => @course.class.model_name.human,
+                    :count => @course.errors.count) %>
           </h2>
           <ul>
             <% @course.errors.full_messages.each do |msg| %>
@@ -40,7 +40,7 @@
     <div class="control-group">
       <%= f.label '日期', :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :date, :class => 'text_field', :id => 'dp' %>
+        <%= f.text_field :date, :class => 'text_field', :id => 'dp', :required => true %>
       </div>
     </div>
     <div class="control-group">
@@ -52,36 +52,39 @@
     <div class="control-group">
       <%= f.label '班级', :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :cls, :class => 'text_field' %>
+        <%= f.text_field :cls, :class => 'text_field', :required => true %>
       </div>
     </div>
     <div class="control-group">
       <%= f.label '课程名称', :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :title, :class => 'text_field' %>
+        <%= f.text_field :title, :class => 'text_field', :required => true %>
       </div>
     </div>
     <div class="control-group">
       <%= f.label '场地', :class => 'control-label' %>
       <div class="controls">
-        <%= f.collection_select :field_id, @fields, :id, :name %>
+        <%= f.collection_select :field_id, @fields, :id, :name, :required => true %>
       </div>
     </div>
     <div class="control-group">
       <%= f.label '申请材料', :class => 'control-label' %>
       <div class="controls">
         <%= f.fields_for :facility_applications do |fa| %>
-            <%= fa.collection_select :facility_id, Facility.all, :id, :name_with_unit %>
-            <%= fa.number_field :applied, :class => 'number_field' %>
-            <%= fa.link_to_remove '删除' %>
-            <br/>
+            <div class="facility-item">
+              <div><%= fa.collection_select :facility_id, Facility.all, :id, :name_with_unit %></div>
+              <div><%= fa.number_field :applied, :class => 'number_field' %></div>
+              <div><%= fa.link_to_remove '删除' %></div>
+            </div>
         <% end %>
         <%= f.link_to_add '添加材料', :facility_applications %>
-
       </div>
     </div>
+    <div style="display: none">
+      <%= f.text_field :id, :id => 'cid' %>
+    </div>
     <div class="form-actions">
-      <%= f.submit '提交申请', :class => 'btn btn-primary' %>
+      <%= f.submit '提交申请', :class => 'btn btn-primary', :disable_with => '请稍等...' %>
       <%= link_to '取消',
                   courses_path, :class => 'btn', :remote => true %>
     </div>

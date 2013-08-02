@@ -8,7 +8,7 @@ class FacilitiesController < ApplicationController
     @filter_department = params[:dep].nil? ? -1 : params[:dep].to_i
     @filter_category = params[:cat].nil? ? -1 : params[:cat].to_i
     @filter_type = params[:typ].nil? ? -1 : params[:typ].to_i
-    @filter_name = params[:search]
+    @filter_name = params[:search].nil? ? nil : params[:search].to_s.strip
 
     @facilities = Facility.filter(@filter_department, @filter_category, @filter_type, @filter_name).paginate(:page => params[:page])
 
@@ -53,7 +53,7 @@ class FacilitiesController < ApplicationController
   # POST /facilities.json
   def create
     @facility = Facility.new(params[:facility])
-
+    @facility.name = @facility.name.strip
     respond_to do |format|
       if @facility.save
         format.html { redirect_to @facility, notice: '资产添加成功' }
@@ -72,7 +72,7 @@ class FacilitiesController < ApplicationController
   # PUT /facilities/1.json
   def update
     @facility = Facility.find(params[:id])
-
+    @facility.name = @facility.name.strip
     respond_to do |format|
       if @facility.update_attributes(params[:facility])
         format.html { redirect_to @facility, notice: '资产修改成功' }

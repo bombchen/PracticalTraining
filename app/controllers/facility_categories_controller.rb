@@ -49,7 +49,7 @@ class FacilityCategoriesController < ApplicationController
   # POST /facility_categories.json
   def create
     @facility_category = FacilityCategory.new(params[:facility_category])
-
+    @facility_category.name = @facility_category.name.strip
     respond_to do |format|
       if @facility_category.save
         format.html { redirect_to @facility_category, notice: '新资产类目已创建' }
@@ -65,7 +65,7 @@ class FacilityCategoriesController < ApplicationController
   # PUT /facility_categories/1.json
   def update
     @facility_category = FacilityCategory.find(params[:id])
-
+    @facility_category.name = @facility_category.name.strip
     respond_to do |format|
       if @facility_category.update_attributes(params[:facility_category])
         format.html { redirect_to @facility_category, notice: '资产类目已更新' }

@@ -26,28 +26,56 @@ PracticalTraining::Application.routes.draw do
     delete 'logout' => :destroy
   end
 
-  resources :user_role_mappings
+  resources :user_role_mappings do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :users
+  resources :users do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :field_statuses
+  resources :field_statuses do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :departments
+  resources :departments do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :facility_categories
+  resources :facility_categories do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
   resources :plants
 
 
-  resources :fields
+  resources :fields do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :stocking_details
+  resources :stocking_details do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
   resources :stockings do
@@ -58,24 +86,45 @@ PracticalTraining::Application.routes.draw do
   end
 
 
-  resources :facility_ios
+  resources :facility_ios do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :facility_reasons
+  resources :facility_reasons do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :facility_totals
+  resources :facility_totals do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :facility_properties
+  resources :facility_properties do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :scheduled_facilities
+  resources :scheduled_facilities do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
   resources :scheduled_courses do
     collection do
       get 'get_available_fields'
+      delete 'index', :via => :get
     end
   end
 
@@ -88,34 +137,67 @@ PracticalTraining::Application.routes.draw do
   end
 
 
-  resources :record_reviews
+  resources :record_reviews do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :course_reviews
+  resources :course_reviews do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
   #scope '(:locale)' do
 
-  resources :practice_records
+  resources :practice_records do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
-  resources :facility_applications
+  resources :facility_applications do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
 
   resources :courses do
     collection do
       get 'get_available_fields'
+      delete 'index', :via => :get
     end
   end
 
 
-  resources :facilities
+  resources :facilities do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
-  resources :facility_report
+  resources :facility_report do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
-  resources :facility_alert
+  resources :facility_alert do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
-  resources :facility_trace
+  resources :facility_trace do
+    collection do
+      delete 'index', :via => :get
+    end
+  end
 
   #end
 

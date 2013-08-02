@@ -42,7 +42,7 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit '确定', :class => 'btn btn-primary' %>
+      <%= f.submit '确定', :class => 'btn btn-primary', :disable_with => '请稍等...' %>
       <%= link_to t('.cancel', :default => '取消'),
                   practice_records_path, :class => 'btn', :remote => true %>
     </div>

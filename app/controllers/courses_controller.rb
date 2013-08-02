@@ -15,7 +15,7 @@ class CoursesController < ApplicationController
       @courses_hash[course.date.wday*100+course.idx] = course
     end
     @schedule_hash = Hash.new
-    @tmp = ScheduledCourse.where('begin_date <= ? AND end_date >= ?', @end_date, @begin_date)
+    @tmp = ScheduledCourse.where('begin_date <= ? AND end_date >= ?', @end_date, @begin_date).take_while { |c| c.teacher_id == session[:user_id] }
     @tmp.each do |s|
       dt = @begin_date + s.wday
       if s.begin_date <= dt && s.end_date >= dt
@@ -45,10 +45,14 @@ class CoursesController < ApplicationController
   # GET /courses/new.json
   def new
     @course = Course.new
+    @course.date = Date.today
+    @course.idx = 1
     if !params[:dt].nil?
       @course.date = params[:dt]
     end
-    @course.idx = 1
+    if !params[:idx].nil?
+      @course.idx = params[:idx]
+    end
 
     @filter_date = @course.date
     @filter_idx = @course.idx
@@ -109,7 +113,13 @@ class CoursesController < ApplicationController
   # PUT /courses/1.json
   def update
     @course = Course.find(params[:id])
-
+    if @course.course_review.status == 1
+      render :js => %(show_warning('编辑课程失败', '课程已审核通过，无法更改'))
+      return
+    end
+    if @course.course_review.status == -1
+      @course.course_review.status = 0
+    end
     respond_to do |format|
       if @course.update_attributes(params[:course])
         format.html { redirect_to @course, notice: '课程申请已更新' }
@@ -129,8 +139,8 @@ class CoursesController < ApplicationController
     @course.destroy
 
     respond_to do |format|
-      format.html { redirect_to courses_url }
-      format.js {redirect_to courses_url, :remote => true}
+      format.html { redirect_to courses_path }
+      format.js { redirect_to courses_path, :remote => true }
     end
   end
 
@@ -160,7 +170,7 @@ class CoursesController < ApplicationController
     if !params[:idx].nil?
       @filter_idx = params[:idx]
     end
-    @fields = Field.get_available_fields(@filter_date, @filter_idx, @course.id)
+    @fields = Field.get_available_fields(@filter_date, @filter_idx, params[:cid])
     render json: @fields.map { |f| [f.id, f.name] }
   end
 end

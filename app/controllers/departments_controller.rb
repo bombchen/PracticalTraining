@@ -49,7 +49,7 @@ class DepartmentsController < ApplicationController
   # POST /departments.json
   def create
     @department = Department.new(params[:department])
-
+    @department.name = @department.name.strip
     respond_to do |format|
       if @department.save
         format.html { redirect_to @department, notice: '新部门已创建' }
@@ -65,7 +65,7 @@ class DepartmentsController < ApplicationController
   # PUT /departments/1.json
   def update
     @department = Department.find(params[:id])
-
+    @department.name = @department.name.strip
     respond_to do |format|
       if @department.update_attributes(params[:department])
         format.html { redirect_to @department, notice: '部门信息已更新' }

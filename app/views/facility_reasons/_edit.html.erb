@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit '确定', :class => 'btn btn-primary' %>
+      <%= f.submit '确定', :class => 'btn btn-primary', :disable_with => '请稍等...' %>
       <%= link_to '取消',
                   facility_reasons_path, :class => 'btn', :remote => true %>
     </div>

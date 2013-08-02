@@ -3,6 +3,8 @@ class FacilityApplication < ActiveRecord::Base
   attr_accessible :applied, :course_id, :facility_id, :facility_return, :facility_return_attributes
   attr_readonly :facility, :course
 
+  validates :applied, :numericality => {:greater_than => 0}
+
   has_one :facility_return, :class_name => 'FacilityReturn', :foreign_key => 'application_id', :dependent => :destroy, :autosave => true
   accepts_nested_attributes_for :facility_return
   before_create :create_default_dependent

@@ -59,7 +59,7 @@
                     class="schedule-clean"
                     onmouseover="this.className='schedule-apply'; this.textContent='临时申请'"
                     onmouseout="this.className='schedule-clean'; this.textContent=''"
-                    onclick="ajax_redirect('<%= new_course_path(:dt => @begin_date+w) %>')"></td>
+                    onclick="ajax_redirect('<%= new_course_path(:dt => @begin_date+w, :idx => i) %>')"></td>
                 <% end %>
             <% end %>
         <% end %>

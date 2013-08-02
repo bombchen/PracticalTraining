@@ -11,7 +11,7 @@ class CourseReview < ActiveRecord::Base
     return {
         0 => '未审核',
         1 => '审核通过',
-        -1 => '审核失败'
+        -1 => '审核不通过'
     }[status] rescue '未知状态'
   end
 
@@ -19,7 +19,7 @@ class CourseReview < ActiveRecord::Base
     return {
         '未审核' => 0,
         '审核通过' => 1,
-        '审核失败' => -1
+        '审核不通过' => -1
     }[condition]
   end
 
@@ -28,8 +28,7 @@ class CourseReview < ActiveRecord::Base
     {
         -2 => '全部',
         0 => '未审核',
-        1 => '审核通过',
-        -1 => '审核失败'
+        1 => '审核通过'
     }.each do |key, value|
       sel = SimpleSelector.new
       sel.id = key

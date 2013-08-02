@@ -1,4 +1,5 @@
 $('#modalStub').before("<%= j render 'borrow_process' %>");
+
 $('#modal_confirm').click(function (event) {
     event.preventDefault();
     $.ajax({
@@ -8,5 +9,6 @@ $('#modal_confirm').click(function (event) {
         dataType: "script"
     });
     $("#modalStub").modal('hide');
+
 });
 $("#modalStub").modal();

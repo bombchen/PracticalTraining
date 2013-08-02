@@ -67,8 +67,8 @@
         <td NoWrap><%= facility.alert_amount %></td>
         <td NoWrap><%= facility.facility_type_name %></td>
         <td NoWrap><%= facility.facility_category.name %></td>
-        <th NoWrap><%= facility.department.name %></th>
-        <td NoWrap><%= facility.asset_id %></td>
+        <td NoWrap><%= facility.department.name %></td>
+        <td NoWrap><%= truncate(strip_tags(facility.asset_id), :length => 100) %></td>
         <td NoWrap><%= facility.if_one_time_name %></td>
         <td NoWrap><%= facility.unit_price %></td>
         <td NoWrap><%= link_to t('.show', :default => t('查看')),

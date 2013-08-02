@@ -42,7 +42,8 @@ class ScheduledCoursesController < ApplicationController
     @fields = Field.get_available_fields_by_schedule(@scheduled_course.wday,
                                                      @scheduled_course.idx,
                                                      @scheduled_course.begin_date,
-                                                     @scheduled_course.end_date)
+                                                     @scheduled_course.end_date,
+                                                     @scheduled_course.id)
     respond_to do |format|
       format.html
       format.js
@@ -62,7 +63,8 @@ class ScheduledCoursesController < ApplicationController
         @fields = Field.get_available_fields_by_schedule(@scheduled_course.wday,
                                                          @scheduled_course.idx,
                                                          @scheduled_course.begin_date,
-                                                         @scheduled_course.end_date)
+                                                         @scheduled_course.end_date,
+                                                         @scheduled_course.id)
         format.html { render action: 'new' }
         format.js { render action: 'new' }
       end
@@ -82,7 +84,8 @@ class ScheduledCoursesController < ApplicationController
         @fields = Field.get_available_fields_by_schedule(@scheduled_course.wday,
                                                          @scheduled_course.idx,
                                                          @scheduled_course.begin_date,
-                                                         @scheduled_course.end_date)
+                                                         @scheduled_course.end_date,
+                                                         @scheduled_course.id)
         format.html { render action: 'edit' }
         format.js { render action: 'edit' }
       end
@@ -114,7 +117,7 @@ class ScheduledCoursesController < ApplicationController
     if !params[:ed].nil?
       @filter_end_date = params[:ed]
     end
-    @fields = Field.get_available_fields_by_schedule(@filter_wday, @filter_idx, @filter_begin_date, @filter_end_date)
+    @fields = Field.get_available_fields_by_schedule(@filter_wday, @filter_idx, @filter_begin_date, @filter_end_date, params[:sid])
     render json: @fields.map { |f| [f.id, f.name] }
   end
 end

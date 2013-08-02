@@ -77,7 +77,7 @@
                   :confirm => '将资产盘点表导出到excel表格?',
                   :class => 'btn' %>
       <%= s.submit '保存',
-                   :class => 'btn btn-primary' %>
+                   :class => 'btn btn-primary', :disable_with => '请稍等...' %>
       <%= link_to '退出',
                   stockings_path, :class => 'btn', :remote => true %>
       <%= link_to '完成盘点',

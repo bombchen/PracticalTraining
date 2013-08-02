@@ -57,9 +57,9 @@
 </table>
 <div class="form-actions">
   <%= link_to '导出',
-              '#',
+              stocking_stocking_path(format: 'xls'),
               :confirm => '将资产盘点表导出到excel',
-              :class => 'btn', :remote => true %>
+              :class => 'btn' %>
   <%= link_to '返回',
               stockings_path, :class => 'btn', :remote => true %>
   <%= link_to '盘点',

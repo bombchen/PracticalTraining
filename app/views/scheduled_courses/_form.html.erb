@@ -18,6 +18,7 @@
                 + '&idx=' + $('#ip').val()
                 + '&bd=' + $('#dp_begin').val()
                 + '&ed=' + $('#dp_end').val()
+                + '&sid=' + $('#sid').val()
         $.ajax({
             url: url,
             success: function (data) {
@@ -53,13 +54,13 @@
       </div>
     </div>
     <div class="control-group">
-      <%= f.label '开始时间', :class => 'control-label' %>
+      <%= f.label '开始日期', :class => 'control-label' %>
       <div class="controls">
         <%= f.text_field :begin_date, :class => 'text_field', :id => 'dp_begin' %>
       </div>
     </div>
     <div class="control-group">
-      <%= f.label '结束时间', :class => 'control-label' %>
+      <%= f.label '结束日期', :class => 'control-label' %>
       <div class="controls">
         <%= f.text_field :end_date, :class => 'text_field', :id => 'dp_end' %>
       </div>
@@ -113,9 +114,11 @@
         <%= f.link_to_add '添加材料', :scheduled_facilities %>
       </div>
     </div>
-
+    <div style="display: none">
+      <%= f.text_field :id, :id => 'sid' %>
+    </div>
     <div class="form-actions">
-      <%= f.submit '提交', :class => 'btn btn-primary' %>
+      <%= f.submit '提交', :class => 'btn btn-primary', :disable_with => '请稍等...' %>
       <%= link_to '取消',
                   scheduled_courses_path, :class => 'btn', :remote => true %>
     </div>

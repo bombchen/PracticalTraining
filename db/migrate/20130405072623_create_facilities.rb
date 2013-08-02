@@ -8,7 +8,7 @@ class CreateFacilities < ActiveRecord::Migration
       t.string :asset_id, :null => false
       t.integer :facility_type, :null => false
       t.integer :alert_amount, :null => false
-      t.decimal :unit_price, :default => 0.0, :precision => 22, :scale => 2
+      t.decimal :unit_price, :precision => 22, :scale => 2
       t.integer :department_id, :null => false
       t.integer :category_id, :null => false
 

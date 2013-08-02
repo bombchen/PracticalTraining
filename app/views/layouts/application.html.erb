@@ -43,18 +43,19 @@
           <a href="#">实训场地管理</a>
           <ul>
             <li><%= link_to '实训场地管理', fields_path, :remote => true %></li>
-            <li><%= link_to '实训车间管理', plants_path, :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_school_admin_by_id(session[:user_id]) || User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">实训资产管理</a>
           <ul>
-            <li><%= link_to '实训资产列表', facilities_path, :remote => true %></li>
             <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+              <li><%= link_to '实训资产列表', facilities_path, :remote => true %></li>
               <li><%= link_to '实训库存管理', facility_ios_path, :remote => true %></li>
             </div>
             <li><%= link_to '实训库存预警', '/facility_alert', :remote => true %></li>
-            <li><%= link_to '实训资产盘点', '/stockings', :remote => true %></li>
+            <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
+              <li><%= link_to '实训资产盘点', '/stockings', :remote => true %></li>
+            </div>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
@@ -73,7 +74,7 @@
             <li><%= link_to '增加统计', 'reports/instore', :remote => true %></li>
             <li><%= link_to '消耗统计', '/reports/consume', :remote => true %></li>
             <li><%= link_to '损失统计', '/reports/lost', :remote => true %></li>
-            <li><%= link_to '材料分类统计', '/reports/category', :remote => true %></li>
+            <li><%= link_to '分类统计', '/reports/category', :remote => true %></li>
             <li><%= link_to '部门消耗统计', '/reports/department', :remote => true %></li>
             <li><%= link_to '教师消耗统计', '/reports/teacher', :remote => true %></li>
             <li><%= link_to '实训库存跟踪', '/facility_trace', :remote => true %></li>
@@ -82,7 +83,7 @@
         <div style="display: <%= User.verify_is_sys_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">
           <a href="#">权限控制</a>
           <ul>
-            <li><a href="/users">用户管理</a></li>
+            <li><%= link_to '用户管理', '/users', :remote => true %></li>
             <!--<li><a href="/user_role_mappings">用户授权</a></li>-->
           </ul>
         </div>

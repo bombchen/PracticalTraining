@@ -5,7 +5,7 @@
 </script>
 
 <div class="page-header">
-  <h1><a href="/reports/department" style="text-decoration: none" data-remote="true">实训资产部门统计</a></h1>
+  <h1><a href="/reports/department" style="text-decoration: none" data-remote="true">部门消耗统计</a></h1>
 </div>
 <div class="controls-row">
   <%= form_tag '/reports/department', :method => 'get', :remote => true %>
@@ -20,7 +20,7 @@
     <tbody>
     <tr>
       <td><%= text_field_tag  :dt, @begin_date.to_date, :class => 'text_field', :id => 'dp' %></td>
-      <td><%= select_tag :dep, options_from_collection_for_select(Department.get_simple_selectors, :id, :name, @filter_category) %></td>
+      <td><%= select_tag :dep, options_from_collection_for_select(Department.get_simple_selectors, :id, :name, @filter_department) %></td>
       <td><%= submit_tag '生成报表', :class => 'btn btn-primary' %></td>
     </tr>
     </tbody>

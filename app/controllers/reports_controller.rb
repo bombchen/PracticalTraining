@@ -107,7 +107,7 @@ class ReportsController < ApplicationController
     else
       @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
                                               'INNER JOIN facility_ios fio on f.id = fio.facility_id ' +
-                                              'WHERE f.facility_type = ? ' +
+                                              'WHERE f.category_id = ? ' +
                                               'AND fio.date BETWEEN ? AND ?',
                                           @filter_category, @begin_date, @end_date]
     end
@@ -203,11 +203,11 @@ class ReportsController < ApplicationController
       tlst.each do |t|
         strlst.push(t.id)
       end
-      tstr = strlst.join(', ')
-      @records = FacilityIo.find_by_sql ['SELECT fio.* FROM facility_ios fio ' +
-                                             'WHERE fio.date BETWEEN ? AND ? ' +
-                                             'AND fio.owner_id IN (?)',
-                                         @begin_date, @end_date, tstr]
+      tstr = strlst.join(',')
+      query = 'SELECT fio.* FROM facility_ios fio ' +
+          'WHERE fio.date BETWEEN "'+ @begin_date.to_s+'" AND "'+@end_date.to_s+'" ' +
+          'AND fio.owner_id IN ('+tstr+')'
+      @records = FacilityIo.find_by_sql query
     else
       @records = FacilityIo.find_by_sql ['SELECT fio.* FROM facility_ios fio ' +
                                              'WHERE fio.owner_id = ? ' +

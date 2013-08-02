@@ -12,7 +12,7 @@ class Field < ActiveRecord::Base
 
   def self.get_available_fields(date, idx, cid)
     wday = Date.parse(date.to_s).wday
-    cid = cid.nil? ? 0 : cid.to_i
+    cid = cid.nil? ? -1 : cid.to_i
     return Field.find_by_sql ['SELECT * FROM fields WHERE id IN ( ' +
                                   'SELECT f.id FROM fields f ' +
                                   'INNER JOIN field_statuses s ON f.status_id = s.id ' +
@@ -29,7 +29,8 @@ class Field < ActiveRecord::Base
                               date, idx, cid, wday, idx, date, date]
   end
 
-  def self.get_available_fields_by_schedule(wday, idx, begin_date, end_date)
+  def self.get_available_fields_by_schedule(wday, idx, begin_date, end_date, sid)
+    sid = sid.nil? ? -1 : sid.to_i
     return Field.find_by_sql ['SELECT * FROM fields WHERE id IN ( ' +
                                   'SELECT f.id FROM fields f ' +
                                   'INNER JOIN field_statuses s ON f.status_id = s.id ' +
@@ -38,8 +39,9 @@ class Field < ActiveRecord::Base
                                   ' SELECT f.id FROM fields f ' +
                                   'LEFT JOIN scheduled_courses sc ON f.id = sc.field_id ' +
                                   'WHERE sc.wday = ? AND sc.idx = ? ' +
-                                  'AND sc.begin_date <= ? AND sc.end_date >= ? )',
-                              wday, idx, end_date, begin_date]
+                                  'AND sc.begin_date <= ? AND sc.end_date >= ? '+
+                                  'AND sc.id <> ?)',
+                              wday, idx, end_date, begin_date, sid]
 
   end
 

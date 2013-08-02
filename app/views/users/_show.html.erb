@@ -1,0 +1,25 @@
+<%- model_class = User -%>
+<div class="page-header">
+  <h1>用户信息</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>用户名:</strong></dt>
+  <dd><%= @user.account %></dd>
+  <dt><strong>全名:</strong></dt>
+  <dd><%= @user.name %></dd>
+  <dt><strong>创建时间:</strong></dt>
+  <dd><%= @user.created_at %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to '返回',
+              users_path, :class => 'btn', :remote => true  %>
+  <%= link_to '修改',
+              edit_user_path(@user), :class => 'btn btn-primary', :remote => true %>
+  <%= link_to '删除',
+              user_path(@user),
+              :method => 'delete',
+              :data => { :confirm => '确认删除用户？' },
+              :class => 'btn btn-danger', :remote => true %>
+</div>

@@ -1,16 +1,18 @@
 # encoding: utf-8
 class FacilityIo < ActiveRecord::Base
+  include ActiveModel::Validations
   attr_accessible :amount, :date, :facility_id, :owner_id, :reason_id, :comments
   attr_readonly :facility, :facility_reason, :user
 
-  validates :amount, :date, :facility_id, :reason_id, :presence => true
+  validates :amount, :facility_id, :reason_id, :presence => true
   validates :amount, :numericality => {:greater_than => 0}
+  validates :date, :is_date => true
 
   belongs_to :facility_reason, :foreign_key => 'reason_id'
   belongs_to :facility, :foreign_key => 'facility_id'
   belongs_to :user, :foreign_key => 'owner_id'
 
-  def save_with_update_total
+  def save_with_update_total!
     if Stocking.any_not_finished?
       return
     end
@@ -18,12 +20,17 @@ class FacilityIo < ActiveRecord::Base
       cnt = amount * (facility_reason.if_add ? 1 : -1)
       fac = FacilityTotal.find_by_facility_id(facility_id)
       fac.total += cnt
+      if fac.total < 0
+        errors.add(:amount, '超过总数')
+        raise FacilityIo::Rollback
+      end
       self.save!
       fac.save!
-    end
+    end rescue return false
+    return true
   end
 
-  def update_with_update_total(attributes, options = {})
+  def update_with_update_total!(attributes, options = {})
     if Stocking.any_not_finished?
       return
     end
@@ -45,12 +52,17 @@ class FacilityIo < ActiveRecord::Base
       end
       fac = FacilityTotal.find_by_facility_id(facility_id)
       fac.total += (new_amount - revert_amount)
+      if fac.total < 0
+        errors.add(:amount, '超过总数')
+        raise FacilityIo::Rollback
+      end
       self.update_attributes!(attributes, options)
       fac.save!
-    end
+    end rescue return false
+      return true
   end
 
-  def destroy_with_update_total
+  def destroy_with_update_total!
     if Stocking.any_not_finished?
       return
     end
@@ -58,8 +70,13 @@ class FacilityIo < ActiveRecord::Base
       revert_amount = amount * (facility_reason.if_add ? 1 : -1)
       fac = FacilityTotal.find_by_facility_id(facility_id)
       fac.total -= revert_amount
+      if fac.total < 0
+        errors.add(:amount, '超过总数')
+        raise FacilityIo::Rollback
+      end
       fac.save!
       self.destroy
-    end
+    end rescue return false
+    return true
   end
 end

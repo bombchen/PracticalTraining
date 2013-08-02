@@ -206,6 +206,7 @@ zh:
         facility_category: "实训材料类别"
         facility_io: "实训材料库存记录"
         facility_property: "实训材料属性"
+        facility_properties: "实训材料属性"
         facility_reason: "出入库事由"
         facility_report: "资产报表"
         facility_return: "材料出入库"
@@ -249,7 +250,7 @@ zh:
           category_id: "类别"
           department_id: "实训部门"
           unit_price: "单价"
-        facility_application:
+        facility_applications:
           applied: "申请数量"
           course_id: "实训课程"
           facility_id: "实训材料"
@@ -264,6 +265,10 @@ zh:
           reason_id: "出入库事由"
           comments: "备注"
         facility_property:
+          facility_id: "实训材料"
+          property_name: "属性名"
+          property_value: "属性值"
+        facility_properties:
           facility_id: "实训材料"
           property_name: "属性名"
           property_value: "属性值"

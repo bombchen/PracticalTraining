@@ -6,11 +6,15 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all.paginate(:page => params[:page])
+    @filter_acct = params[:acct].nil? ? '' : params[:acct].strip
+    @filter_usn = params[:usn].nil? ? '' : params[:usn].strip
+    @filter_role = params[:role].nil? ? 'all' : params[:role].strip
+
+    @users = User.filter(@filter_acct, @filter_usn, @filter_role).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @users }
+      format.js
     end
   end
 
@@ -21,7 +25,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @user }
+      format.js
     end
   end
 
@@ -32,7 +36,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @user }
+      format.js
     end
   end
 
@@ -45,14 +49,15 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-
+    @user.account = @user.account.strip
+    @user.name = @user.name.strip
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: '用户已创建' }
-        format.json { render json: @user, status: :created, location: @user }
+        format.js { redirect_to @user, :remote => true }
       else
         format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.js { render action: 'new' }
       end
     end
   end
@@ -61,14 +66,15 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
-
+    @user.account = @user.account.strip
+    @user.name = @user.name.strip
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: '用户已更新' }
-        format.json { head :no_content }
+        format.js { redirect_to @user, :remote => true }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.js { render action: 'edit' }
       end
     end
   end
@@ -77,11 +83,17 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
+    @user.user_role_mappings.each do |urm|
+      if urm.role.name == 'sysadmin'
+        render :js => %(show_warning('非法操作', '无法删除系统管理员'))
+        return
+      end
+    end
     @user.destroy
 
     respond_to do |format|
       format.html { redirect_to users_url }
-      format.json { head :no_content }
+      format.js { redirect_to users_url, :remote => true }
     end
   end
 end
