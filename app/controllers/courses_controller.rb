@@ -9,7 +9,10 @@ class CoursesController < ApplicationController
     @week_offset = params[:week].nil? ? 0 : Integer(params[:week])
     @begin_date = Date.today+@week_offset*7-Date.today.wday
     @end_date = Date.today+@week_offset*7-Date.today.wday+6
-    @courses = Course.find_all_by_date(@begin_date..@end_date).take_while { |c| c.teacher_id == session[:user_id] }
+    @courses = Course.find_by_sql ['SELECT c.* FROM courses c ' +
+                                       'WHERE c.date BETWEEN ? AND ? ' +
+                                       'AND c.teacher_id = ?',
+                                   @begin_date, @end_date, session[:user_id]]
     @courses_hash = Hash.new
     @courses.each do |course|
       @courses_hash[course.date.wday*100+course.idx] = course

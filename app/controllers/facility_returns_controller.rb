@@ -21,8 +21,6 @@ class FacilityReturnsController < ApplicationController
                                       @date, @status]).paginate(:page => params[:page])
     end
 
-    @facility_returns = FacilityReturn.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.js
@@ -133,6 +131,20 @@ class FacilityReturnsController < ApplicationController
         format.html { redirect_to facility_returns_url, alert: @facility_return.error_message }
         format.js { render :js => %(show_warning('删除失败', '#{@facility_return.error_message}')) }
       end
+    end
+  end
+
+  def outstanding
+    @courses = (Course.find_by_sql ('SELECT c.* FROM courses c ' +
+        'JOIN facility_applications fa ON c.id = fa.course_id ' +
+        'JOIN facility_returns fr ON fa.id = fr.application_id '+
+        'JOIN facilities f ON f.id = fa.facility_id '+
+        'WHERE f.facility_type <> 2 ' +
+        'AND fr.status = 1')).paginate(:page => params[:page])
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
     end
   end
 

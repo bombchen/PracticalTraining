@@ -37,6 +37,7 @@
             <li><%= link_to '实训课程审批', course_reviews_path, :remote => true %></li>
             <li><%= link_to '出入库管理', facility_returns_path, :remote => true %></li>
             <li><%= link_to '实训排课系统', scheduled_courses_path, :remote => true %></li>
+            <li><%= link_to '未归还材料列表', '/facility_returns/outstanding', :remote => true %></li>
           </ul>
         </div>
         <div style="display: <%= User.verify_is_store_admin_by_id(session[:user_id]) ? 'block' : 'none' %>">

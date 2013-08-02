@@ -134,6 +134,9 @@ PracticalTraining::Application.routes.draw do
       get 'borrow_process'
       get 'return_process'
     end
+    collection do
+      get 'outstanding'
+    end
   end
 
 
