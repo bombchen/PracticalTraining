@@ -7,7 +7,7 @@ class FacilityReturnsController < ApplicationController
   # GET /facility_returns.json
   def index
     @date = (params[:dt].nil? ? Date.today : params[:dt])
-    @status = (params[:sta].nil? ? -2 : params[:sta].to_i)
+    @status = (params[:sta].nil? ? 1 : params[:sta].to_i)
     if (@status == -2)
       @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
                                           'INNER JOIN course_reviews r ON c.id = r.course_id ' +
@@ -135,7 +135,7 @@ class FacilityReturnsController < ApplicationController
   end
 
   def outstanding
-    @courses = (Course.find_by_sql ('SELECT c.* FROM courses c ' +
+    @courses = (Course.find_by_sql ('SELECT DISTINCT c.* FROM courses c ' +
         'JOIN facility_applications fa ON c.id = fa.course_id ' +
         'JOIN facility_returns fr ON fa.id = fr.application_id '+
         'JOIN facilities f ON f.id = fa.facility_id '+

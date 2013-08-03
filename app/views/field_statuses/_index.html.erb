@@ -2,6 +2,11 @@
 <div class="page-header">
   <h1>场地状态管理</h1>
 </div>
+
+<%= link_to '添加状态',
+            new_field_status_path,
+            :class => 'btn btn-primary', :remote => true %>
+
 <table class="table table-striped">
   <thead>
   <tr>
@@ -33,7 +38,3 @@
   </tbody>
 </table>
 <%= ajax_will_paginate @field_status %>
-
-<%= link_to '添加状态',
-            new_field_status_path,
-            :class => 'btn btn-primary', :remote => true %>

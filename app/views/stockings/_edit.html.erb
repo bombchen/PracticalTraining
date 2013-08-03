@@ -27,8 +27,8 @@
     <% if @stocking.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',
-                    :model=> @stocking.class.model_name.human,
-                    :count=> @stocking.errors.count) %>
+                    :model => @stocking.class.model_name.human,
+                    :count => @stocking.errors.count) %>
           </h2>
           <ul>
             <% @stocking.errors.full_messages.each do |msg| %>
@@ -77,13 +77,14 @@
                   :confirm => '将资产盘点表导出到excel表格?',
                   :class => 'btn' %>
       <%= s.submit '保存',
-                   :class => 'btn btn-primary', :disable_with => '请稍等...' %>
+                   :class => 'btn btn-primary', :disable_with => '请稍等...',
+                   :name => 'update_only' %>
       <%= link_to '退出',
                   stockings_path, :class => 'btn', :remote => true %>
-      <%= link_to '完成盘点',
-                  end_stocking_stocking_path(@stocking),
-                  :class => 'btn btn-info',
-                  :confirm => '资产盘点结束之后将无法修改，确认盘点结束？',
-                  :method => 'put', :remote => true %>
+      <%= s.submit '完成盘点',
+                   :class => 'btn btn-info',
+                   :confirm => '资产盘点结束之后将无法修改，确认盘点结束？',
+                   :disable_with => '请稍等...',
+                   :name => 'update_and_end' %>
     </div>
 <% end %>

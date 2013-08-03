@@ -5,6 +5,7 @@ class Field < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :name, :uniqueness => true
+  validates_length_of :name, :maximum => 200
 
   has_many :courses, :class_name => 'Course', :foreign_key => 'field_id', :autosave => false
   belongs_to :field_status, :foreign_key => 'status_id'

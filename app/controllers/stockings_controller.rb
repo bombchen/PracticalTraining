@@ -87,13 +87,22 @@ class StockingsController < ApplicationController
   def update
     @stocking = Stocking.find(params[:id])
     @stocking.title = @stocking.title.strip
+    if !@stocking.update_attributes(params[:stocking])
+      render action: 'edit'
+      return
+    end
     respond_to do |format|
-      if @stocking.update_attributes(params[:stocking])
+      if params[:update_only]
         format.html { redirect_to edit_stocking_path(@stocking), notice: '保存成功' }
-        format.js { render :js => %(show_notice('保存成功')) }
+        format.js { redirect_to edit_stocking_path(@stocking), notice: '保存成功', :remote => true }
       else
-        format.html { render action: 'edit' }
-        format.js { render action: 'edit' }
+        if @stocking.end_stocking!
+          format.html { redirect_to @stocking, notice: '资产盘点结束，系统功能重新开放' }
+          format.js { redirect_to @stocking, :remote => true }
+        else
+          format.html { render action: 'edit' }
+          format.js { render action: 'edit' }
+        end
       end
     end
   end
@@ -110,20 +119,4 @@ class StockingsController < ApplicationController
     end
   end
 
-  def end_stocking
-    @stocking = Stocking.find(params[:id])
-    if !@stocking.update_attributes(params[:stocking])
-      render action: 'edit'
-      return
-    end
-    respond_to do |format|
-      if @stocking.end_stocking!
-        format.html { redirect_to @stocking, notice: '资产盘点结束，系统功能重新开放' }
-        format.js { redirect_to @stocking, :remote => true }
-      else
-        format.html { render action: 'edit' }
-        format.js { render action: 'edit' }
-      end
-    end
-  end
 end

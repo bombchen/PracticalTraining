@@ -54,6 +54,7 @@ class FacilitiesController < ApplicationController
   def create
     @facility = Facility.new(params[:facility])
     @facility.name = @facility.name.strip
+    @facility.asset_id = @facility.asset_id.strip
     respond_to do |format|
       if @facility.save
         format.html { redirect_to @facility, notice: '资产添加成功' }
@@ -73,6 +74,7 @@ class FacilitiesController < ApplicationController
   def update
     @facility = Facility.find(params[:id])
     @facility.name = @facility.name.strip
+    @facility.asset_id = @facility.asset_id.strip
     respond_to do |format|
       if @facility.update_attributes(params[:facility])
         format.html { redirect_to @facility, notice: '资产修改成功' }

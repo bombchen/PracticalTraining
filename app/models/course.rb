@@ -10,6 +10,7 @@ class Course < ActiveRecord::Base
   has_many :facility_applications, :class_name => 'FacilityApplication', :foreign_key => 'course_id', :dependent => :destroy, :autosave => true
   belongs_to :field, :foreign_key => 'field_id'
   before_create :create_default_dependent
+  before_save :before_save_check
 
   accepts_nested_attributes_for :practice_record, :course_review
   accepts_nested_attributes_for :facility_applications, :allow_destroy => true
@@ -27,9 +28,14 @@ class Course < ActiveRecord::Base
     return 10
   end
 
-  def date_cannot_be_in_the_past
-    if !date.blank? and date < Date.today
+  def before_save_check
+    if date < Date.today
       errors.add(:date, '不能选择今天以前的课程')
+      return false
+    end
+    if self.self_conflict
+      errors.add(:base, '该时段已有课程安排')
+      return false
     end
   end
 
@@ -41,5 +47,16 @@ class Course < ActiveRecord::Base
     build_course_review
     build_practice_record
     return true
+  end
+
+  def self_conflict
+    query = 'SELECT c.* from courses c ' +
+        'WHERE date = "' + self.date.to_s + '" ' +
+        'AND idx = ' + self.idx.to_s + ' ' +
+        'AND teacher_id = ' + self.teacher_id.to_s + ' '
+    if !self.id.nil?
+      query += 'AND id <> ' + self.id.to_s
+    end
+    return Course.find_by_sql(query).any?
   end
 end

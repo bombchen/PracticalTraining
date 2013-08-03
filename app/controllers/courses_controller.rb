@@ -9,23 +9,26 @@ class CoursesController < ApplicationController
     @week_offset = params[:week].nil? ? 0 : Integer(params[:week])
     @begin_date = Date.today+@week_offset*7-Date.today.wday
     @end_date = Date.today+@week_offset*7-Date.today.wday+6
-    @courses = Course.find_by_sql ['SELECT c.* FROM courses c ' +
-                                       'WHERE c.date BETWEEN ? AND ? ' +
-                                       'AND c.teacher_id = ?',
-                                   @begin_date, @end_date, session[:user_id]]
+    query = 'SELECT c.* FROM courses c ' +
+        'WHERE c.date BETWEEN "'+ @begin_date.to_s+'" AND "'+@end_date.to_s+'" ' +
+        'AND c.teacher_id = ' + session[:user_id].to_s
+    @courses = Course.find_by_sql(query)
     @courses_hash = Hash.new
     @courses.each do |course|
       @courses_hash[course.date.wday*100+course.idx] = course
     end
     @schedule_hash = Hash.new
-    @tmp = ScheduledCourse.where('begin_date <= ? AND end_date >= ?', @end_date, @begin_date).take_while { |c| c.teacher_id == session[:user_id] }
+    query = 'SELECT sc.* FROM scheduled_courses sc ' +
+        'WHERE sc.begin_date <= "' + @end_date.to_s + '" ' +
+        'AND sc.end_date >= "' + @begin_date.to_s + '" ' +
+        'AND sc.teacher_id = ' + session[:user_id].to_s
+    @tmp = ScheduledCourse.find_by_sql(query)
     @tmp.each do |s|
       dt = @begin_date + s.wday
       if s.begin_date <= dt && s.end_date >= dt
         @schedule_hash[s.wday*100+s.idx] = s
       end
     end
-
 
     respond_to do |format|
       format.html # index.html.erb

@@ -6,7 +6,12 @@ class PracticeRecordsController < ApplicationController
   # GET /practice_records
   # GET /practice_records.json
   def index
-    @practice_records = (PracticeRecord.all.take_while { |r| r.course.teacher_id == session[:user_id] }).paginate(:page => params[:page])
+    query = 'SELECT pr.* FROM practice_records pr ' +
+        'JOIN courses c ' +
+        'ON c.id = pr.course_id ' +
+        'WHERE c.teacher_id = ' + session[:user_id].to_s + ' '
+        'ORDER BY pr.id DESC'
+    @practice_records = (PracticeRecord.find_by_sql(query)).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

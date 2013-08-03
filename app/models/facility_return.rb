@@ -109,9 +109,9 @@ class FacilityReturn < ActiveRecord::Base
 
   def self.any_has_not_returned?
     return (FacilityReturn.find_by_sql ['SELECT fr.* FROM facility_returns fr ' +
-                                            'INNER JOIN facility_applications fa on fr.application_id = fa.id ' +
-                                            'INNER JOIN facilities f ON fa.facility_id = f.id '+
-                                            'WHERE fr.status <> 2 '+
+                                            'JOIN facility_applications fa on fr.application_id = fa.id ' +
+                                            'JOIN facilities f ON fa.facility_id = f.id '+
+                                            'WHERE fr.status = 1 '+
                                             'AND f.facility_type <> 2']).any?
   end
 end

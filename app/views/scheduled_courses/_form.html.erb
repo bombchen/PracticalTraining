@@ -3,12 +3,14 @@
         $('#dp_begin')
                 .datepicker()
                 .on('changeDate', function (ev) {
-                    update_fields()
+                    update_fields();
+                    $(this).datepicker('hide');
                 });
         $('#dp_end')
                 .datepicker()
                 .on('changeDate', function (ev) {
                     update_fields()
+                    $(this).datepicker('hide');
                 });
     });
 

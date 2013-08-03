@@ -2,6 +2,11 @@
 <div class="page-header">
   <h1>出入库事由管理</h1>
 </div>
+
+<%= link_to '新建',
+            new_facility_reason_path,
+            :class => 'btn btn-primary', :remote => true %>
+
 <table class="table table-striped">
   <thead>
   <tr>
@@ -33,7 +38,3 @@
   </tbody>
 </table>
 <%= ajax_will_paginate @facility_reasons %>
-
-<%= link_to '新建',
-            new_facility_reason_path,
-            :class => 'btn btn-primary', :remote => true %>

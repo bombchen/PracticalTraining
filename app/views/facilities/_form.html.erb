@@ -81,9 +81,9 @@
       <div class="controls">
         <%= f.fields_for :facility_properties do |fp| %>
             <div class="facility-item">
-              <div style="display: inline"><%= fp.text_field :property_name, :class => 'text_field' %></div>
-              <div style="display: inline"><%= fp.text_field :property_value, :class => 'text_field' %></div>
-              <div style="display: inline"><%= fp.link_to_remove '删除' %></div>
+              <div><%= fp.text_field :property_name, :class => 'text_field' %></div>
+              <div><%= fp.text_field :property_value, :class => 'text_field' %></div>
+              <div><%= fp.link_to_remove '删除' %></div>
             </div>
         <% end %>
         <%= f.link_to_add '添加属性', :facility_properties %>

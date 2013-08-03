@@ -246,5 +246,5 @@ form#login .input_def {
     margin-bottom: 3px;
 }
 .facility-item > div {
-    display: inline;
+    display: inline-table;
 }

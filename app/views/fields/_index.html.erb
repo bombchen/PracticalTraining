@@ -2,22 +2,25 @@
 <div class="page-header">
   <h1>实训场地管理</h1>
 </div>
+<%= link_to '添加场地',
+            new_field_path,
+            :class => 'btn btn-primary', :remote => true %>
 <table class="table table-striped">
   <thead>
   <tr>
-    <th>场地</th>
-    <th>状态</th>
-    <th>是否可用</th>
-    <th>操作</th>
+    <th NoWrap>场地</th>
+    <th NoWrap>状态</th>
+    <th NoWrap>是否可用</th>
+    <th NoWrap>操作</th>
   </tr>
   </thead>
   <tbody>
   <% @fields.each do |field| %>
       <tr>
         <td><%= field.name %></td>
-        <td><%= field.field_status.name %></td>
-        <td><%= field.field_status.availability_name %></td>
-        <td>
+        <td NoWrap><%= field.field_status.name %></td>
+        <td NoWrap><%= field.field_status.availability_name %></td>
+        <td NoWrap>
           <%= link_to '查看',
                       field_path(field), :class => 'btn btn-mini', :remote => true %>
           <%= link_to '编辑',
@@ -29,6 +32,3 @@
 </table>
 <%= ajax_will_paginate @fields %>
 
-<%= link_to '添加场地',
-            new_field_path,
-            :class => 'btn btn-primary', :remote => true %>

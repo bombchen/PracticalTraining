@@ -2,6 +2,11 @@
 <div class="page-header">
   <h1>用户列表</h1>
 </div>
+<%= link_to '新建用户',
+            new_user_path,
+            :class => 'btn btn-primary',
+            :remote => true %>
+
 <div class="controls-row">
   <%= form_tag users_path, :method => 'get', :remote => true do %>
       <table class="table table-striped">
@@ -54,8 +59,3 @@
   </tbody>
 </table>
 <%= ajax_will_paginate @users %>
-
-<%= link_to '新建用户',
-            new_user_path,
-            :class => 'btn btn-primary',
-            :remote => true %>

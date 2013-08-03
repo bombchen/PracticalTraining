@@ -2,6 +2,12 @@
 <div class="page-header">
   <h1>资产盘点</h1>
 </div>
+<%= link_to '开始资产盘点',
+            new_stocking_path,
+            :class => 'btn btn-primary',
+            :confirm => '开始资产盘点将会锁定系统，所有出入库功能将关闭，直到盘点结束。请确认是否现在开始资产盘点。',
+            :remote => true %>
+
 <table class="table table-striped">
   <thead>
   <tr>
@@ -32,9 +38,3 @@
   </tbody>
 </table>
 <%= ajax_will_paginate @stockings %>
-
-<%= link_to '开始资产盘点',
-            new_stocking_path,
-            :class => 'btn btn-primary',
-            :confirm => '开始资产盘点将会锁定系统，所有出入库功能将关闭，直到盘点结束。请确认是否现在开始资产盘点。',
-            :remote => true %>

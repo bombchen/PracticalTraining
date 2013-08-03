@@ -3,11 +3,11 @@ class Facility < ActiveRecord::Base
   attr_accessible :asset_id, :facility_type, :comments, :description, :name, :unit, :alert_amount, :category_id, :department_id, :unit_price, :facility_properties_attributes, :facility_total
   attr_readonly :facility_category, :department
 
-  validates :asset_id, :facility_type, :name, :unit, :alert_amount, :presence => true
+  validates :asset_id, :facility_type, :name, :unit, :presence => true
   validates :name, :asset_id, :uniqueness => true
   validates :facility_type, :inclusion => 0..2
-  validates :alert_amount, :presence => true, :numericality => {:greater_than_or_equal_to => 0}
-  validates :unit_price, :format => { :with => /^\d+(\.\d{0,2})?$/ }, :numericality => {:greater_than_or_equal_to => 0}
+  validates :alert_amount, :presence => true, :numericality => {:allow_blank => true, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 2000000}
+  validates :unit_price, :format => {:with => /^\d+(\.\d{0,2})?$/}, :numericality => {:greater_than_or_equal_to => 0, :less_than_or_equal_to => 200000000}
 
   has_many :facility_applications, :class_name => 'FacilityApplication', :foreign_key => 'facility_id', :autosave => true
   has_many :facility_properties, :class_name => 'FacilityProperty', :foreign_key => 'facility_id', :dependent => :destroy, :autosave => true

@@ -28,6 +28,7 @@
   <dd><%= @facility.if_one_time_name %></dd>
   <dt><strong>单价:</strong></dt>
   <dd><%= number_to_currency(@facility.unit_price, :unit => '￥') %></dd>
+  <% if @facility.facility_properties.any? %>
   <dt><strong>附加属性:</strong></dt>
   <dd>
     <table class="table table-hover">
@@ -47,7 +48,7 @@
       </tbody>
     </table>
   </dd>
-
+  <% end %>
 </dl>
 
 <div class="form-actions">

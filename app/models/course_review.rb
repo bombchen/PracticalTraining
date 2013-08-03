@@ -8,6 +8,10 @@ class CourseReview < ActiveRecord::Base
   belongs_to :course, :foreign_key => 'course_id'
 
   def get_status
+    return CourseReview.get_status_by_code(status)
+  end
+
+  def self.get_status_by_code(status)
     return {
         0 => '未审核',
         1 => '审核通过',

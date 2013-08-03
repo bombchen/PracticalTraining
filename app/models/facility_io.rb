@@ -4,8 +4,8 @@ class FacilityIo < ActiveRecord::Base
   attr_accessible :amount, :date, :facility_id, :owner_id, :reason_id, :comments
   attr_readonly :facility, :facility_reason, :user
 
-  validates :amount, :facility_id, :reason_id, :presence => true
-  validates :amount, :numericality => {:greater_than => 0}
+  validates :facility_id, :reason_id, :presence => true
+  validates :amount, :presence => true, :numericality => {:allow_blank => true, :greater_than => 0}
   validates :date, :is_date => true
 
   belongs_to :facility_reason, :foreign_key => 'reason_id'
@@ -17,6 +17,14 @@ class FacilityIo < ActiveRecord::Base
       return
     end
     FacilityIo.transaction do
+      if(amount.nil?)
+        errors.add(:amount, '不能为空')
+        raise FacilityIo::Rollback
+      end
+      if(amount <= 0)
+        errors.add(:amount, '不能小于或等于0')
+        raise FacilityIo::Rollback
+      end
       cnt = amount * (facility_reason.if_add ? 1 : -1)
       fac = FacilityTotal.find_by_facility_id(facility_id)
       fac.total += cnt
@@ -59,7 +67,7 @@ class FacilityIo < ActiveRecord::Base
       self.update_attributes!(attributes, options)
       fac.save!
     end rescue return false
-      return true
+    return true
   end
 
   def destroy_with_update_total!

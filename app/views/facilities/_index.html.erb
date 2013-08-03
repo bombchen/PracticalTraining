@@ -42,6 +42,10 @@
       </table>
   <% end %>
 </div>
+
+<%= link_to '添加',
+            new_facility_path,
+            :class => 'btn btn-primary', :remote => true %>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -71,11 +75,11 @@
         <td NoWrap><%= truncate(strip_tags(facility.asset_id), :length => 100) %></td>
         <td NoWrap><%= facility.if_one_time_name %></td>
         <td NoWrap><%= facility.unit_price %></td>
-        <td NoWrap><%= link_to t('.show', :default => t('查看')),
+        <td NoWrap><%= link_to '查看',
                                facility_path(facility), :class => 'btn btn-mini', :remote => true %>
           <%= link_to '修改',
                       edit_facility_path(facility), :class => 'btn btn-mini btn-primary', :remote => true %>
-          <%= link_to t('.destroy', :default => t('删除')),
+          <%= link_to '删除',
                       facility_path(facility),
                       :method => :delete,
                       :confirm => '确认删除 '+facility.name+'?',
@@ -85,7 +89,3 @@
   </tbody>
 </table>
 <%= ajax_will_paginate @facilities %>
-
-<%= link_to t('.new', :default => t('添加')),
-            new_facility_path,
-            :class => 'btn btn-primary', :remote => true %>

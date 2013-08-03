@@ -331,11 +331,11 @@ zh:
           owner_id: "责任人"
           start_time: "开始时间"
           title: "标题"
-        stocking_detail:
+        stocking_details:
           facility_id: "实训材料"
-          new_amount: "实际数量"
-          old_amount: "应有数量"
-          stocking_id: "资产盘查"
+          new_amount: "实际库存"
+          old_amount: "应有库存"
+          stocking_id: "资产盘点"
         user:
           account: "账号"
           password: "密码"

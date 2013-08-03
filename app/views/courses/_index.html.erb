@@ -67,6 +67,14 @@
   <% end %>
   </tbody>
 </table>
+<table class="table" style="width: 50%">
+  <tbody>
+  <td class="schedule-pending-apply" style="width: 25%">未申请</td>
+  <% (-1..1).each do |s| %>
+      <td class="<%= ApplicationHelper.get_style_class_name_by_course_status(s) %>" style="width: 25%"><%= CourseReview.get_status_by_code(s) %></td>
+  <% end %>
+  </tbody>
+</table>
 
 <%= link_to '申请课程',
             new_course_path,

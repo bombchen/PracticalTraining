@@ -1,6 +1,8 @@
 <script type="text/javascript">
     $(function () {
-        $('#dp').datepicker();
+        $('#dp').datepicker({autoclose: true}).on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
     });
 </script>
 

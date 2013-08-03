@@ -44,6 +44,7 @@ class Stocking < ActiveRecord::Base
       end
     end
     if !finished_sign
+      errors.add(:base, '还有未完成的项目')
       return false
     end
     Stocking.transaction do
