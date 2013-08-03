@@ -103,7 +103,7 @@ class FacilityReasonsController < ApplicationController
         format.js { redirect_to facility_reasons_url, :remote => true }
       else
         format.html { redirect_to @facility_reason, alert: '删除 '+@facility_reason.name+' 失败' }
-        format.js { render :js => %(show_warning('删除 #{@facility_reason.name} 失败', '#{@facility_reason.error_message}')) }
+        format.js { render :js => %(show_warning('删除 #{@facility_reason.reason} 失败', '#{@facility_reason.error_message}')) }
       end
     end
   end

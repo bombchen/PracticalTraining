@@ -8,19 +8,14 @@ class FacilityReturnsController < ApplicationController
   def index
     @date = (params[:dt].nil? ? Date.today : params[:dt])
     @status = (params[:sta].nil? ? 1 : params[:sta].to_i)
-    if (@status == -2)
-      @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
-                                          'INNER JOIN course_reviews r ON c.id = r.course_id ' +
-                                          'WHERE c.date = ? ',
-                                      @date]).paginate(:page => params[:page])
-    else
-      @courses = (Course.find_by_sql ['SELECT c.* FROM courses c ' +
-                                          'INNER JOIN course_reviews r ON c.id = r.course_id ' +
-                                          'WHERE c.date = ? ' +
-                                          'AND r.status = ?',
-                                      @date, @status]).paginate(:page => params[:page])
+    query = 'SELECT c.* FROM courses c ' +
+        'JOIN course_reviews r ' +
+        'ON c.id = r.course_id ' +
+        'WHERE c.date = "' + @date.to_s + '" '
+    if @status != -2
+      query += 'AND r.status = ' + @status.to_s
     end
-
+    @courses = (Course.find_by_sql(query)).paginate(:page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.js

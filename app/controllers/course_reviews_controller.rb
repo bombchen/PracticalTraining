@@ -12,6 +12,10 @@ class CourseReviewsController < ApplicationController
     @begin_date = (bdt.nil? ? Date.today : bdt)
     @end_date = (edt.nil? ? @begin_date + 7 : edt)
     @status = (cdt.nil? ? '全部' : cdt)
+    if @begin_date > @end_date
+      render :js => %(show_warning('查询失败', '开始时间不能晚于结束时间'))
+      return
+    end
 
     @course_reviews = CourseReview.filter(@begin_date.to_date.to_s, @end_date.to_date.to_s, @status).paginate(:page => params[:page])
 

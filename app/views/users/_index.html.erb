@@ -14,7 +14,7 @@
         <tr>
           <th>账号</th>
           <th>用户名</th>
-          <th>角色</th>
+          <th>权限</th>
           <th></th>
         </tr>
         </thead>
@@ -47,6 +47,8 @@
                       user_path(user), :class => 'btn btn-mini', :remote => true %>
           <%= link_to '修改',
                       edit_user_path(user), :class => 'btn btn-mini btn-primary', :remote => true %>
+          <%= link_to '重置密码',
+                      reset_password_user_path(user), :class => 'btn btn-mini btn-primary', :remote => true %>
           <%= link_to '删除',
                       user_path(user),
                       :method => :delete,

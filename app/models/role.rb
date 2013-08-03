@@ -13,10 +13,11 @@ class Role < ActiveRecord::Base
     selectors = Array.new
     {
         'all' => '全部',
+        'unknown' => '未分配',
         'sysadmin' => '系统管理员',
         'schooladmin' => '学校领导',
         'storeadmin' => '实训管理员',
-        'teacher' => '教师'
+        'teacher' => '教职人员'
     }.each do |key, value|
       sel = SimpleSelector.new
       sel.id = key
@@ -24,5 +25,9 @@ class Role < ActiveRecord::Base
       selectors.push sel
     end
     return selectors
+  end
+
+  def self.get_available_roles
+    return Role.find_by_sql('SELECT * FROM roles WHERE name <> "sysadmin"')
   end
 end

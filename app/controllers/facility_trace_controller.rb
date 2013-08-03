@@ -17,7 +17,11 @@ class FacilityTraceController < ApplicationController
 
     dt = params[:dt]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @traces = FacilityIo.where('facility_id = ? AND date >= ?', @facility.id, @begin_date).order('date DESC').paginate(:page => params[:page])
+    query = 'SELECT fio.* FROM facility_ios fio ' +
+        'WHERE fio.facility_id = ' + @facility.id.to_s + ' ' +
+        'AND fio.date >= "' + @begin_date.to_s + '" ' +
+        'ORDER BY fio.date DESC'
+    @traces = FacilityIo.find_by_sql(query).paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb

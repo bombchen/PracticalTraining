@@ -3,15 +3,15 @@ require 'digest/sha2'
 
 class User < ActiveRecord::Base
   attr_accessible :account, :hashed_password, :name, :salt, :user_role_mappings_attributes
-  attr_accessible :password, :password_confirmation
+  attr_accessible :password, :password_confirmation, :is_sys_admin, :is_school_admin, :is_store_admin, :is_teacher
 
-  validates :account, :uniqueness => true, :presence => true
+  validates :account, :uniqueness => true, :presence => true, :format => {:with => /^[a-z][a-z0-9]*$/}
   validates :name, :presence => true
-  #validates :account, :format => {:with => /\A(^[a-z](([\._\-][a-z0-9])|[a-z0-9])*[a-z0-9]$)\Z/i}
-  validates :password, :presence => true
   validates :password, :confirmation => true
+  before_create
   attr_accessor :password_confirmation
   attr_reader :password
+  attr_accessor :is_sys_admin, :is_school_admin, :is_store_admin, :is_teacher
 
   has_many :user_role_mappings, :class_name => 'UserRoleMapping', :foreign_key => :user_id, :dependent => :destroy, :autosave => true
   accepts_nested_attributes_for :user_role_mappings, :allow_destroy => true
@@ -19,17 +19,29 @@ class User < ActiveRecord::Base
 
   validate :password_must_be_present
 
+  def roles(roles)
+    roles.reject(&:blank?)
+  end
 
   def self.filter(acct, usn, rl)
-    query = 'SELECT u.* FROM users u ' +
-        'INNER JOIN user_role_mappings m ' +
-        'ON u.id = m.user_id ' +
-        'INNER JOIN roles r ' +
-        'ON m.role_id = r.id ' +
-        'WHERE u.account LIKE "%' + acct + '%" ' +
-        'AND u.name LIKE "%' + usn + '%" '
-    if rl != 'all'
-      query += 'AND r.name = "' + rl + '"'
+    if rl == 'unknown'
+      query = 'SELECT DISTINCT u.* FROM users u ' +
+          'WHERE u.account LIKE "%' + acct + '%" ' +
+          'AND u.name LIKE "%' + usn + '%" ' +
+          'AND u.id NOT IN (' +
+          'SELECT DISTINCT m.user_id ' +
+          'FROM user_role_mappings m )'
+    else
+      query = 'SELECT DISTINCT u.* FROM users u ' +
+          'LEFT JOIN user_role_mappings m ' +
+          'ON u.id = m.user_id ' +
+          'LEFT JOIN roles r ' +
+          'ON m.role_id = r.id ' +
+          'WHERE u.account LIKE "%' + acct + '%" ' +
+          'AND u.name LIKE "%' + usn + '%" '
+      if rl != 'all'
+        query += 'AND r.name = "' + rl + '"'
+      end
     end
     return find_by_sql(query)
   end
@@ -140,6 +152,49 @@ class User < ActiveRecord::Base
 
   def change_password
 
+  end
+
+  def validate_and_save!
+    dup = Set.new
+    cnt = Set.new
+    if self.user_role_mappings.any?
+      self.user_role_mappings.each do |m|
+        if cnt.include?(m.role_id)
+          dup.add(m.role.friendly_name) unless dup.include?(m.role.friendly_name)
+        else
+          cnt.add(m.role_id)
+        end
+      end
+      if dup.any?
+        dup.each do |d|
+          errors.add(:base, '重复选择' + d)
+        end
+        return false
+      end
+    end
+    self.save
+  end
+
+  def validate_and_update(attributes, options = {})
+    if attributes[:user_role_mappings_attributes]
+      dup = Set.new
+      cnt = Set.new
+      attributes[:user_role_mappings_attributes].each do |rm|
+        m = rm[1]
+        if cnt.include?(m[:role_id])
+          dup.add(m[:role_id]) unless dup.include?(m[:role_id])
+        else
+          cnt.add(m[:role_id])
+        end
+      end
+      if dup.any?
+        dup.each do |d|
+          errors.add(:base, '重复选择' + Role.find(d).friendly_name)
+          return false
+        end
+      end
+    end
+    return self.update_attributes(attributes, options)
   end
 
   private

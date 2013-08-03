@@ -37,6 +37,9 @@ PracticalTraining::Application.routes.draw do
     collection do
       delete 'index', :via => :get
     end
+    member do
+      get 'reset_password'
+    end
   end
 
 

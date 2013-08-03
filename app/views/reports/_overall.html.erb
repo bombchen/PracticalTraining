@@ -1,6 +1,9 @@
 <script type="text/javascript">
     $(function () {
-        $('#dp').datepicker({autoclose: true}).on('changeDate', function (ev) {
+        $('#bdp').datepicker({autoclose: true}).on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+        });
+        $('#edp').datepicker({autoclose: true}).on('changeDate', function (ev) {
             $(this).datepicker('hide');
         });
     });
@@ -14,13 +17,15 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>开始时间</th>
+      <th>统计开始时间</th>
+      <th>统计结束时间</th>
       <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-      <td><%= text_field_tag  :dt, @begin_date.to_date, :class => 'text_field', :id => 'dp' %></td>
+      <td><%= text_field_tag :dt, @begin_date.to_date, :class => 'text_field', :id => 'bdp' %></td>
+      <td><%= text_field_tag :et, @end_date.to_date, :class => 'text_field', :id => 'edp' %></td>
       <td><%= submit_tag '生成报表', :class => 'btn btn-primary' %></td>
     </tr>
     </tbody>

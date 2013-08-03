@@ -17,7 +17,6 @@ class Course < ActiveRecord::Base
 
   validates :cls, :date, :idx, :field_id, :title, :teacher_id, :presence => true
   validates :idx, :inclusion => 1..10
-  #validate :date_cannot_be_in_the_past
   validates_with FacilityApplicationsValidator
 
   def weekday

@@ -5,8 +5,13 @@ class ReportsController < ApplicationController
 
   def instore
     dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
     @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
                                             'INNER JOIN facility_ios fio on f.id = fio.facility_id ' +
                                             'WHERE fio.date BETWEEN ? AND ?',
@@ -34,8 +39,13 @@ class ReportsController < ApplicationController
 
   def consume
     dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
     @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
                                             'INNER JOIN facility_ios fio on f.id = fio.facility_id ' +
                                             'WHERE fio.date BETWEEN ? AND ?',
@@ -64,8 +74,13 @@ class ReportsController < ApplicationController
 
   def lost
     dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
     @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
                                             'INNER JOIN facility_ios fio on f.id = fio.facility_id ' +
                                             'WHERE fio.date BETWEEN ? AND ?',
@@ -93,11 +108,16 @@ class ReportsController < ApplicationController
   end
 
   def category
-    dt = params[:dt]
     typ = params[:typ]
+    dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
     @filter_category = (typ.nil? ? -1 : typ.to_i)
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
 
     if (@filter_category == -1)
       @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
@@ -137,12 +157,16 @@ class ReportsController < ApplicationController
   end
 
   def department
-    dt = params[:dt]
     dep = params[:dep]
+    dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
     @filter_department = (dep.nil? ? -1 : dep.to_i)
-
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
 
     if (@filter_department == -1)
       @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
@@ -182,12 +206,16 @@ class ReportsController < ApplicationController
   end
 
   def teacher
-    dt = params[:dt]
     tch = params[:tch]
+    dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
     @filter_teacher = (tch.nil? ? -1 : tch.to_i)
-
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
     @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
                                             'INNER JOIN facility_ios fio on f.id = fio.facility_id ' +
                                             'WHERE fio.date BETWEEN ? AND ?',
@@ -240,8 +268,13 @@ class ReportsController < ApplicationController
 
   def overall
     dt = params[:dt]
+    et = params[:et]
     @begin_date = (dt.nil? ? 1.month.ago.to_date : dt)
-    @end_date = Date.today
+    @end_date = (et.nil? ? Date.today : et)
+    if @begin_date > @end_date
+      render :js => %(show_warning('统计失败', '开始时间不能晚于结束时间'))
+      return
+    end
     @facilities = Facility.find_by_sql ['SELECT f.* FROM facilities f ' +
                                             'INNER JOIN facility_ios fio on f.id = fio.facility_id ' +
                                             'WHERE fio.date BETWEEN ? AND ?',

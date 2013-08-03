@@ -2,4 +2,50 @@
 <div class="page-header">
   <h1>编辑用户信息</h1>
 </div>
-<%= render :partial => 'form' %>
+<%= nested_form_for @user, :remote => true, :html => {:class => 'form-horizontal'} do |f| %>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= t('errors.template.header',
+                    :model => @user.class.model_name.human,
+                    :count => @user.errors.count) %>
+          </h2>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label '用户名', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :account, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '全名', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label '权限', :class => 'control-label' %>
+      <div class="controls">
+        <%= f.fields_for :user_role_mappings do |urm| %>
+            <div class="facility-item">
+              <div><%= urm.collection_select :role_id, Role.get_available_roles, :id, :friendly_name %></div>
+              <div><%= urm.link_to_remove '删除' %></div>
+            </div>
+        <% end %>
+        <%= f.link_to_add '添加权限', :user_role_mappings %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '确认', :class => 'btn btn-primary', :disable_with => '请稍等...' %>
+      <%= link_to '取消',
+                  users_path, :class => 'btn', :remote => true %>
+    </div>
+<% end %>
+

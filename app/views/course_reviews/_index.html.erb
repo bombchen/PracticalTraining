@@ -56,9 +56,9 @@
         <td NoWrap><%= review.course.idx %></td>
         <td><%= review.course.title %></td>
         <td NoWrap><%= ApplicationHelper.get_teacher_name_by_id(review.course.teacher_id) %></td>
-        <td><%= truncate(strip_tags(review.course.field.name), :length => 100) %></td>
+        <td><%= truncate(strip_tags(review.course.field.name), :length => 20) %></td>
         <td NoWrap><%= review.get_status %></td>
-        <td><%= truncate(strip_tags(review.comments), :length => 100) %></td>
+        <td><%= truncate(strip_tags(review.comments), :length => 20) %></td>
         <td NoWrap><%= link_to t('.show', :default => t('查看')),
                                course_review_path(review), :class => 'btn btn-mini', :remote => true %>
           <%= link_to t('.edit', :default => t('审批')),

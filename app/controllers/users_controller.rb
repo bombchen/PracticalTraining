@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     @user.account = @user.account.strip
     @user.name = @user.name.strip
     respond_to do |format|
-      if @user.save
+      if @user.validate_and_save!
         format.html { redirect_to @user, notice: '用户已创建' }
         format.js { redirect_to @user, :remote => true }
       else
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
     @user.account = @user.account.strip
     @user.name = @user.name.strip
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.validate_and_update(params[:user])
         format.html { redirect_to @user, notice: '用户已更新' }
         format.js { redirect_to @user, :remote => true }
       else
@@ -94,6 +94,14 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.js { redirect_to users_url, :remote => true }
+    end
+  end
+
+  def reset_password
+    @user = User.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 end

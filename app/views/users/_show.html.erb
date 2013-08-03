@@ -8,8 +8,13 @@
   <dd><%= @user.account %></dd>
   <dt><strong>全名:</strong></dt>
   <dd><%= @user.name %></dd>
-  <dt><strong>创建时间:</strong></dt>
-  <dd><%= @user.created_at %></dd>
+  <dt><strong>权限:</strong></dt>
+  <% if (!@user.user_role_mappings.any?) %>
+      <dd>未分配权限</dd>
+  <% end %>
+  <% @user.user_role_mappings.each do |urm| %>
+      <dd><%= urm.role.friendly_name %></dd>
+  <% end %>
 </dl>
 
 <div class="form-actions">
@@ -17,6 +22,8 @@
               users_path, :class => 'btn', :remote => true  %>
   <%= link_to '修改',
               edit_user_path(@user), :class => 'btn btn-primary', :remote => true %>
+  <%= link_to '重置密码',
+              reset_password_user_path(@user), :class => 'btn btn-primary', :remote => true %>
   <%= link_to '删除',
               user_path(@user),
               :method => 'delete',
