@@ -88,6 +88,10 @@ class CoursesController < ApplicationController
   # GET /courses/1/edit
   def edit
     @course = Course.find(params[:id])
+    if @course.course_review.status == 1
+      render :js => %(show_warning('编辑课程失败', '课程已审核通过，无法更改'))
+      return
+    end
     @filter_date = @course.date
     @filter_idx = @course.idx
     @fields = Field.get_available_fields(@filter_date, @filter_idx, @course.id)
@@ -142,6 +146,10 @@ class CoursesController < ApplicationController
   # DELETE /courses/1.json
   def destroy
     @course = Course.find(params[:id])
+    if @course.course_review.status == 1
+      render :js => %(show_warning('编辑课程失败', '课程已审核通过，无法删除'))
+      return
+    end
     @course.destroy
 
     respond_to do |format|

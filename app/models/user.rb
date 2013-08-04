@@ -3,24 +3,41 @@ require 'digest/sha2'
 
 class User < ActiveRecord::Base
   attr_accessible :account, :hashed_password, :name, :salt, :user_role_mappings_attributes
-  attr_accessible :password, :password_confirmation, :is_sys_admin, :is_school_admin, :is_store_admin, :is_teacher
+  attr_accessible :password, :password_confirmation
 
-  validates :account, :uniqueness => true, :presence => true, :format => {:with => /^[a-z][a-z0-9]*$/}
+  validates :account, :uniqueness => true
   validates :name, :presence => true
   validates :password, :confirmation => true
   before_create
+  before_destroy :before_destroy_check
   attr_accessor :password_confirmation
   attr_reader :password
-  attr_accessor :is_sys_admin, :is_school_admin, :is_store_admin, :is_teacher
 
   has_many :user_role_mappings, :class_name => 'UserRoleMapping', :foreign_key => :user_id, :dependent => :destroy, :autosave => true
   accepts_nested_attributes_for :user_role_mappings, :allow_destroy => true
 
-
   validate :password_must_be_present
+  validate :validate_account_format
 
-  def roles(roles)
-    roles.reject(&:blank?)
+  public
+  def error_message
+    @error_message ||= ''
+  end
+
+  def is_sys_admin
+    return User.verify_is_sys_admin_by_id(self.id)
+  end
+
+  def is_school_admin
+    return User.verify_is_school_admin_by_id(self.id)
+  end
+
+  def is_store_admin
+    return User.verify_is_store_admin_by_id(self.id)
+  end
+
+  def is_teacher
+    return User.verify_is_teacher_by_id(self.id)
   end
 
   def self.filter(acct, usn, rl)
@@ -197,6 +214,18 @@ class User < ActiveRecord::Base
     return self.update_attributes(attributes, options)
   end
 
+  def has_course_scheduled
+    return ScheduledCourse.find_all_by_teacher_id(self.id).any?
+  end
+
+  def has_course_applied
+    return Course.find_all_by_teacher_id(self.id).any?
+  end
+
+  def has_io_record
+    return FacilityIo.find_all_by_owner_id(self.id).any?
+  end
+
   private
   def password_must_be_present
     errors.add(:password, '请输入密码') unless hashed_password.present?
@@ -204,6 +233,31 @@ class User < ActiveRecord::Base
 
   def generate_salt
     self.salt = self.object_id.to_s + rand.to_s
+  end
+
+  def validate_account_format
+    if self.account.blank?
+      errors.add(:account, '不能为空')
+      return false
+    end
+    errors.add(:account, '账号只能包含英文字母和数字，并且以英文字母为第一个字符') unless !/^[a-z][a-z0-9]*$/.match(self.account).nil?
+  end
+
+  def before_destroy_check
+    res = true
+    if self.has_course_scheduled
+      errors.add(:base, '该用户已有排课记录')
+      res = false
+    end
+    if self.has_course_applied
+      errors.add(:base, '该用户已有课程申请')
+      res = false
+    end
+    if self.has_io_record
+      errors.add(:base, '该用户已有出入库记录')
+      res = false
+    end
+    return res
   end
 
 end

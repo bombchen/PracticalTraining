@@ -34,6 +34,10 @@
   <tr>
     <th>账号</th>
     <th>用户名</th>
+    <th>系统管理员</th>
+    <th>学校领导</th>
+    <th>实训管理员</th>
+    <th>教职人员</th>
     <th>操作</th>
   </tr>
   </thead>
@@ -42,6 +46,10 @@
       <tr>
         <td><%= user.account %></td>
         <td><%= user.name %></td>
+        <td><% if user.is_sys_admin %>&radic;<% end %></td>
+        <td><% if user.is_school_admin %>&radic;<% end %></td>
+        <td><% if user.is_store_admin %>&radic;<% end %></td>
+        <td><% if user.is_teacher %>&radic;<% end %></td>
         <td>
           <%= link_to '查看',
                       user_path(user), :class => 'btn btn-mini', :remote => true %>

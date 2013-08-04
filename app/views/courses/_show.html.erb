@@ -40,10 +40,12 @@
       <%= link_to '编辑',
                   edit_course_path(@course), :class => 'btn btn-primary', :remote => true %>
   <% end %>
-  <%= link_to '删除',
-              course_path(@course),
-              :method => 'delete',
-              :confirm => '确定删除本课程？',
-              :class => 'btn btn-danger',
-              :remote => true %>
+  <% if @course.course_review.status != 1 %>
+      <%= link_to '删除',
+                  course_path(@course),
+                  :method => 'delete',
+                  :confirm => '确定删除本课程？',
+                  :class => 'btn btn-danger',
+                  :remote => true %>
+  <% end %>
 </div>

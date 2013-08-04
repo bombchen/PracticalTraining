@@ -89,7 +89,6 @@ class DepartmentsController < ApplicationController
         format.html { redirect_to @department, alert: '删除 '+@department.name+' 失败' }
         format.js { render :js => %(show_warning('删除 #{@department.name} 失败', '#{@department.error_message}')) }
       end
-
     end
   end
 end

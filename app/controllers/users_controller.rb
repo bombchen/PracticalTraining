@@ -89,11 +89,13 @@ class UsersController < ApplicationController
         return
       end
     end
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.js { redirect_to users_url, :remote => true }
+    if @user.destroy
+      respond_to do |format|
+        format.html { redirect_to users_url }
+        format.js { redirect_to users_url, :remote => true }
+      end
+    else
+      render :js => %(show_warning('删除账号失败', '#{@user.errors.full_messages.join(', ')}'))
     end
   end
 
