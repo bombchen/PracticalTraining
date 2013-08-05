@@ -65,8 +65,13 @@
     </div>
 
     <div class="form-actions">
-      <%= link_to '返回',
-                  facility_returns_path, :class => 'btn', :remote => true %>
+      <% if @from_outstanding %>
+          <%= link_to '返回',
+                      '/facility_returns/outstanding', :class => 'btn', :remote => true %>
+      <% else %>
+          <%= link_to '返回',
+                      facility_returns_path, :class => 'btn', :remote => true %>
+      <% end %>
     </div>
 <% end %>
 

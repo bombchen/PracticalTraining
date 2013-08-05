@@ -24,7 +24,7 @@
       <tr>
         <td><%= stocking.title %></td>
         <td><%= stocking.start_time.strftime '%Y-%m-%d %H:%M:%S' %></td>
-        <td><%= stocking.end_time.nil? ? '' : stocking.end_time.strftime '%Y-%m-%d %H:%M:%S' %></td>
+        <td><%= stocking.end_time.nil? ? '' : (stocking.end_time.strftime '%Y-%m-%d %H:%M:%S') %></td>
         <td><%= ApplicationHelper.get_teacher_name_by_id(stocking.owner_id) %></td>
         <td><%= stocking.status_name %></td>
         <td>

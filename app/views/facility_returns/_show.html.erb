@@ -48,10 +48,17 @@
 
 
 <div class="form-actions">
-  <%= link_to '返回',
-              facility_returns_path, :class => 'btn', :remote => true %>
-  <%= link_to '操作',
-              edit_facility_return_path(@course), :class => 'btn btn-primary', :remote => true %>
+  <% if @from_outstanding %>
+      <%= link_to '返回',
+                  '/facility_returns/outstanding', :class => 'btn', :remote => true %>
+      <%= link_to '操作',
+                  edit_facility_return_path(@course, :fo => true), :class => 'btn btn-primary', :remote => true %>
+  <% else %>
+      <%= link_to '返回',
+                  facility_returns_path, :class => 'btn', :remote => true %>
+      <%= link_to '操作',
+                  edit_facility_return_path(@course), :class => 'btn btn-primary', :remote => true %>
+  <% end %>
 </div>
 
 

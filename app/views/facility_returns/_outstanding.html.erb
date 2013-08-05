@@ -33,9 +33,13 @@
         <td><%= course.field.name %></td>
         <td><%= course.course_review.get_status %></td>
         <td NoWrap><%= link_to '查看',
-                               facility_return_path(course), :class => 'btn btn-mini', :remote => true %>
+                               facility_return_path(course, :fo => true),
+                               :class => 'btn btn-mini',
+                               :remote => true %>
           <%= link_to '操作',
-                      edit_facility_return_path(course), :class => 'btn btn-mini btn-primary', :remote => true %>
+                      edit_facility_return_path(course, :fo => true),
+                      :class => 'btn btn-mini btn-primary',
+                      :remote => true %>
       </tr>
   <% end %>
   </tbody>

@@ -43,6 +43,16 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    @user.user_role_mappings.each do |urm|
+      if urm.role.name == 'sysadmin'
+        render :js => %(show_warning('非法操作', '无法修改系统管理员'))
+        return
+      end
+    end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # POST /users

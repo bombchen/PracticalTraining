@@ -2,6 +2,8 @@ require 'socket'
 require 'openssl'
 require 'base64'
 
+return true
+
 license_key_file = '/usr/share/PracticalTraining/License/license_key'
 license_file = '/usr/share/PracticalTraining/License/license'
 passphrase = 'Practical Training 2013'

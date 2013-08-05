@@ -26,7 +26,7 @@ class FacilityReturnsController < ApplicationController
   # GET /facility_returns/1.json
   def show
     @course = Course.find(params[:id])
-
+    @from_outstanding = !params[:fo].nil?
     respond_to do |format|
       format.html # show.html.erb
       format.js
@@ -52,6 +52,7 @@ class FacilityReturnsController < ApplicationController
   # GET /facility_returns/1/edit
   def edit
     @course = Course.find(params[:id])
+    @from_outstanding = !params[:fo].nil?
     @facility_applications = @course.facility_applications
     respond_to do |format|
       if Stocking.any_not_finished?
@@ -99,13 +100,8 @@ class FacilityReturnsController < ApplicationController
         format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course) }
         format.js { redirect_to edit_facility_return_path(@facility_return.facility_application.course), :remote => true }
       else
-        err_summary ||= ''
-        err_summary += @facility_return.error_message
-        @facility_return.errors.full_messages.each do |msg|
-          err_summary += msg
-        end
         format.html { redirect_to edit_facility_return_path(@facility_return.facility_application.course), alert: @facility_return.error_message }
-        format.js { render :js => %(show_warning('更新失败', '#{err_summary}')) }
+        format.js { render :js => %(show_warning('更新失败', '#{@facility_return.errors.full_messages.join(', ')}')) }
       end
     end
   end

@@ -16,7 +16,7 @@
   <tr>
     <td NoWrap><%= @stocking.title %></td>
     <td NoWrap><%= @stocking.start_time.strftime '%Y-%m-%d %H:%M:%S' %></td>
-    <td NoWrap><%= @stocking.end_time.nil? ? '' : @stocking.end_time.strftime '%Y-%m-%d %H:%M:%S' %></td>
+    <td NoWrap><%= @stocking.end_time.nil? ? '' : (@stocking.end_time.strftime '%Y-%m-%d %H:%M:%S') %></td>
     <td NoWrap><%= ApplicationHelper.get_teacher_name_by_id(@stocking.owner_id) %></td>
     <td NoWrap><%= @stocking.status_name %></td>
   </tr>
