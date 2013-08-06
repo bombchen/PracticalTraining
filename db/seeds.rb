@@ -139,10 +139,15 @@ Role.create(
 User.create(
     :account => 'sysadmin',
     :name => '系统管理员',
-    :password => 'password'
+    :password => 'Passw0rd'
 )
 
+UserRoleMapping.create(
+    :user_id => User.find_by_account('sysadmin').id,
+    :role_id => Role.find_by_name('sysadmin').id
+)
 
+=begin
 User.create(
     :account => 'master',
     :name => '校长',
@@ -168,11 +173,6 @@ User.create(
 )
 
 UserRoleMapping.create(
-    :user_id => User.find_by_account('sysadmin').id,
-    :role_id => Role.find_by_name('sysadmin').id
-)
-
-UserRoleMapping.create(
     :user_id => User.find_by_account('master').id,
     :role_id => Role.find_by_name('schooladmin').id
 )
@@ -191,3 +191,5 @@ UserRoleMapping.create(
     :user_id => User.find_by_account('t2').id,
     :role_id => Role.find_by_name('teacher').id
 )
+
+=end
