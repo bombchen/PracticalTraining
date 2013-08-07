@@ -12,7 +12,7 @@
     <th NoWrap>教室</th>
     <th NoWrap>实训记录</th>
     <th NoWrap>状态</th>
-    <th NoWrap><%=t '.actions', :default => '操作' %></th>
+    <th NoWrap>操作</th>
   </tr>
   </thead>
   <tbody>
@@ -26,9 +26,9 @@
         <td><%= truncate(strip_tags(practice_record.record), :length => 100) %></td>
         <td NoWrap><%= practice_record.record_review.get_status %></td>
         <td NoWrap>
-          <%= link_to t('.show', :default => t('查看')),
+          <%= link_to '查看',
                       practice_record_path(practice_record), :class => 'btn btn-mini', :remote => true %>
-          <%= link_to t('.edit', :default => '编辑'),
+          <%= link_to '编辑',
                       edit_practice_record_path(practice_record), :class => 'btn btn-mini btn-primary', :remote => true %>
         </td>
       </tr>

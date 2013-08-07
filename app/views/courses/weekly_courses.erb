@@ -27,11 +27,11 @@
         <td NoWrap><%= ApplicationHelper.get_teacher_name_by_id(course.teacher_id) %></td>
         <td NoWrap><%= course.field.name %></td>
         <td NoWrap><%= course.course_review.get_status %></td>
-        <td NoWrap><%= link_to t('.show', :default => t('查看')),
+        <td NoWrap><%= link_to '查看',
                                course_path(course), :class => 'btn btn-mini' %>
-          <%= link_to t('.edit', :default => t('修改')),
+          <%= link_to '修改',
                       edit_course_path(course), :class => 'btn btn-mini btn-primary' %>
-          <%= link_to t('.destroy', :default => t('删除')),
+          <%= link_to '删除',
                       course_path(course),
                       :method => :delete,
                       :confirm => '确认删除 '+course.date.to_s()+course.title+'?',
@@ -42,6 +42,6 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => '申请课程'),
+<%= link_to '申请课程',
             new_course_path,
             :class => 'btn btn-primary' %>

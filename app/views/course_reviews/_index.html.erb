@@ -59,9 +59,9 @@
         <td><%= truncate(strip_tags(review.course.field.name), :length => 20) %></td>
         <td NoWrap><%= review.get_status %></td>
         <td><%= truncate(strip_tags(review.comments), :length => 20) %></td>
-        <td NoWrap><%= link_to t('.show', :default => t('查看')),
+        <td NoWrap><%= link_to '查看',
                                course_review_path(review), :class => 'btn btn-mini', :remote => true %>
-          <%= link_to t('.edit', :default => t('审批')),
+          <%= link_to '审批',
                       edit_course_review_path(review), :class => 'btn btn-mini btn-primary', :remote => true %>
       </tr>
   <% end %>
