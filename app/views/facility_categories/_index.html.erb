@@ -4,7 +4,7 @@
 </div>
 <%= link_to '添加类目',
             new_facility_category_path,
-            :class => 'btn btn-primary', :remote => true %>
+            :class => 'btn btn-primary open'%>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -20,9 +20,9 @@
         <td><%= truncate(facility_category.comments, :length => 50) %></td>
         <td>
           <%= link_to '查看',
-                      facility_category_path(facility_category), :class => 'btn btn-mini', :remote => true %>
+                      facility_category_path(facility_category), :class => 'btn btn-mini open'%>
           <%= link_to '编辑',
-                      edit_facility_category_path(facility_category), :class => 'btn btn-mini btn-primary', :remote => true %>
+                      edit_facility_category_path(facility_category), :class => 'btn btn-mini btn-primary open'%>
           <%= link_to '删除',
                       facility_category_path(facility_category),
                       :method => :delete,

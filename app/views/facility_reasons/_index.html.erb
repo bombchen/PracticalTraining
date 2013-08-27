@@ -5,7 +5,7 @@
 
 <%= link_to '新建',
             new_facility_reason_path,
-            :class => 'btn btn-primary', :remote => true %>
+            :class => 'btn btn-primary open-add'%>
 
 <table class="table table-striped">
   <thead>
@@ -24,9 +24,9 @@
         <td><%= facility_reason.systematic_name %></td>
         <td>
           <%= link_to '查看',
-                      facility_reason_path(facility_reason), :class => 'btn btn-mini', :remote => true %>
+                      facility_reason_path(facility_reason), :class => 'btn btn-mini open'%>
           <%= link_to '编辑',
-                      edit_facility_reason_path(facility_reason), :class => 'btn btn-mini btn-primary', :remote => true %>
+                      edit_facility_reason_path(facility_reason), :class => 'btn btn-mini btn-primary open'%>
           <%= link_to '删除',
                       facility_reason_path(facility_reason),
                       :method => :delete,

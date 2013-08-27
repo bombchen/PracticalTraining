@@ -32,6 +32,7 @@ PracticalTraining::Application.routes.draw do
     end
   end
 
+  resource :uploads
 
   resources :users do
     collection do

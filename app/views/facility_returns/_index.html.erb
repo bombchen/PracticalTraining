@@ -11,22 +11,28 @@
 </div>
 <div class="controls-row">
   <%= form_tag facility_returns_path, :method => 'get', :remote => true %>
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>日期</th>
-      <th>状态</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td><%= text_field_tag  :dt, @date.to_date, :class => 'text_field', :id => 'dp' %></td>
-      <td style="display: none"><%= select_tag :sta, options_from_collection_for_select(CourseReview.get_status_simple_selectors, :id, :name, @status) %></td>
-      <td><%= submit_tag '过滤', :class => 'btn btn-primary' %></td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="tools">
+    <strong>日期</strong><%= text_field_tag  :dt, @date.to_date, :class => 'text_field', :id => 'dp' %>
+    <strong>状态</strong><%= select_tag :sta, options_from_collection_for_select(CourseReview.get_status_simple_selectors, :id, :name, @status) %>
+
+    <%= submit_tag '过滤', :class => 'btn btn-primary' %>
+  </div>
+  <!--<table class="table table-striped">-->
+    <!--<thead>-->
+    <!--<tr>-->
+      <!--<th>日期</th>-->
+      <!--<th>状态</th>-->
+      <!--<th></th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td><%= text_field_tag  :dt, @date.to_date, :class => 'text_field', :id => 'dp' %></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td style="display: none"><%= select_tag :sta, options_from_collection_for_select(CourseReview.get_status_simple_selectors, :id, :name, @status) %></td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td><%= submit_tag '过滤', :class => 'btn btn-primary' %></td>&ndash;&gt;-->
+    <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+    <!--</tbody>-->
+  <!--</table>-->
 </div>
 <div class="control-group">
 

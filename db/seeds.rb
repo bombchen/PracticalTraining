@@ -147,7 +147,7 @@ UserRoleMapping.create(
     :role_id => Role.find_by_name('sysadmin').id
 )
 
-=begin
+
 User.create(
     :account => 'master',
     :name => '校长',
@@ -191,5 +191,3 @@ UserRoleMapping.create(
     :user_id => User.find_by_account('t2').id,
     :role_id => Role.find_by_name('teacher').id
 )
-
-=end

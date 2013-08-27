@@ -14,24 +14,12 @@
 </div>
 <div class="controls-row">
   <%= form_tag '/reports/department', :method => 'get', :remote => true %>
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>统计开始时间</th>
-      <th>统计结束时间</th>
-      <th>部门</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td><%= text_field_tag  :dt, @begin_date.to_date, :class => 'text_field', :id => 'bdp' %></td>
-      <td><%= text_field_tag  :et, @end_date.to_date, :class => 'text_field', :id => 'edp' %></td>
-      <td><%= select_tag :dep, options_from_collection_for_select(Department.get_simple_selectors, :id, :name, @filter_department) %></td>
-      <td><%= submit_tag '生成报表', :class => 'btn btn-primary' %></td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="tools">
+    <strong>开始时间</strong><%= text_field_tag  :dt, @begin_date.to_date, :class => 'text_field', :id => 'bdp' %></td>
+    <strong>结束时间</strong><%= text_field_tag  :et, @end_date.to_date, :class => 'text_field', :id => 'edp' %>
+    <strong>部门</strong><%= select_tag :dep, options_from_collection_for_select(Department.get_simple_selectors, :id, :name, @filter_department) %>
+    <%= submit_tag '生成报表', :class => 'btn btn-primary' %>
+  </div>
 </div>
 <table class="table table-striped">
   <thead>

@@ -5,7 +5,7 @@
 
 <%= link_to '添加部门',
             new_department_path,
-            :class => 'btn btn-primary', :remote => true %>
+            :class => 'btn btn-primary open-add'%>
 
 <table class="table table-striped">
   <thead>
@@ -22,9 +22,9 @@
         <td><%= truncate(department.description, :length => 50) %></td>
         <td>
           <%= link_to '查看',
-                      department_path(department), :class => 'btn btn-mini', :remote => true %>
+                      department_path(department), :class => 'btn btn-mini open' %>
           <%= link_to '编辑',
-                      edit_department_path(department), :class => 'btn btn-mini btn-primary', :remote => true %>
+                      edit_department_path(department), :class => 'btn btn-mini btn-primary open'%>
           <%= link_to '删除',
                       department_path(department),
                       :method => :delete,

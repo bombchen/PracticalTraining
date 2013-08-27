@@ -1,0 +1,208 @@
+body,html{
+    width:100%;
+    height:100%;
+}
+
+#right{
+    background-color:#effbfe;
+}
+
+#content{
+    padding:0 20px;
+}
+
+.line{
+    margin:0 -20px 10px -20px;
+    height:0;
+    border-top:1px dotted #0a6bc4;
+    overflow:hidden;
+}
+
+.page-header{
+    margin:0;
+    border:0;
+    height:50px;
+}
+
+.page-header h1{
+    margin: 0 -20px;
+    padding: 0 20px;
+    line-height: 50px;
+    color: #ff6600;
+    border-bottom: 1px dotted #0a6bc4;
+    font-weight: bold;
+    font-size: 20px;
+    padding-left: 40px;
+    cursor: default;
+    background: url("pic.gif") -315px -339px no-repeat;
+}
+
+.table{
+    margin-top:12px;
+    border:1px solid #dddddd;
+    background-color:#fff;
+}
+
+.table thead tr{
+    background-color:#b9ebfa;
+    border-top:5px solid #6acae8;
+    color:#00398e;
+}
+
+.table thead th{
+    padding:0 12px;
+    line-height:35px;
+}
+
+.table tbody td{
+    padding:0 12px;
+    line-height:30px;
+}
+
+.mask{
+    display:none;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:#000 url(loading.gif) center no-repeat;
+    opacity:0.3;
+    filter:alpha(opacity=30);
+    z-index:998;
+}
+
+.loaded{
+    background-image: none;
+}
+
+.dialog{
+    position:absolute;
+    left:50%;
+    top:50%;
+    background-color:#fff;
+    z-index:999;
+    box-shadow:0 0 30px #000;
+}
+
+.dialog .page-header h1{
+    background-color:#effbfe;
+}
+
+.dialog-close{
+    display:inline-block;
+    position:absolute;
+    right:0;
+    top:0;
+    width:50px;
+    height:50px;
+    background:url("pic.gif") 0 -393px no-repeat;
+}
+.dialog-close:hover{
+    background-color:#fff1e7;
+}
+
+#new_scheduled_course{
+    line-height:30px;
+}
+
+.form-horizontal .control-group{
+    margin-bottom:10px;
+}
+
+.form-horizontal .control-label{
+    text-align:left;
+    width:70px;
+    font-weight:bold;
+}
+
+.form-horizontal .controls{
+    margin-left:70px;
+}
+
+.form-horizontal .form-actions{
+    padding:15px 0;
+    margin:0 -20px;
+    text-align:center;
+}
+
+.dialog-form-385{
+    height:380px;
+    overflow:auto;
+    margin:0 -20px;
+    padding:20px 30px 20px 20px;
+    word-break:keep-all;
+    white-space:nowrap;
+}
+
+.dialog .fields select{
+    width:180px;
+}
+
+.dialog form{
+    margin:0;
+    padding:0;
+}
+
+.dialog .page-header{
+    padding:0;
+}
+
+.dialog .dl-horizontal{
+    line-height:40px;
+}
+
+.dialog .dl-horizontal dt{
+    width:70px;
+    line-height:25px;
+}
+
+.dialog .dl-horizontal dd{
+    margin-left:90px;
+    line-height:25px;
+}
+
+.tools{
+    line-height: 30px;
+}
+
+.tools strong{
+    font-size: 13px;
+    display: inline-block;
+    margin:0 5px 0 10px;
+}
+.tools input,.tools select,.tools button{
+    vertical-align: text-top;
+    margin-top: -6px;
+}
+.tools .btn{
+    margin-left: 10px;
+}
+
+.dialog form{
+    margin-top:15px;
+}
+#new_scheduled_course{
+    margin-top:0;
+}
+
+.dialog .alert{
+    margin:0 -20px;
+    border-radius:0;
+}
+
+.dialog .alert .close{
+    display: none;
+}
+
+.upload{
+    display: inline-block;
+    width: 100px;
+    height: 33px;
+}
+
+.swfupload{
+    vertical-align:top;
+    width: 100px;
+    height: 33px;
+}

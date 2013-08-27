@@ -4,48 +4,33 @@
 </div>
 <div class="controls-row">
   <%= form_tag facilities_path, :method => 'get', :remote => true do %>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>部门</th>
-          <th>分类</th>
-          <th>类型</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td><%= select_tag :dep, options_from_collection_for_select(Department.get_simple_selectors, :id, :name, @filter_department) %></td>
-          <td><%= select_tag :cat, options_from_collection_for_select(FacilityCategory.get_simple_selectors, :id, :name, @filter_category) %></td>
-          <td><%= select_tag :typ, options_from_collection_for_select(Facility.get_simple_selectors, :id, :name, @filter_type) %></td>
-          <td><%= submit_tag '过滤', :class => 'btn btn-primary' %></td>
-        </tr>
-        </tbody>
-      </table>
-  <% end %>
-</div>
-<div class="controls-row">
-  <%= form_tag facilities_path, :method => 'get', :remote => true do %>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>材料名称</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td><%= text_field_tag :search, params[:search], :class => 'text_field' %></td>
-          <td><%= submit_tag '搜索', :class => 'btn btn-primary' %></td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="tools">
+        <strong>部门</strong><%= select_tag :dep, options_from_collection_for_select(Department.get_simple_selectors, :id, :name, @filter_department)%>
+        <strong>分类</strong><%= select_tag :cat, options_from_collection_for_select(FacilityCategory.get_simple_selectors, :id, :name, @filter_category)%></td>
+        <strong>类型</strong><%= select_tag :typ, options_from_collection_for_select(Facility.get_simple_selectors, :id, :name, @filter_type) %></td>
+        <%= submit_tag '过滤', :class => 'btn btn-primary' %>
+      </div>
   <% end %>
 </div>
 
+<div class="controls-row">
+  <%= form_tag facilities_path, :method => 'get', :remote => true do %>
+      <div class="tools">
+        <strong>材料</strong><%= text_field_tag :search, params[:search], :class => 'text_field'%>
+        <%= submit_tag '搜索', :class => 'btn btn-primary' %>
+      </div>
+  <% end %>
+</div>
+
+<div class="line"></div>
+
 <%= link_to '添加',
             new_facility_path,
-            :class => 'btn btn-primary', :remote => true %>
+            :class => 'btn btn-primary open-add'%>
+
+<%= link_to '上传并导入',
+            uploads_path,
+            :class => 'upload'%>
 <table class="table table-striped">
   <thead>
   <tr>
@@ -76,9 +61,9 @@
         <td NoWrap><%= facility.if_one_time_name %></td>
         <td NoWrap><%= facility.unit_price %></td>
         <td NoWrap><%= link_to '查看',
-                               facility_path(facility), :class => 'btn btn-mini', :remote => true %>
+                               facility_path(facility), :class => 'btn btn-mini open'%>
           <%= link_to '修改',
-                      edit_facility_path(facility), :class => 'btn btn-mini btn-primary', :remote => true %>
+                      edit_facility_path(facility), :class => 'btn btn-mini btn-primary open'%>
           <%= link_to '删除',
                       facility_path(facility),
                       :method => :delete,

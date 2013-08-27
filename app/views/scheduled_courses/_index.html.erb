@@ -4,7 +4,7 @@
 </div>
 <%= link_to '添加',
             new_scheduled_course_path,
-            :class => 'btn btn-primary', :remote => true %>
+            :class => 'btn btn-primary open-add' %>
 
 <table class="table table-striped">
   <thead>
@@ -33,9 +33,9 @@
         <td NoWrap><%= scheduled_course.field.name %></td>
         <td NoWrap>
           <%= link_to '查看',
-                      scheduled_course_path(scheduled_course), :class => 'btn btn-mini', :remote => true %>
+                      scheduled_course_path(scheduled_course), :class => 'btn btn-mini open' %>
           <%= link_to '修改',
-                      edit_scheduled_course_path(scheduled_course), :class => 'btn btn-mini btn-primary', :remote => true %>
+                      edit_scheduled_course_path(scheduled_course), :class => 'btn btn-mini btn-primary open' %>
           <%= link_to '删除',
                       scheduled_course_path(scheduled_course),
                       :method => :delete,

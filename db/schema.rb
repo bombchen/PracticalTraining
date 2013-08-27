@@ -40,18 +40,18 @@ ActiveRecord::Schema.define(:version => 20130602034514) do
   end
 
   create_table "facilities", :force => true do |t|
-    t.string   "name",                                                          :null => false
-    t.string   "unit",                                                          :null => false
+    t.string   "name",                                         :null => false
+    t.string   "unit",                                         :null => false
     t.text     "description"
     t.text     "comments"
-    t.string   "asset_id",                                                      :null => false
-    t.integer  "facility_type",                                                 :null => false
-    t.integer  "alert_amount",                                                  :null => false
-    t.decimal  "unit_price",    :precision => 22, :scale => 2, :default => 0.0
-    t.integer  "department_id",                                                 :null => false
-    t.integer  "category_id",                                                   :null => false
-    t.datetime "created_at",                                                    :null => false
-    t.datetime "updated_at",                                                    :null => false
+    t.string   "asset_id",                                     :null => false
+    t.integer  "facility_type",                                :null => false
+    t.integer  "alert_amount",                                 :null => false
+    t.decimal  "unit_price",    :precision => 22, :scale => 2
+    t.integer  "department_id",                                :null => false
+    t.integer  "category_id",                                  :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
   create_table "facility_applications", :force => true do |t|

@@ -35,7 +35,7 @@
     }
 </script>
 
-<%= nested_form_for @scheduled_course, :html => {:class => 'form-horizontal', :remote => true} do |f| %>
+<%= nested_form_for @scheduled_course, :html => {:class => 'form-horizontal'} do |f| %>
     <% if @scheduled_course.errors.any? %>
         <div id="error_explanation">
           <h2><%= t('errors.template.header',

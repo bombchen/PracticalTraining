@@ -5,7 +5,7 @@
 <div>
   <%= link_to '新建出入库记录',
               new_facility_io_path,
-              :class => 'btn btn-primary', :remote => true %>
+              :class => 'btn btn-primary open-add'%>
 </div>
 <table class="table table-striped">
   <thead>
@@ -30,7 +30,7 @@
         <td><%= facility_io.facility_reason.in_or_out %></td>
         <td>
           <%= link_to '查看',
-                      facility_io_path(facility_io), :class => 'btn btn-mini', :remote => true %>
+                      facility_io_path(facility_io), :class => 'btn btn-mini open'%>
         </td>
       </tr>
   <% end %>

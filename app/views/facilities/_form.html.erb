@@ -12,70 +12,79 @@
           </ul>
         </div>
     <% end %>
-    <div class="control-group">
-      <%= f.label '名称', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :name, :class => 'text_field' %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '单位', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :unit, :class => 'text_field' %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '预警线', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.number_field :alert_amount, :class => 'number_field' %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '描述', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_area :description, :class => 'text_area', :rows => 8 %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '备注', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_area :comments, :class => 'text_area', :rows => 6 %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '类型', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.select :facility_type, {
-                '大型设备' => 0,
-                '普通设备' => 1,
-                '消耗材料' => 2
-        } %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '分类', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.collection_select :category_id, FacilityCategory.all, :id, :name %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '部门', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.collection_select :department_id, Department.all, :id, :name %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '资产编号', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :asset_id, :class => 'text_field' %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label '单价', :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :unit_price, :value => (number_with_precision(f.object.unit_price, :precision => 2) || 0) %>
-      </div>
-    </div>
+    <table>
+      <tr>
+        <td valign="top">
+          <div class="control-group">
+            <%= f.label '名称', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.text_field :name, :class => 'text_field' %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '单位', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.text_field :unit, :class => 'text_field' %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '单价', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.text_field :unit_price, :value => (number_with_precision(f.object.unit_price, :precision => 2) || 0) %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '预警线', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.number_field :alert_amount, :class => 'number_field' %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '描述', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.text_area :description, :class => 'text_area', :rows => 8, :style => 'height:80px;' %>
+            </div>
+          </div>
+        </td>
+        <td valign="top" style="padding-left: 15px; ">
+          <div class="control-group">
+            <%= f.label '类型', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.select :facility_type, {
+                      '大型设备' => 0,
+                      '普通设备' => 1,
+                      '消耗材料' => 2
+              } %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '分类', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.collection_select :category_id, FacilityCategory.all, :id, :name %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '部门', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.collection_select :department_id, Department.all, :id, :name %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label '资产编号', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.text_field :asset_id, :class => 'text_field' %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <%= f.label '备注', :class => 'control-label' %>
+            <div class="controls">
+              <%= f.text_area :comments, :class => 'text_area', :rows => 6, :style => 'height:80px;' %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
     <div class="control-group">
       <%= f.label '资产属性', :class => 'control-label' %>
       <div class="controls">

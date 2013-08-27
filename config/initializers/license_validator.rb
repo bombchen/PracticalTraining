@@ -1,8 +1,13 @@
+# encoding:utf-8
+
+require_relative '../../lib/mysigar.jar'
 require 'socket'
 require 'openssl'
 require 'base64'
 require 'rbconfig'
 include Config
+
+java_import Java::com.shixun.SystemInfo
 
 def is_windows?
   return (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RbConfig::CONFIG['host_os']) != nil
@@ -25,24 +30,18 @@ encrypted_string = File.read(license_file)
 private_key = OpenSSL::PKey::RSA.new(File.read(license_key_file), passphrase)
 decrypted_license = private_key.private_decrypt(Base64.decode64(encrypted_string))
 arr = decrypted_license.split("\n")
-licensed_host = arr[0]
-licensed_ip = arr[1]
 
-local_host = Socket.gethostname
-local_ips = Socket.ip_address_list.find_all{|intf| intf.ipv4?}
+licensed_cpuModel = arr[0]
+licensed_address = arr[1]
 
-if (!licensed_host.eql?(local_host))
+local_cpuModel = SystemInfo.getCpuModel
+local_addresses = SystemInfo.getMacAddress
+
+if (!licensed_cpuModel.eql?(local_cpuModel))
   raise 'not licensed to this server'
 end
 
-ip_verified = false
-local_ips.each do |ip|
-  strip = ip.ip_address
-  if (strip.eql?(licensed_ip))
-    ip_verified = true
-  end
-end
-
-if (!ip_verified)
+puts licensed_address
+if (!local_addresses.include? licensed_address)
   raise 'no licensed IP found in this server'
 end

@@ -9,9 +9,9 @@ if(!File.exists?(pub_file))
   raise '文件不存在'
 end
 public_key = OpenSSL::PKey::RSA.new(File.read(pub_file))
-puts '请输入服务器机器名:'
+puts '请输入cpuModel:'
 host = gets.chomp
-puts '请输入服务器IP地址:'
+puts '请输入服务器macAddress:'
 ip = gets.chomp
 
 source_license = host + "\n" + ip
@@ -25,7 +25,7 @@ end
 license_file = File.join(license_folder, 'license')
 
 if(File.exists?(license_file))
-  raise license_file + '已经存在, 请更换目标文件夹'
+  raise license_file + '已经存在, 请更X-CSRF-Token:换目标文件夹'
 end
 
 File.open(license_file, 'w') {|f| f.write(encrypted_license) }
